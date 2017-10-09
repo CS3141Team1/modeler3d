@@ -1,7 +1,9 @@
 #include "ThreadUtil.h"
 
-//#include <chrono>
-//#include <thread>
+#ifndef _WIN32
+#include <chrono>
+#include <thread>
+#endif
 
 #include "Types.h"
 
@@ -13,7 +15,9 @@ namespace Thread
 
 void Sleep(UInt64 millis)
 {
-//    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
+#ifndef _WIN32
+    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
+#endif
 }
 
 }
