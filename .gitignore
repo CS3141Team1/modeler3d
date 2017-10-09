@@ -1,3 +1,7 @@
 *.cproject
 *.project
 *.settings
+<<<<<<< HEAD
+=======
+/Debug/
+>>>>>>> 300bb2169d79c6601c17975d79e6230fea588b23
