@@ -1,7 +1,7 @@
 *.cproject
 *.project
 *.settings
+*.dll
+
 /Debug/
 /Default/
-glew32.dll
-SDL2.dll
