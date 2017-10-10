@@ -3,11 +3,11 @@
 #include <SDL2/SDL.h>
 
 #include <GL/glew.h>
-#include <ThreadUtil.h>
-#include <TimeUtil.h>
+#include "ThreadUtil.h"
+#include "TimeUtil.h"
+#include "Types.h"
 
 #include <iostream>
-
 
 namespace Core
 {

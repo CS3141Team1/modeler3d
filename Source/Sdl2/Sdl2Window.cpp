@@ -7,7 +7,7 @@ using namespace std;
 namespace Core
 {
 
-Sdl2Window::Sdl2Window(const string& title, unsigned int width, unsigned int height)
+Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
     : mTitle(title),
       mWidth(width),
       mHeight(height),
@@ -41,17 +41,17 @@ void Sdl2Window::SetTitle(const std::string& title)
 {
 }
 
-unsigned int Sdl2Window::GetWidth() const
+uint Sdl2Window::GetWidth() const
 {
     return mWidth;
 }
 
-unsigned int Sdl2Window::GetHeight() const
+uint Sdl2Window::GetHeight() const
 {
     return mHeight;
 }
 
-void Sdl2Window::SetSize(unsigned int width, unsigned int height)
+void Sdl2Window::SetSize(uint width, uint height)
 {
 }
 

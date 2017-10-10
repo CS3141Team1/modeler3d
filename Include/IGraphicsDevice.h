@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.h"
+
 namespace Video
 {
 
@@ -13,7 +15,7 @@ class IGraphicsDevice
 public:
     virtual ~IGraphicsDevice() {}
 
-    virtual ITexture2D* CreateTexture(unsigned int width, unsigned int height) = 0;
+    virtual ITexture2D* CreateTexture(uint width, uint height) = 0;
 };
 
 }
