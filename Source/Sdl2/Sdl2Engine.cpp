@@ -64,15 +64,15 @@ void Sdl2Engine::Start(Application* app)
 
     app->OnInit();
 
-    UInt32 tps = 0;
-    Float64 ticks = Time::Seconds();
-    Float64 skipTicks = 1.0 / 60.0;
+    uint32 tps = 0;
+    float64 ticks = Time::Seconds();
+    float64 skipTicks = 1.0 / 60.0;
 
-    UInt32 fps = 0;
-    Float64 frames = Time::Seconds();
-    Float64 skipFrames = 1.0 / 60.0;
+    uint32 fps = 0;
+    float64 frames = Time::Seconds();
+    float64 skipFrames = 1.0 / 60.0;
 
-    Float64 time = Time::Seconds();
+    float64 time = Time::Seconds();
 
     while (mRunning)
     {

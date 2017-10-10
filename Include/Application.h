@@ -15,7 +15,7 @@ public:
     virtual ~Application() {}
 
     virtual void OnInit() {}
-    virtual void OnUpdate(Float64 dt) {}
+    virtual void OnUpdate(float64 dt) {}
     virtual void OnRender() {}
     virtual void OnExit() {}
 protected:

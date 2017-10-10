@@ -8,9 +8,9 @@ namespace Core
 namespace Time
 {
 
-UInt64 Millis();
+uint64 Millis();
 
-Float64 Seconds();
+float64 Seconds();
 
 }
 

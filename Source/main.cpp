@@ -22,7 +22,7 @@ public:
         std::cout << "Initializing application" << std::endl;
     }
 
-    virtual void OnUpdate(Float64 dt)
+    virtual void OnUpdate(float64 dt)
     {
     }
 

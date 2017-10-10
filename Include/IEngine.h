@@ -14,8 +14,8 @@ class IEngine
 public:
     virtual ~IEngine() {}
 
-    virtual Float64 GetFrames() = 0;
-    virtual Float64 GetUpdates() = 0;
+    virtual float64 GetFrames() = 0;
+    virtual float64 GetUpdates() = 0;
 
     virtual IWindow* GetWindow() = 0;
     virtual Video::IGraphicsDevice* GetGraphicsDevice() = 0;

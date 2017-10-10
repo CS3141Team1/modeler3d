@@ -13,7 +13,7 @@ namespace Core
 namespace Thread
 {
 
-void Sleep(UInt64 millis)
+void Sleep(uint64 millis)
 {
 #ifndef _WIN32
     std::this_thread::sleep_for(std::chrono::milliseconds(millis));

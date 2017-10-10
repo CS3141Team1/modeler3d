@@ -12,8 +12,8 @@ public:
     Sdl2Engine();
     virtual ~Sdl2Engine();
 
-    virtual Float64 GetFrames() { return mFps; }
-    virtual Float64 GetUpdates() { return mUps; }
+    virtual float64 GetFrames() { return mFps; }
+    virtual float64 GetUpdates() { return mUps; }
 
     virtual IWindow* GetWindow() { return mWindow; }
     virtual Video::IGraphicsDevice* GetGraphicsDevice();
@@ -24,8 +24,8 @@ private:
     Sdl2Window* mWindow;
     Application* mApplication;
     bool mRunning;
-    Float64 mFps;
-    Float64 mUps;
+    float64 mFps;
+    float64 mUps;
 };
 
 }

@@ -8,7 +8,7 @@ namespace Core
 namespace Thread
 {
 
-void Sleep(UInt64 millis);
+void Sleep(uint64 millis);
 
 }
 
