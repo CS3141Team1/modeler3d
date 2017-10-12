@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include <GL/glew.h>
 
@@ -7,6 +8,7 @@
 #include "Types.h"
 
 #include "Math/VectorMath.h"
+#include "Math/MatrixMath.h"
 
 #include "Sdl2/Sdl2Engine.h"
 

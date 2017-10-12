@@ -1,15 +1,16 @@
 #pragma once
 
-#define GENERAL_MATH_OPERATORS(TYPE) \
-    template <typename Type1, typename Type2> TYPE<Type1> operator+(TYPE<Type1> a, const TYPE<Type2>& b) { return a += b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator-(TYPE<Type1> a, const TYPE<Type2>& b) { return a -= b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator*(TYPE<Type1> a, const TYPE<Type2>& b) { return a *= b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator/(TYPE<Type1> a, const TYPE<Type2>& b) { return a /= b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator+(TYPE<Type1> a, const Type2& b) { return a + TYPE<Type1>(b); } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator-(TYPE<Type1> a, const Type2& b) { return a - TYPE<Type1>(b); } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator*(TYPE<Type1> a, const Type2& b) { return a * TYPE<Type1>(b); } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator/(TYPE<Type1> a, const Type2& b) { return a / TYPE<Type1>(b); } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator+(const Type2& a, TYPE<Type1> b) { return TYPE<Type1>(a) + b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator-(const Type2& a, TYPE<Type1> b) { return TYPE<Type1>(a) - b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator*(const Type2& a, TYPE<Type1> b) { return TYPE<Type1>(a) * b; } \
-    template <typename Type1, typename Type2> TYPE<Type1> operator/(const Type2& a, TYPE<Type1> b) { return TYPE<Type1>(a) / b; }
+//Generates all +, -, *, / operator overloads for the passed in type
+#define CORE_MATH_GEN_MATH_OPERATORS(TYPE) \
+    template <typename Type> TYPE<Type> operator+(TYPE<Type> a, const TYPE<Type>& b) { return a += b; } \
+    template <typename Type> TYPE<Type> operator-(TYPE<Type> a, const TYPE<Type>& b) { return a -= b; } \
+    template <typename Type> TYPE<Type> operator*(TYPE<Type> a, const TYPE<Type>& b) { return a *= b; } \
+    template <typename Type> TYPE<Type> operator/(TYPE<Type> a, const TYPE<Type>& b) { return a /= b; } \
+    template <typename Type> TYPE<Type> operator+(TYPE<Type> a, const Type& b) { return a + TYPE<Type>(b); } \
+    template <typename Type> TYPE<Type> operator-(TYPE<Type> a, const Type& b) { return a - TYPE<Type>(b); } \
+    template <typename Type> TYPE<Type> operator*(TYPE<Type> a, const Type& b) { return a * TYPE<Type>(b); } \
+    template <typename Type> TYPE<Type> operator/(TYPE<Type> a, const Type& b) { return a / TYPE<Type>(b); } \
+    template <typename Type> TYPE<Type> operator+(const Type& a, TYPE<Type> b) { return TYPE<Type>(a) + b; } \
+    template <typename Type> TYPE<Type> operator-(const Type& a, TYPE<Type> b) { return TYPE<Type>(a) - b; } \
+    template <typename Type> TYPE<Type> operator*(const Type& a, TYPE<Type> b) { return TYPE<Type>(a) * b; } \
+    template <typename Type> TYPE<Type> operator/(const Type& a, TYPE<Type> b) { return TYPE<Type>(a) / b; }
