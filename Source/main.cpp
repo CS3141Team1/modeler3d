@@ -4,6 +4,9 @@
 
 #include "Application.h"
 #include "IEngine.h"
+#include "Types.h"
+
+#include "Math/VectorMath.h"
 
 #include "Sdl2/Sdl2Engine.h"
 
@@ -40,9 +43,18 @@ public:
 
 int main(int argc, char** asrgv)
 {
-    IEngine* engine = new Sdl2Engine();
-    Modeler3D app(engine);
-    engine->Start(&app);
+//    IEngine* engine = new Sdl2Engine();
+//    Modeler3D app(engine);
+//    engine->Start(&app);
+
+	Math::Vector2i test(3);
+	Math::Vector2i test2(4);
+
+	Math::Vector2i test3(test + test2);
+
+	std::cout << test3 + 2 << std::endl;
+	std::cout << 2 + test3 << std::endl;
+	std::cout << test3 + test3 << std::endl;
 
     return 0;
 }
