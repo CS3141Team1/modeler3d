@@ -49,14 +49,9 @@ int main(int argc, char** asrgv)
 //    Modeler3D app(engine);
 //    engine->Start(&app);
 
-	Math::Vector2i test(3);
-	Math::Vector2i test2(4);
+	Math::Vector2i test(2);
 
-	Math::Vector2i test3(test + test2);
-
-	std::cout << test3 + 2 << std::endl;
-	std::cout << 2 + test3 << std::endl;
-	std::cout << test3 + test3 << std::endl;
+	std::cout << Math::Normalize(test) << std::endl;
 
     return 0;
 }

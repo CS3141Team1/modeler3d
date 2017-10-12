@@ -54,7 +54,7 @@ struct Vector3
     }
 
     //Negation overload
-    Vector3<Type>& operator-() const { return Vector3<Type>(-X, -Y, -Z); }
+    Vector3<Type> operator-() const { return Vector3<Type>(-X, -Y, -Z); }
 
     //Equality overloads
     bool operator==(const Vector3<Type>& v) { return X == v.X && Y == v.Y && Z == v.Z; }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <iostream>
 
 #include "Types.h"
 #include "_math_define.h"
@@ -50,7 +51,7 @@ struct Vector2
     }
 
     //Negation overload
-    Vector2<Type>& operator-() const { return Vector2<Type>(-X, -Y); }
+    Vector2<Type> operator-() const { return Vector2<Type>(-X, -Y); }
 
     //Equality overloads
     bool operator==(const Vector2<Type>& v) { return X == v.X && Y == v.Y; }
@@ -168,6 +169,13 @@ template <typename Type>
 std::ostream& operator<<(std::ostream& out, const Vector2<Type>& v)
 {
     return out << "(" << v.X << ", " << v.Y << ")";
+}
+
+template <typename Type>
+std::string toString(Vector2<Type> v) {
+	std::string ret = "";
+	ret += "(" + std::to_string(v.X) + ", " + std::to_string(v.Y) + ")";
+	return ret;
 }
 
 //Right hand rule
