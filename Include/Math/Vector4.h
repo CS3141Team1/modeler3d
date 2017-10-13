@@ -31,8 +31,8 @@ struct Vector4
 
 	//Constructors
 	Vector4() : X(0), Y(0), Z(0), W(0) {}
-	Vector4(Type s) : X(s), Y(s), Z(s), W(s) {}
-	Vector4(const Type x, const Type y, const Type z, const Type w) : X(x), Y(y), Z(z), W(w) {}
+	Vector4(const Type& s) : X(s), Y(s), Z(s), W(s) {}
+	Vector4(const Type& x, const Type& y, const Type& z, const Type& w) : X(x), Y(y), Z(z), W(w) {}
 	template <typename Type2, typename Type3, typename Type4, typename Type5> Vector4(const Type2& x, const Type3& y, const Type4& z, const Type5& w) : X(x), Y(y), Z(z), W(w) {}
 	template <typename Type2> Vector4(const Vector4<Type2>& v) : X(v.X), Y(v.Y), Z(v.Z), W(v.W) {}
 

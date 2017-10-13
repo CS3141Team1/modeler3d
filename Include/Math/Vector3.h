@@ -35,8 +35,8 @@ struct Vector3
 
 	//Constructors
 	Vector3() : X(0), Y(0), Z(0) {}
-	Vector3(Type s) : X(s), Y(s), Z(s) {}
-	Vector3(const Type x, const Type y, const Type z) : X(x), Y(y), Z(z) {}
+	Vector3(const Type& s) : X(s), Y(s), Z(s) {}
+	Vector3(const Type& x, const Type& y, const Type& z) : X(x), Y(y), Z(z) {}
 	template <typename Type2, typename Type3, typename Type4> Vector3(const Type2& x, const Type3& y, const Type4& z) : X(x), Y(y), Z(z) {}
 	template <typename Type2> Vector3(const Vector3<Type2>& v) : X(v.X), Y(v.Y), Z(v.Z) {}
 

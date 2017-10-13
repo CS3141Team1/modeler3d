@@ -33,8 +33,8 @@ struct Vector2
 
     //Constructors
     Vector2() : X(0), Y(0) {}
-    Vector2(Type s) : X(s), Y(s) {}
-    Vector2(const Type x, const Type y) : X(x), Y(y) {}
+    Vector2(const Type& s) : X(s), Y(s) {}
+    Vector2(const Type& x, const Type& y) : X(x), Y(y) {}
     template <typename Type2, typename Type3> Vector2(const Type2& x, const Type3& y) : X(x), Y(y) {}
     template <typename Type2> Vector2(const Vector2<Type2>& v) : X(v.X), Y(v.Y) {}
 

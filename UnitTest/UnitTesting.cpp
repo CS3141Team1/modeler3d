@@ -129,5 +129,26 @@ TEST_CASE("Vector2 methods work correctly with float", "[math][vector][vector-2]
 }
 
 //************************* Matrices *************************
+TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-2]" ) {
+	using namespace Core;
 
+	//Test Constructor equivalence and equivalence operator
+	Math::Matrix3i m(2);
+	Math::Matrix3i mm(2,3,4);
+//	Math::Matrix3i mmm(m);
+//
+//	REQUIRE( m == m );
+//	REQUIRE( m != mm );
+//	REQUIRE( mm == mm );
+//	REQUIRE( m == mmm );
+
+	SECTION("methods outside of the Matrix3 struct using int") {
+
+	}
+
+	SECTION("operators inside of the Vector2 struct using int") {
+		CHECK( (m[0] == Math::Vector3(2) && m[1] == Math::Vector3(2) && m[2] == Math::Vector3(2)) );
+		CHECK( (m[0] == Math::Vector3(2) && m[1] == Math::Vector3(3) && m[2] == Math::Vector3(4)) );
+	}
+}
 #endif
