@@ -115,7 +115,7 @@ Type Dot(const Vector3<Type>& a, const Vector3<Type>& b)
  * @return Vector3<Type> The cross product of a and b
  */
 template <typename Type>
-Type Cross(const Vector3<Type>& a, const Vector3<Type>& b)
+Vector3<Type> Cross(const Vector3<Type>& a, const Vector3<Type>& b)
 {
     return Vector3<Type>(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 }
@@ -143,9 +143,16 @@ Vector3<Type> Normalize(const Vector3<Type>& v)
 
 //To string
 template <typename Type>
-std::ostream& operator<<(std::ostream& out, const Vector3<Type>& r)
+std::ostream& operator<<(std::ostream& out, const Vector3<Type>& v)
 {
-    return out << "(" << r.X << ", " << r.Y << ", " << r.Z << ")";
+    return out << "(" << v.X << ", " << v.Y << ", " << v.Z << ")";
+}
+
+template <typename Type>
+std::string toString(Vector3<Type> v) {
+	std::string ret = "";
+	ret += "(" + std::to_string(v.X) + ", " + std::to_string(v.Y) + ", " + std::to_string(v.Z) + ")";
+	return ret;
 }
 
 //Using right hand rule

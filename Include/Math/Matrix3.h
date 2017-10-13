@@ -73,13 +73,51 @@ struct Matrix3
 	}
 
 	//Array access overload
-	const Type& operator[](uint i) const { return &mMatrix[i]; }
-	Type& operator[](uint i) { return &mMatrix[i]; }
+	const Math::Vector3<Type>& operator[](uint i) const { return &mMatrix[i]; }
+	Math::Vector3<Type> operator[](uint i) { return mMatrix[i]; }
+
+    //Assignment overload
+    Matrix3<Type>& operator=(const Matrix3& v)
+    {
+    	mMatrix = v.mMatrix;
+    	return *this;
+    }
+
+    //Negation overload
+    Matrix3<Type> operator-() const { return Matrix3<Type>(-mMatrix[0], -mMatrix[1], -mMatrix[2]); }
+
+    //Equality overloads
+    bool operator==(const Matrix3<Type>& v) { return mMatrix[0] == v.mMatrix[0] && mMatrix[1] == v.mMatrix[1] && mMatrix[2] == v.mMatrix[2]; }
+    bool operator!=(const Matrix3<Type>& v) { return mMatrix[0] != v.mMatrix[0] || mMatrix[1] != v.mMatrix[1] || mMatrix[2] != v.mMatrix[2]; }
+
+    //Math with assignment overloads
+    Matrix3<Type>& operator+=(const Matrix3<Type>& v) { mMatrix[0] += v.mMatrix[0]; mMatrix[1] += v.mMatrix[1]; mMatrix[2] += v.mMatrix[2]; return *this; }
+    Matrix3<Type>& operator-=(const Matrix3<Type>& v) { mMatrix[0] -= v.mMatrix[0]; mMatrix[1] -= v.mMatrix[1]; mMatrix[2] -= v.mMatrix[2]; return *this; }
+    Matrix3<Type>& operator*=(const Matrix3<Type>& v) { mMatrix[0] *= v.mMatrix[0]; mMatrix[1] *= v.mMatrix[1]; mMatrix[2] *= v.mMatrix[2]; return *this; }
+    Matrix3<Type>& operator/=(const Matrix3<Type>& v) { mMatrix[0] /= v.mMatrix[0]; mMatrix[1] /= v.mMatrix[1]; mMatrix[2] /= v.mMatrix[2]; return *this; }
 };
 
 //Inverse
 //Transpose
 //Determinant
+
+//To string
+template <typename Type>
+std::ostream& operator<<(std::ostream& out, const Matrix3<Type>& v)
+{
+    return out << "[" << v.mMatrix[0][0] << ", " << v.mMatrix[1][0] << ", " << v.mMatrix[2][0] << "]" << std::endl
+    		<< "[" << v.mMatrix[0][1] << ", " << v.mMatrix[1][1] << ", " << v.mMatrix[2][1] << "]" << std::endl
+			<< "[" << v.mMatrix[0][2] << ", " << v.mMatrix[1][2] << ", " << v.mMatrix[2][2] << "]";
+}
+
+template <typename Type>
+std::string toString(Matrix3<Type> v) {
+	std::string ret = "";
+	ret += "[" + v.mMatrix[0][0] + ", " + v.mMatrix[1][0] + ", " + v.mMatrix[2][0] + "]" + std::endl
+    		+ "[" + v.mMatrix[0][1] + ", " + v.mMatrix[1][1] + ", " + v.mMatrix[2][1] + "]" + std::endl
+			+ "[" + v.mMatrix[0][2] + ", " + v.mMatrix[1][2] + ", " + v.mMatrix[2][2] + "]";
+	return ret;
+}
 
 //Identity and zero matrices
 template <typename Type> const Matrix3<Type> Matrix3<Type>::Identity(true);

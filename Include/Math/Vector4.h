@@ -111,7 +111,7 @@ Type Dot(const Vector4<Type>& a, const Vector4<Type>& b)
  * @return Vector4<Type> The unit vector of v
  */
 template <typename Type>
-Vector4<Type> Normalize(const Vector3<Type>& v)
+Vector4<Type> Normalize(const Vector4<Type>& v)
 {
     Type len = LengthSq(v);
 
@@ -127,9 +127,16 @@ Vector4<Type> Normalize(const Vector3<Type>& v)
 
 //To string
 template <typename Type>
-std::ostream& operator<<(std::ostream& out, const Vector4<Type>& r)
+std::ostream& operator<<(std::ostream& out, const Vector4<Type>& v)
 {
-    return out << "(" << r.X << ", " << r.Y << ", " << r.Z << ", " << r.W << ")";
+    return out << "(" << v.X << ", " << v.Y << ", " << v.Z << ", " << v.W << ")";
+}
+
+template <typename Type>
+std::string toString(Vector4<Type> v) {
+	std::string ret = "";
+	ret += "(" + std::to_string(v.X) + ", " + std::to_string(v.Y) + ", " + std::to_string(v.Z) + ", " + std::to_string(v.W) + ")";
+	return ret;
 }
 
 //E3, (0,0,0,1)
