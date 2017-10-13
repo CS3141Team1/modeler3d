@@ -73,13 +73,16 @@ struct Matrix3
 	}
 
 	//Array access overload
-	const Math::Vector3<Type>& operator[](uint i) const { return &mMatrix[i]; }
-	Math::Vector3<Type> operator[](uint i) { return mMatrix[i]; }
+	const Math::Vector3<Type>& operator[](uint i) const { return mMatrix[i]; }
+	Math::Vector3<Type>& operator[](uint i) { return mMatrix[i]; }
 
     //Assignment overload
     Matrix3<Type>& operator=(const Matrix3& v)
     {
-    	mMatrix = v.mMatrix;
+    	for(int32 i = 0; i < 3; ++i)
+    	{
+    		mMatrix[i] = v.mMatrix[i];
+    	}
     	return *this;
     }
 
@@ -93,11 +96,29 @@ struct Matrix3
     //Math with assignment overloads
     Matrix3<Type>& operator+=(const Matrix3<Type>& v) { mMatrix[0] += v.mMatrix[0]; mMatrix[1] += v.mMatrix[1]; mMatrix[2] += v.mMatrix[2]; return *this; }
     Matrix3<Type>& operator-=(const Matrix3<Type>& v) { mMatrix[0] -= v.mMatrix[0]; mMatrix[1] -= v.mMatrix[1]; mMatrix[2] -= v.mMatrix[2]; return *this; }
-    Matrix3<Type>& operator*=(const Matrix3<Type>& v) { mMatrix[0] *= v.mMatrix[0]; mMatrix[1] *= v.mMatrix[1]; mMatrix[2] *= v.mMatrix[2]; return *this; }
-    Matrix3<Type>& operator/=(const Matrix3<Type>& v) { mMatrix[0] /= v.mMatrix[0]; mMatrix[1] /= v.mMatrix[1]; mMatrix[2] /= v.mMatrix[2]; return *this; }
+    Matrix3<Type>& operator*=(const Matrix3<Type>& v)
+    {
+    	for(int32 i = 0; i < 3; ++i)
+    	{
+    		for(int32 j = 0; j < 3; ++j)
+    		{
+    			mMatrix[i][j] = mMatrix[0][j] * v.mMatrix[i][0] + mMatrix[1][j] * v.mMatrix[i][1] + mMatrix[2][j] * v.mMatrix[i][2];
+    		}
+    	}
+    	return *this;
+    }
+    Matrix3<Type>& operator/=(const Matrix3<Type>& v)
+    {
+    	return (*this) *= Inverse(v);
+    }
 };
 
 //Inverse
+template <typename Type>
+Matrix3<Type> Inverse(Matrix3<Type>& v)
+{
+
+}
 //Transpose
 //Determinant
 

@@ -7,8 +7,7 @@
 #include <catch.hpp>
 #include <iostream>
 
-#include "Math/VectorMath.h"
-#include "Math/MatrixMath.h"
+#include "Math/ModelerMath.h"
 
 //************************* Vectors *************************
 TEST_CASE( "Vector2 methods work correctly with int", "[math][vector][vector-2]" ) {
@@ -67,7 +66,7 @@ TEST_CASE( "Vector2 methods work correctly with int", "[math][vector][vector-2]"
 	}
 }
 
-TEST_CASE("Vector2 methods work correctly with float", "[math][vector][vector-2]") {
+TEST_CASE( "Vector2 methods work correctly with float", "[math][vector][vector-2]" ) {
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
@@ -127,7 +126,6 @@ TEST_CASE("Vector2 methods work correctly with float", "[math][vector][vector-2]
 		CHECK( (v + 1.0f) == v7 ); //freaking hell
 	}
 }
-//**
 
 TEST_CASE( "Vector3 methods work correctly with int", "[math][vector][vector-3]" ) {
 	using namespace Core;
@@ -184,7 +182,7 @@ TEST_CASE( "Vector3 methods work correctly with int", "[math][vector][vector-3]"
 	}
 }
 
-TEST_CASE("Vector3 methods work correctly with float", "[math][vector][vector-3]") {
+TEST_CASE( "Vector3 methods work correctly with float", "[math][vector][vector-3]" ) {
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
@@ -252,7 +250,7 @@ TEST_CASE("Vector3 methods work correctly with float", "[math][vector][vector-3]
 }
 
 //************************* Matrices *************************
-TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-2]" ) {
+TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-3]" ) {
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
@@ -260,10 +258,14 @@ TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-2]"
 	Math::Matrix3i mm(2,3,4);
 	Math::Matrix3i mmm(m);
 
+	Math::Vector3i v(2);
+	Math::Matrix3i mmmm(v,v,v);
+
 	REQUIRE( m == m );
 	REQUIRE( m != mm );
 	REQUIRE( mm == mm );
 	REQUIRE( m == mmm );
+	REQUIRE( m == mmmm );
 
 	SECTION("methods outside of the Matrix3 struct using int") {
 
@@ -274,6 +276,14 @@ TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-2]"
 		CHECK( (m[0] == Math::Vector3i(2) && m[1] == Math::Vector3i(2) && m[2] == Math::Vector3i(2)) );
 		CHECK( (mm[0] == Math::Vector3i(2) && mm[1] == Math::Vector3i(3) && mm[2] == Math::Vector3i(4)) );
 		CHECK( (mm[0][0] == 2 && mm[1][0] == 3 && mm[2][0] == 4) );
+
+		Math::Matrix3i testingAssignment(0);
+		testingAssignment = m; //testing that assignment doesn't copy reference
+		m[0][0] = 3;
+		CHECK( testingAssignment[0][0] != m[0][0] );
+		m = 2;
+
+
 	}
 }
 #endif
