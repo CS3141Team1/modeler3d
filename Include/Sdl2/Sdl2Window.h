@@ -5,6 +5,8 @@
 #include "IWindow.h"
 #include "Types.h"
 
+#include "Ogl/OglGraphicsDevice.h"
+
 namespace Core
 {
 
@@ -26,6 +28,8 @@ public:
 
     virtual void PollEvents();
     virtual void SwapBuffers();
+
+    Video::OglGraphicsDevice* GetGraphicsDevice() { return &mGraphics; }
 private:
     std::string mTitle;
     uint mWidth;
@@ -33,6 +37,7 @@ private:
     bool mVisible;
     SDL_Window* mWindow;
     SDL_GLContext mContext;
+    Video::OglGraphicsDevice mGraphics;
 };
 
 }

@@ -12,7 +12,8 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
       mWidth(width),
       mHeight(height),
       mVisible(false),
-      mWindow(nullptr)
+      mWindow(nullptr),
+      mGraphics(nullptr)
 {
     mWindow = SDL_CreateWindow
     (

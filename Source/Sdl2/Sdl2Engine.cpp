@@ -49,11 +49,6 @@ Sdl2Engine::~Sdl2Engine()
     delete mWindow;
 }
 
-Video::IGraphicsDevice* Sdl2Engine::GetGraphicsDevice()
-{
-    return nullptr;
-}
-
 void Sdl2Engine::Start(Application* app)
 {
     if (app == nullptr) return;

@@ -19,8 +19,8 @@ public:
     virtual void OnRender() {}
     virtual void OnExit() {}
 protected:
-    IEngine const* Engine;
-    Video::IGraphicsDevice const* GraphicsDevice;
+    IEngine* const Engine;
+    Video::IGraphicsDevice* const GraphicsDevice;
 };
 
 }

@@ -16,7 +16,7 @@ public:
     virtual float64 GetUpdates() { return mUps; }
 
     virtual IWindow* GetWindow() { return mWindow; }
-    virtual Video::IGraphicsDevice* GetGraphicsDevice();
+    virtual Video::IGraphicsDevice* GetGraphicsDevice() { return mWindow->GetGraphicsDevice(); }
 
     virtual void Start(Application* app);
     virtual void Stop();

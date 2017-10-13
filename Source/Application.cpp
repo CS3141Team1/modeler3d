@@ -4,9 +4,8 @@ namespace Core
 {
 
 Application::Application(IEngine* engine)
-{
-    Engine = engine;
-    GraphicsDevice = engine->GetGraphicsDevice();
-}
+    : Engine(engine),
+      GraphicsDevice(engine->GetGraphicsDevice())
+{}
 
 }
