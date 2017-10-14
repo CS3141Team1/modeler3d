@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Types.h"
 
 namespace Video
@@ -10,10 +12,10 @@ enum class Attribute
     Position,
     Normal,
     Color,
-    Texture0,
-    Texture1,
-    Texture2,
-    Texture3
+    TexCoord0,
+    TexCoord1,
+    TexCoord2,
+    TexCoord3
 };
 
 enum class DataType
@@ -32,10 +34,7 @@ struct VertexElement
     uint Count;
     DataType Type;
 
-    VertexElement(
-            Attribute attrib = Attribute::Position,
-            uint count = 3,
-            DataType type = DataType::Float32)
+    VertexElement(Attribute attrib, uint count, DataType type = DataType::Float32)
         : Attrib(attrib),
           Count(count),
           Type(type) {}
@@ -44,15 +43,9 @@ struct VertexElement
 class VertexFormat
 {
 public:
-    VertexFormat(VertexElement* elems, uint count)
-    {
-        mElemCount = count;
-        mElems = new VertexElement[count];
-        for (uint  i = 0; i < count; i++)
-        {
-            mElems[i] = elems[i];
-        }
-    }
+    static const VertexFormat Position3fTexCoordZero2fColor4f;
+
+    VertexFormat() : mElems(), mElemCount(0) {}
 
     ~VertexFormat()
     {
@@ -62,9 +55,24 @@ public:
     const uint GetElementCount() const { return mElemCount; }
     const VertexElement& GetElement(uint index) const { return mElems[index]; }
     const VertexElement& operator[](uint index) const { return GetElement(index); }
+
+    VertexFormat& AddElement(VertexElement elem)
+    {
+        mElems.push_back(elem);
+        return *this;
+    }
+    VertexFormat& AddElement(Attribute attrib, uint count, DataType type = DataType::Float32)
+    {
+        return AddElement(VertexElement(attrib, count, type));
+    }
 private:
-    VertexElement* mElems;
+    std::vector<VertexElement> mElems;
     uint mElemCount;
 };
+
+const VertexFormat VertexFormat::Position3fTexCoordZero2fColor4f = VertexFormat()
+        .AddElement(Attribute::Position, 3)
+        .AddElement(Attribute::TexCoord0, 2)
+        .AddElement(Attribute::Color, 4);
 
 }

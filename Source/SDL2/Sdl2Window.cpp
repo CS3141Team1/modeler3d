@@ -1,19 +1,23 @@
-#include "Sdl2/Sdl2Engine.h"
+#include "SDL2/Sdl2Window.h"
 
 #include <string>
+
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
 
 using namespace std;
 
 namespace Core
 {
 
+bool Sdl2Window::mGlewInit = false;
+
 Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
     : mTitle(title),
       mWidth(width),
       mHeight(height),
       mVisible(false),
-      mWindow(nullptr),
-      mGraphics(nullptr)
+      mWindow(nullptr)
 {
     mWindow = SDL_CreateWindow
     (
@@ -33,31 +37,20 @@ Sdl2Window::~Sdl2Window()
     mWindow = NULL;
 }
 
-const std::string& Sdl2Window::GetTitle() const
-{
-    return mTitle;
-}
-
 void Sdl2Window::SetTitle(const std::string& title)
 {
-}
-
-uint Sdl2Window::GetWidth() const
-{
-    return mWidth;
-}
-
-uint Sdl2Window::GetHeight() const
-{
-    return mHeight;
+    // TODO
 }
 
 void Sdl2Window::SetSize(uint width, uint height)
 {
+    // TODO
 }
 
 void Sdl2Window::PollEvents()
 {
+    // TODO finish
+
     SDL_Event e;
 
     while (SDL_PollEvent(&e))
@@ -74,11 +67,6 @@ void Sdl2Window::SwapBuffers()
     SDL_GL_SwapWindow(mWindow);
 }
 
-bool Sdl2Window::IsVisible() const
-{
-    return mVisible;
-}
-
 void Sdl2Window::SetVisible(bool visible)
 {
     if (mVisible == visible) return;
@@ -87,11 +75,22 @@ void Sdl2Window::SetVisible(bool visible)
     if (mVisible)
     {
         SDL_ShowWindow(mWindow);
+        InitGlew();
     }
     else
     {
         SDL_HideWindow(mWindow);
     }
+}
+
+void Sdl2Window::InitGlew()
+{
+    if (mGlewInit) return;
+
+    mGlewInit = true;
+
+    glewExperimental = GL_TRUE;
+    glewInit();
 }
 
 }
