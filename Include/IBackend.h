@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IGraphicsDevice.h"
 #include "IWindow.h"
 
 namespace Core
@@ -14,6 +15,7 @@ public:
     virtual void Destroy() = 0;
 
     virtual IWindow* GetWindow() = 0;
+    virtual Video::IGraphicsDevice* GetGraphicsDevice() = 0;
 };
 
 }

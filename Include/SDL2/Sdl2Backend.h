@@ -16,12 +16,14 @@ public:
     void Destroy();
 
     IWindow* GetWindow() { return &mWindow; }
+    Video::IGraphicsDevice* GetGraphicsDevice() { return &mGraphics; }
 private:
     static void InitSdl2();
 
     static bool mSdl2Init;
 
     Sdl2Window mWindow;
+    Video::OglGraphicsDevice mGraphics;
 };
 
 }

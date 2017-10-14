@@ -12,7 +12,8 @@ namespace Core
 
 Application::Application(IBackend* backend)
     : Backend(backend),
-      Window(backend->GetWindow())
+      Window(backend->GetWindow()),
+      Graphics(backend->GetGraphicsDevice())
 {
 }
 

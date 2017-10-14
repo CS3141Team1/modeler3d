@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/OglGraphicsDevice.h>
+#include <OGL/OglGraphicsDevice.h>
 #include <SDL2/SDL.h>
 
 #include "IWindow.h"

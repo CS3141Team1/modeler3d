@@ -25,6 +25,7 @@ public:
 protected:
     Core::IBackend* Backend = nullptr;
     Core::IWindow* Window = nullptr;
+    Video::IGraphicsDevice* Graphics = nullptr;
 private:
     void UpdateLoop();
 

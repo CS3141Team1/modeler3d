@@ -29,8 +29,8 @@ void Modeler3D::OnUpdate(float64 dt)
 
 void Modeler3D::OnRender()
 {
-    glClearColor(0.6, 0.8, 0.9, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    Graphics->SetClearColor(0.3, 0.3, 0.3);
+    Graphics->Clear();
 }
 
 void Modeler3D::OnDestroy()
