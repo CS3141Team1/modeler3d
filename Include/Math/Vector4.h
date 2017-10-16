@@ -66,7 +66,7 @@ struct Vector4
 };
 
 //Macro to define all standard math for the vector
-CORE_MATH_GEN_MATH_OPERATORS(Vector4);
+CORE_MATH_GEN_VECTOR_OPERATORS(Vector4);
 
 /**
  * Returns the length of a 4-Vector

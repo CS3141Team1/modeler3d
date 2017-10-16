@@ -69,7 +69,7 @@ struct Vector3
 };
 
 //Macro to define all standard math for the vector
-CORE_MATH_GEN_MATH_OPERATORS(Vector3);
+CORE_MATH_GEN_VECTOR_OPERATORS(Vector3);
 
 /**
  * Returns the length of a 3-Vector

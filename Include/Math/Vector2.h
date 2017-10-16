@@ -65,7 +65,7 @@ struct Vector2
 };
 
 //Macro to define all standard math for the vector
-CORE_MATH_GEN_MATH_OPERATORS(Vector2);
+CORE_MATH_GEN_VECTOR_OPERATORS(Vector2);
 
 /**
  * Returns the length of a 2-Vector

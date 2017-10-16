@@ -7,62 +7,95 @@
 #include <catch.hpp>
 #include <iostream>
 
+#include "Types.h"
 #include "Math/ModelerMath.h"
+
+//************************* Helpers *************************
+template <typename Type>
+bool matrixFuzzyEquals(Type a, Type b)
+{
+	int32 len = sizeof(a)/sizeof(a[0]);
+	bool fuzzyEquals = true;
+	for(int32 i = 0; i < len; ++i)
+	{
+		for(int32 j = 0; j < len; ++j)
+		{
+			if(a[i][j] != Approx(b[i][j])) {
+				fuzzyEquals = false;
+			}
+		}
+	}
+	return fuzzyEquals;
+}
+
+template <typename Type>
+bool vectorFuzzyEquals(Type a, Type b)
+{
+	int32 len = sizeof(a)/sizeof(a[0]);
+	bool fuzzyEquals = true;
+	for(int32 i = 0; i < len; ++i)
+	{
+		if(a[i] != Approx(b[i])) {
+			fuzzyEquals = false;
+		}
+	}
+	return fuzzyEquals;
+}
 
 //************************* Vectors *************************
 TEST_CASE( "Vector2 methods work correctly with int", "[math][vector][vector-2]" ) {
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
-	Math::Vector2i v(2);
-	Math::Vector2i vv(2,3);
-	Math::Vector2i vvv(v);
+	Math::Vector2i constructor1(2);
+	Math::Vector2i constructor2(2,3);
+	Math::Vector2i constructor3(constructor1);
 
-	REQUIRE( v == v );
-	REQUIRE( v != vv );
-	REQUIRE( vv == vv );
-	REQUIRE( v == vvv );
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector2 struct using int") {
-		CHECK( Math::toString(v) == "(2, 2)" );
-		CHECK( Math::toString(vv) == "(2, 3)" );
+		CHECK( Math::toString(constructor1) == "(2, 2)" );
+		CHECK( Math::toString(constructor2) == "(2, 3)" );
 
-		REQUIRE( Math::Length(v) == 2 ); //real 2.8, should truncate to maintain type
-		REQUIRE( Math::LengthSq(v) == 8 );
+		REQUIRE( Math::Length(constructor1) == 2 ); //real 2.8, should truncate to maintain type
+		REQUIRE( Math::LengthSq(constructor1) == 8 );
 
-		CHECK( Math::Dot(v,v) == 8 );
-		CHECK( Math::Cross(v,v) == 0 );
-		Math::Vector2i v2(4,-4);
-		CHECK( Math::Cross(v,2) == v2 );
-		Math::Vector2i v3(-4,4);
-		CHECK( Math::Cross(2,v) == v3 );
+		CHECK( Math::Dot(constructor1,constructor1) == 8 );
+		CHECK( Math::Cross(constructor1,constructor1) == 0 );
+		Math::Vector2i testingCrossProdWithConst(4,-4);
+		CHECK( Math::Cross(constructor1,2) == testingCrossProdWithConst );
+		Math::Vector2i testingCrossProdConstFirst(-4,4);
+		CHECK( Math::Cross(2,constructor1) == testingCrossProdConstFirst );
 	}
 
 	SECTION("operators inside of the Vector2 struct using int") {
-		CHECK( (v[0] == 2 && v[1] == 2) );
+		CHECK( (constructor1[0] == 2 && constructor1[1] == 2) );
 
-		Math::Vector2i v2(-2);
-		CHECK( -v == v2 );
+		Math::Vector2i testingNegation(-2);
+		CHECK( -constructor1 == testingNegation );
 
-		v = 2;
-		Math::Vector2i v3(4,5);
-		CHECK( (v += vv) == v3);
+		constructor1 = 2;
+		Math::Vector2i testingPlusEquals(4,5);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
 
-		v = 2;
-		Math::Vector2i v4(0,-1);
-		CHECK( (v -= vv) == v4);
+		constructor1 = 2;
+		Math::Vector2i testingMinusEquals(0,-1);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
 
-		v = 2;
-		Math::Vector2i v5(4,6);
-		CHECK( (v *= vv) == v5);
+		constructor1 = 2;
+		Math::Vector2i testingTimesEquals(4,6);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
 
-		v = 2;
-		Math::Vector2i v6(1,0); //integer division
-		CHECK( (v /= vv) == v6);
+		constructor1 = 2;
+		Math::Vector2i testingDivideEquals(1,0); //integer division
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
 
-		v = 2;
-		Math::Vector2i v7(3,3);
-		CHECK( (v += 1) == v7 ); //freaking hell
+		constructor1 = 2;
+		Math::Vector2i testingPlusEqualsConstant(3,3);
+		CHECK( (constructor1 += 1) == testingPlusEqualsConstant );
 	}
 }
 
@@ -70,60 +103,60 @@ TEST_CASE( "Vector2 methods work correctly with float", "[math][vector][vector-2
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
-	Math::Vector2f v(2.0);
-	Math::Vector2f vv(2.0,3.5);
-	Math::Vector2f vvv(v);
+	Math::Vector2f constructor1(2.0);
+	Math::Vector2f constructor2(2.0,3.5);
+	Math::Vector2f constructor3(constructor1);
 
-	REQUIRE( v == v );
-	REQUIRE( v != vv );
-	REQUIRE( vv == vv );
-	REQUIRE( v == vvv );
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector2 struct using float") {
-		CHECK( Math::toString(v) == "(2.000000, 2.000000)" );
-		CHECK( Math::toString(vv) == "(2.000000, 3.500000)" );
+		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000)" );
+		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000)" );
 
-		REQUIRE( Math::Length(v) == Approx(std::sqrt(8)) );
-		REQUIRE( Math::LengthSq(v) == Approx(8.0) );
+		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(8)) );
+		REQUIRE( Math::LengthSq(constructor1) == Approx(8.0) );
 
-		CHECK( Math::Dot(v,v) == Approx(8.0) );
-		CHECK( Math::Dot(v,vv) == Approx(11.0) );
+		CHECK( Math::Dot(constructor1,constructor1) == Approx(8.0) );
+		CHECK( Math::Dot(constructor1,constructor2) == Approx(11.0) );
 
-		CHECK( Math::Cross(v,v) == Approx(0.0) );
-		Math::Vector2f v2(4.0,-4.0);
-		CHECK( Math::Cross(v,2.0f) == v2 );
-		Math::Vector2f v3(-4.0,4.0);
-		CHECK( Math::Cross(2.0f,v) == v3 );
+		CHECK( Math::Cross(constructor1,constructor1) == Approx(0.0) );
+		Math::Vector2f testingCrossProdWithConst(4.0,-4.0);
+		CHECK( Math::Cross(constructor1,2.0f) == testingCrossProdWithConst );
+		Math::Vector2f testingCrossProdConstFirst(-4.0,4.0);
+		CHECK( Math::Cross(2.0f,constructor1) == testingCrossProdConstFirst );
 
-		Math::Vector2f v4(2.0/std::sqrt(8),2.0/std::sqrt(8));
-		CHECK( Math::Normalize(v) == v4 );
+		Math::Vector2f testingNormalize(2.0/std::sqrt(8),2.0/std::sqrt(8));
+		CHECK( Math::Normalize(constructor1) == testingNormalize );
 	}
 
 	SECTION("operators inside of the Vector2 struct using float") {
-		CHECK( (v[0] == Approx(2.0) && v[1] == Approx(2.0)) );
+		CHECK( (constructor1[0] == Approx(2.0) && constructor1[1] == Approx(2.0)) );
 
-		Math::Vector2f v2(-2.0);
-		CHECK( -v == v2 );
+		Math::Vector2f testingNegation(-2.0);
+		CHECK( -constructor1 == testingNegation );
 
-		v = 2.0;
-		Math::Vector2f v3(4.0,5.5);
-		CHECK( (v += vv) == v3);
+		constructor1 = 2.0;
+		Math::Vector2f testingPlusEquals(4.0,5.5);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
 
-		v = 2.0;
-		Math::Vector2f v4(0.0,-1.5);
-		CHECK( (v -= vv) == v4);
+		constructor1 = 2.0;
+		Math::Vector2f testingMinusEquals(0.0,-1.5);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
 
-		v = 2.0;
-		Math::Vector2f v5(4.0,7.0);
-		CHECK( (v *= vv) == v5);
+		constructor1 = 2.0;
+		Math::Vector2f testingTimesEquals(4.0,7.0);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
 
-		v = 2.0;
-		Math::Vector2f v6(1.0,2.0/3.5);
-		CHECK( (v /= vv) == v6);
+		constructor1 = 2.0;
+		Math::Vector2f testingDivideEquals(1.0,2.0/3.5);
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
 
-		v = 2.0;
-		Math::Vector2f v7(3.0,3.0);
-		CHECK( (v + 1.0f) == v7 ); //freaking hell
+		constructor1 = 2.0;
+		Math::Vector2f testingPlusEqualsConst(3.0,3.0);
+		CHECK( (constructor1 + 1.0f) == testingPlusEqualsConst );
 	}
 }
 
@@ -131,54 +164,54 @@ TEST_CASE( "Vector3 methods work correctly with int", "[math][vector][vector-3]"
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
-	Math::Vector3i v(2);
-	Math::Vector3i vv(2,3,4);
-	Math::Vector3i vvv(v);
+	Math::Vector3i constructor1(2);
+	Math::Vector3i constructor2(2,3,4);
+	Math::Vector3i constructor3(constructor1);
 
-	REQUIRE( v == v );
-	REQUIRE( v != vv );
-	REQUIRE( vv == vv );
-	REQUIRE( v == vvv );
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector3 struct using int") {
-		CHECK( Math::toString(v) == "(2, 2, 2)" );
-		CHECK( Math::toString(vv) == "(2, 3, 4)" );
+		CHECK( Math::toString(constructor1) == "(2, 2, 2)" );
+		CHECK( Math::toString(constructor2) == "(2, 3, 4)" );
 
-		REQUIRE( Math::Length(v) == 3 ); //real 3.4, should truncate to maintain type
-		REQUIRE( Math::LengthSq(v) == 12 );
+		REQUIRE( Math::Length(constructor1) == 3 ); //real 3.4, should truncate to maintain type
+		REQUIRE( Math::LengthSq(constructor1) == 12 );
 
-		CHECK( Math::Dot(v,v) == 12 );
-		CHECK( Math::Cross(v,v) == 0 );
-		Math::Vector3i v2(2,-4, 2);
-		CHECK( Math::Cross(v,vv) == v2 );
+		CHECK( Math::Dot(constructor1,constructor1) == 12 );
+		CHECK( Math::Cross(constructor1,constructor1) == 0 );
+		Math::Vector3i testingCrossProd(2,-4, 2);
+		CHECK( Math::Cross(constructor1,constructor2) == testingCrossProd );
 	}
 
 	SECTION("operators inside of the Vector3 struct using int") {
-		CHECK( (v[0] == 2 && v[1] == 2) );
-		CHECK( (vv[0] == 2 && vv[1] == 3) );
+		CHECK( (constructor1[0] == 2 && constructor1[1] == 2) );
+		CHECK( (constructor2[0] == 2 && constructor2[1] == 3) );
 
-		Math::Vector3i v2(-2);
-		CHECK( -v == v2 );
+		Math::Vector3i testingNegation(-2);
+		CHECK( -constructor1 == testingNegation );
 
-		v = 2;
-		Math::Vector3i v3(4,5,6);
-		CHECK( (v += vv) == v3);
+		constructor1 = 2;
+		Math::Vector3i testingPlusEquals(4,5,6);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
 
-		v = 2;
-		Math::Vector3i v4(0,-1, -2);
-		CHECK( (v -= vv) == v4);
+		constructor1 = 2;
+		Math::Vector3i testingMinusEquals(0,-1, -2);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
 
-		v = 2;
-		Math::Vector3i v5(4,6,8);
-		CHECK( (v *= vv) == v5);
+		constructor1 = 2;
+		Math::Vector3i testingTimesEquals(4,6,8);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
 
-		v = 2;
-		Math::Vector3i v6(1,0,0); //integer division
-		CHECK( (v /= vv) == v6);
+		constructor1 = 2;
+		Math::Vector3i testingDivideEquals(1,0,0); //integer division
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
 
-		v = 2;
-		Math::Vector3i v7(3,3,3);
-		CHECK( (v += 1) == v7 ); //freaking hell
+		constructor1 = 2;
+		Math::Vector3i testingPlusEqualsConst(3,3,3);
+		CHECK( (constructor1 += 1) == testingPlusEqualsConst );
 	}
 }
 
@@ -186,66 +219,182 @@ TEST_CASE( "Vector3 methods work correctly with float", "[math][vector][vector-3
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
-	Math::Vector3f v(2.0);
-	Math::Vector3f vv(2.0,3.5,4.5);
-	Math::Vector3f vvv(v);
+	Math::Vector3f constructor1(2.0);
+	Math::Vector3f constructor2(2.0,3.5,4.5);
+	Math::Vector3f constructor3(constructor1);
 
-	REQUIRE( v == v );
-	REQUIRE( v != vv );
-	REQUIRE( vv == vv );
-	REQUIRE( v == vvv );
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector3 struct using float") {
-		CHECK( Math::toString(v) == "(2.000000, 2.000000, 2.000000)" );
-		CHECK( Math::toString(vv) == "(2.000000, 3.500000, 4.500000)" );
+		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000, 2.000000)" );
+		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000, 4.500000)" );
 
-		REQUIRE( Math::Length(v) == Approx(std::sqrt(12.0)) );
-		REQUIRE( Math::LengthSq(v) == Approx(12.0) );
-		REQUIRE( Math::Length(vv) == Approx(std::sqrt(2.0*2.0 + 3.5*3.5 + 4.5*4.5)) );
-		REQUIRE( Math::LengthSq(vv) == Approx(2.0*2.0 + 3.5*3.5 + 4.5*4.5) );
+		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(12.0)) );
+		REQUIRE( Math::LengthSq(constructor1) == Approx(12.0) );
+		REQUIRE( Math::Length(constructor2) == Approx(std::sqrt(2.0*2.0 + 3.5*3.5 + 4.5*4.5)) );
+		REQUIRE( Math::LengthSq(constructor2) == Approx(2.0*2.0 + 3.5*3.5 + 4.5*4.5) );
 
-		CHECK( Math::Dot(v,v) == Approx(12.0) );
-		CHECK( Math::Dot(v,vv) == Approx(20.0) );
+		CHECK( Math::Dot(constructor1,constructor1) == Approx(12.0) );
+		CHECK( Math::Dot(constructor1,constructor2) == Approx(20.0) );
 
-		CHECK( Math::Cross(v,v) == 0.0 );
-		Math::Vector3f v2(2.0,-5.0, 3.0);
-		CHECK( Math::Cross(v,vv) == v2 );
+		CHECK( Math::Cross(constructor1,constructor1) == 0.0 ); //cross with self is zero
+		Math::Vector3f testingCrossProd(2.0,-5.0, 3.0);
+		CHECK( Math::Cross(constructor1,constructor2) == testingCrossProd );
 
-		float len = Math::Length(v);
-		Math::Vector3f v4(2.0/len,2.0/len, 2.0/len);
-		CHECK( Math::Normalize(v) == v4 );
+		float len = Math::Length(constructor1);
+		Math::Vector3f testingNormalize(2.0/len,2.0/len, 2.0/len);
+		CHECK( Math::Normalize(constructor1) == testingNormalize );
 
-		len = Math::Length(vv);
-		Math::Vector3f v5(2.0/len,3.5/len, 4.5/len);
-		CHECK( Math::Normalize(vv) == v5 );
+		len = Math::Length(constructor2);
+		Math::Vector3f testingNormalize2(2.0/len,3.5/len, 4.5/len);
+		CHECK( Math::Normalize(constructor2) == testingNormalize2 );
 	}
 
 	SECTION("operators inside of the Vector3 struct using float") {
-		CHECK( (v[0] == Approx(2.0) && v[1] == Approx(2.0)) );
-		CHECK( (vv[0] == Approx(2.0) && vv[1] == Approx(3.5)) );
+		CHECK( (constructor1[0] == Approx(2.0) && constructor1[1] == Approx(2.0)) );
+		CHECK( (constructor2[0] == Approx(2.0) && constructor2[1] == Approx(3.5)) );
 
-		Math::Vector3f v2(-2.0);
-		CHECK( -v == v2 );
+		Math::Vector3f testingNegation(-2.0);
+		CHECK( -constructor1 == testingNegation );
 
-		v = 2.0;
-		Math::Vector3f v3(4.0,5.5,6.5);
-		CHECK( (v += vv) == v3);
+		constructor1 = 2.0;
+		Math::Vector3f testingPlusEquals(4.0,5.5,6.5);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
 
-		v = 2.0;
-		Math::Vector3f v4(0.0,-1.5,-2.5);
-		CHECK( (v -= vv) == v4);
+		constructor1 = 2.0;
+		Math::Vector3f testingMinusEquals(0.0,-1.5,-2.5);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
 
-		v = 2.0;
-		Math::Vector3f v5(4.0,7.0,9.0);
-		CHECK( (v *= vv) == v5);
+		constructor1 = 2.0;
+		Math::Vector3f testingTimesEquals(4.0,7.0,9.0);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
 
-		v = 2.0;
-		Math::Vector3f v6(1.0,2.0/3.5,2.0/4.5);
-		CHECK( (v /= vv) == v6);
+		constructor1 = 2.0;
+		Math::Vector3f testingDivideEquals(1.0,2.0/3.5,2.0/4.5);
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
 
-		v = 2.0;
-		Math::Vector3f v7(3.0);
-		CHECK( (v + 1.0f) == v7 ); //freaking hell
+		constructor1 = 2.0;
+		Math::Vector3f testingPlusEqualsConst(3.0);
+		CHECK( (constructor1 + 1.0f) == testingPlusEqualsConst ); //freaking hell
+	}
+}
+
+TEST_CASE( "Vector4 methods work correctly with int", "[math][vector][vector-4]" ) {
+	using namespace Core;
+
+	//Test Constructor equivalence and equivalence operator
+	Math::Vector4i constructor1(2);
+	Math::Vector4i constructor2(2,3,4,5);
+	Math::Vector4i constructor3(constructor1);
+
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+
+	SECTION("methods outside of the Vector4 struct using int") {
+		CHECK( Math::toString(constructor1) == "(2, 2, 2, 2)" );
+		CHECK( Math::toString(constructor2) == "(2, 3, 4, 5)" );
+
+		REQUIRE( Math::Length(constructor1) == 4 );
+		REQUIRE( Math::LengthSq(constructor1) == 16 );
+
+		CHECK( Math::Dot(constructor1,constructor1) == 16 );
+	}
+
+	SECTION("operators inside of the Vector4 struct using int") {
+		CHECK( (constructor1[0] == 2 && constructor1[1] == 2) );
+		CHECK( (constructor2[0] == 2 && constructor2[1] == 3) );
+
+		Math::Vector4i testingNegation(-2);
+		CHECK( -constructor1 == testingNegation );
+
+		constructor1 = 2;
+		Math::Vector4i testingPlusEquals(4,5,6,7);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
+
+		constructor1 = 2;
+		Math::Vector4i testingMinusEquals(0,-1,-2,-3);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
+
+		constructor1 = 2;
+		Math::Vector4i testingTimesEquals(4,6,8,10);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
+
+		constructor1 = 2;
+		Math::Vector4i testingDivideEquals(1,0,0,0); //integer division
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
+
+		constructor1 = 2;
+		Math::Vector4i testingPlusEqualsConst(3,3,3,3);
+		CHECK( (constructor1 += 1) == testingPlusEqualsConst );
+	}
+}
+
+TEST_CASE( "Vector4 methods work correctly with float", "[math][vector][vector-4]" ) {
+	using namespace Core;
+
+	//Test Constructor equivalence and equivalence operator
+	Math::Vector4f constructor1(2.0);
+	Math::Vector4f constructor2(2.0,3.5,4.5,5.5);
+	Math::Vector4f constructor3(constructor1);
+
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+
+	SECTION("methods outside of the Vector4 struct using float") {
+		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000, 2.000000, 2.000000)" );
+		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000, 4.500000, 5.500000)" );
+
+		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(16.0)) );
+		REQUIRE( Math::LengthSq(constructor1) == Approx(16.0) );
+		REQUIRE( Math::Length(constructor2) == Approx(std::sqrt(2.0*2.0 + 3.5*3.5 + 4.5*4.5 + 5.5*5.5)) );
+		REQUIRE( Math::LengthSq(constructor2) == Approx(2.0*2.0 + 3.5*3.5 + 4.5*4.5 + 5.5*5.5) );
+
+		CHECK( Math::Dot(constructor1,constructor1) == Approx(16.0) );
+		CHECK( Math::Dot(constructor1,constructor2) == Approx(31.0) );
+
+		float len = Math::Length(constructor1);
+		Math::Vector4f testingNormalize(2.0/len,2.0/len, 2.0/len, 2.0/len);
+		CHECK( Math::Normalize(constructor1) == testingNormalize );
+
+		len = Math::Length(constructor2);
+		Math::Vector4f testingNormalize2(2.0/len,3.5/len, 4.5/len, 5.5/len);
+		Math::Vector4f norm = Math::Normalize(constructor2);
+		CHECK( vectorFuzzyEquals(norm,testingNormalize2) );
+	}
+
+	SECTION("operators inside of the Vector4 struct using float") {
+		CHECK( (constructor1[0] == Approx(2.0) && constructor1[1] == Approx(2.0)) );
+		CHECK( (constructor2[0] == Approx(2.0) && constructor2[1] == Approx(3.5)) );
+
+		Math::Vector4f testingNegation(-2.0);
+		CHECK( -constructor1 == testingNegation );
+
+		constructor1 = 2.0;
+		Math::Vector4f testingPlusEquals(4.0,5.5,6.5,7.5);
+		CHECK( (constructor1 += constructor2) == testingPlusEquals);
+
+		constructor1 = 2.0;
+		Math::Vector4f testingMinusEquals(0.0,-1.5,-2.5,-3.5);
+		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
+
+		constructor1 = 2.0;
+		Math::Vector4f testingTimesEquals(4.0,7.0,9.0,11.0);
+		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
+
+		constructor1 = 2.0;
+		Math::Vector4f testingDivideEquals(1.0,2.0/3.5,2.0/4.5,2.0/5.5);
+		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
+
+		constructor1 = 2.0;
+		Math::Vector4f testingPlusEqualsConst(3.0);
+		CHECK( (constructor1 + 1.0f) == testingPlusEqualsConst );
 	}
 }
 
@@ -254,36 +403,367 @@ TEST_CASE( "Matrix3 methods work correctly with int", "[math][matrix][matrix-3]"
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
-	Math::Matrix3i m(2);
-	Math::Matrix3i mm(2,3,4);
-	Math::Matrix3i mmm(m);
+	Math::Matrix3i constructor1(2);
+	Math::Matrix3i constructor2(2,3,4);
+	Math::Matrix3i constructor3(constructor1);
 
-	Math::Vector3i v(2);
-	Math::Matrix3i mmmm(v,v,v);
+	Math::Vector3i testingConstructor4(2);
+	Math::Matrix3i constructor4(testingConstructor4,testingConstructor4,testingConstructor4);
 
-	REQUIRE( m == m );
-	REQUIRE( m != mm );
-	REQUIRE( mm == mm );
-	REQUIRE( m == mmm );
-	REQUIRE( m == mmmm );
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+	REQUIRE( constructor1 == constructor4 );
 
 	SECTION("methods outside of the Matrix3 struct using int") {
+		Math::Vector3i v1(1,2,3);
+		Math::Vector3i v2(2,10,4);
+		Math::Vector3i v3(4,5,6);
+		Math::Matrix3i test(v1,v2,v3);
 
+		REQUIRE( Math::Determinant(test) == -42 );
+
+		Math::Vector3i v4(1,2,4);
+		Math::Vector3i v5(2,10,5);
+		Math::Vector3i v6(3,4,6);
+		Math::Matrix3i test2(v4,v5,v6);
+
+		REQUIRE( Math::Transpose(test) == test2 );
+
+		Math::Vector3i v7(-20/21,-1/14,11/21);
+		Math::Vector3i v8(-2/21,1/7,-1/21);
+		Math::Vector3i v9(5/7,-1/14,-1/7);
+		Math::Matrix3i test3(v7,v8,v9);
+
+		REQUIRE( Math::Inverse(test) == 0 ); //zero because inverse can't represent with int
+
+		CHECK( constructor1 * constructor1 == Math::Matrix3i(12) ); //matrix * matrix
+		CHECK( constructor1 * testingConstructor4 == Math::Vector3i(12) ); //matrix * vector
+		CHECK( constructor1 - constructor1 == Math::Matrix3i(0) );
+		CHECK( constructor1 + constructor1 == Math::Matrix3i(4) );
+
+		//Matrix math with scalar
+		CHECK( constructor1 - 1 == Math::Matrix3i(1) );
+		CHECK( constructor1 + 1 == Math::Matrix3i(3) );
+		CHECK( constructor1 * 2 == Math::Matrix3i(4) );
+		CHECK( constructor1 / 2 == Math::Matrix3i(1) );
 	}
 
 	SECTION("operators inside of the Matrix3 struct using int") {
-		REQUIRE( m[0] == m[0] );
-		CHECK( (m[0] == Math::Vector3i(2) && m[1] == Math::Vector3i(2) && m[2] == Math::Vector3i(2)) );
-		CHECK( (mm[0] == Math::Vector3i(2) && mm[1] == Math::Vector3i(3) && mm[2] == Math::Vector3i(4)) );
-		CHECK( (mm[0][0] == 2 && mm[1][0] == 3 && mm[2][0] == 4) );
+		REQUIRE( constructor1[0] == constructor1[0] );
+		CHECK( (constructor1[0] == Math::Vector3i(2) && constructor1[1] == Math::Vector3i(2) && constructor1[2] == Math::Vector3i(2)) );
+		CHECK( (constructor2[0] == Math::Vector3i(2) && constructor2[1] == Math::Vector3i(3) && constructor2[2] == Math::Vector3i(4)) );
+		CHECK( (constructor2[0][0] == 2 && constructor2[1][0] == 3 && constructor2[2][0] == 4) );
 
 		Math::Matrix3i testingAssignment(0);
-		testingAssignment = m; //testing that assignment doesn't copy reference
-		m[0][0] = 3;
-		CHECK( testingAssignment[0][0] != m[0][0] );
-		m = 2;
+		testingAssignment = constructor1; //testing that assignment doesn't copy reference
+		constructor1[0][0] = 3;
+		CHECK( testingAssignment[0][0] != constructor1[0][0] );
 
+		constructor1 = 2;
+		Math::Matrix3i testingConstMult(4);
+		constructor1 *= 2;
+		CHECK( constructor1 == testingConstMult );
 
+		constructor1 = 2;
+		Math::Matrix3i testingMatrixAdd(4);
+		constructor1 += constructor1;
+		CHECK( constructor1 == testingMatrixAdd );
+
+		constructor1 = 2;
+		Math::Matrix3i testingMatrixSub(0);
+		constructor1 -= constructor1;
+		CHECK( constructor1 == testingMatrixSub );
+
+		Math::Vector3i v1(1,7,7);
+		Math::Vector3i v2(4,3,2);
+		Math::Vector3i v3(3,4,3);
+		Math::Matrix3i m1(v1,v2,v3);
+		Math::Vector3i v4(1,2,4);
+		Math::Vector3i v5(4,5,6);
+		Math::Vector3i v6(1,7,3);
+		Math::Matrix3i m2(v4,v5,v6);
+
+		Math::Vector3i v7(37/53,-155/53,-169/53);
+		Math::Vector3i v8(20/53,-5/53,-14/53);
+		Math::Vector3i v9(-6/53,134/53,142/53);
+		Math::Matrix3i testingMatrixDiv(v7,v8,v9);
+
+		m1 /= m2;
+		CHECK( m1 == 0 );  //zero because inverse can't represent with int
+
+		constructor1 = 2;
+		Math::Matrix3i testingNegate(-2);
+		CHECK( constructor1 == -testingNegate );
+	}
+}
+
+TEST_CASE( "Matrix3 methods work correctly with float", "[math][matrix][matrix-3]" ) {
+	using namespace Core;
+
+	//Test Constructor equivalence and equivalence operator
+	Math::Matrix3f constructor1(2.0);
+	Math::Matrix3f constructor2(2.0,3.0,4.0);
+	Math::Matrix3f constructor3(constructor1);
+
+	Math::Vector3f testingConstructor4(2.0);
+	Math::Matrix3f constructor4(testingConstructor4,testingConstructor4,testingConstructor4);
+
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+	REQUIRE( constructor1 == constructor4 );
+
+	SECTION("methods outside of the Matrix3 struct using float") {
+		Math::Vector3f v1(1.0,2.0,3.0);
+		Math::Vector3f v2(2.0,10.0,4.0);
+		Math::Vector3f v3(4.0,5.0,6.0);
+		Math::Matrix3f test(v1,v2,v3);
+
+		REQUIRE( Math::Determinant(test) == -42.0 );
+
+		Math::Vector3f v4(1.0,2.0,4.0);
+		Math::Vector3f v5(2.0,10.0,5.0);
+		Math::Vector3f v6(3.0,4.0,6.0);
+		Math::Matrix3f test2(v4,v5,v6);
+
+		REQUIRE( Math::Transpose(test) == test2 );
+
+		Math::Vector3f v7(-20.0/21,-1.0/14,11.0/21);
+		Math::Vector3f v8(-2.0/21,1.0/7,-1.0/21);
+		Math::Vector3f v9(5.0/7,-1.0/14,-1.0/7);
+		Math::Matrix3f test3(v7,v8,v9);
+
+		Math::Matrix3f inv = Math::Inverse(test);
+		REQUIRE( matrixFuzzyEquals(inv,test3) ); //inverse correct
+
+		CHECK( constructor1 * constructor1 == Math::Matrix3f(12.0) ); //matrix * matrix
+		CHECK( constructor1 * testingConstructor4 == Math::Vector3f(12.0) ); //matrix * vector
+		CHECK( constructor1 - constructor1 == Math::Matrix3f(0.0) );
+		CHECK( constructor1 + constructor1 == Math::Matrix3f(4.0) );
+
+		//Matrix math with scalar
+		CHECK( constructor1 - 1.0 == Math::Matrix3f(1.0) );
+		CHECK( constructor1 + 1.0 == Math::Matrix3f(3.0) );
+		CHECK( constructor1 * 2.0 == Math::Matrix3f(4.0) );
+		CHECK( constructor1 / 2.0 == Math::Matrix3f(1.0) );
+	}
+
+	SECTION("operators inside of the Matrix3 struct using float") {
+		REQUIRE( constructor1[0] == constructor1[0] );
+		CHECK( (constructor1[0] == Math::Vector3f(2.0) && constructor1[1] == Math::Vector3f(2.0) && constructor1[2] == Math::Vector3f(2.0)) );
+		CHECK( (constructor2[0] == Math::Vector3f(2.0) && constructor2[1] == Math::Vector3f(3.0) && constructor2[2] == Math::Vector3f(4.0)) );
+		CHECK( (constructor2[0][0] == 2.0 && constructor2[1][0] == 3.0 && constructor2[2][0] == 4.0) );
+
+		Math::Matrix3f testingAssignment(0.0);
+		testingAssignment = constructor1; //testing that assignment doesn't copy reference
+		constructor1[0][0] = 3.0;
+		CHECK( testingAssignment[0][0] != constructor1[0][0] );
+
+		constructor1 = 2.0;
+		Math::Matrix3f testingConstMult(4.0);
+		constructor1 *= 2.0;
+		CHECK( constructor1 == testingConstMult );
+
+		constructor1 = 2.0;
+		Math::Matrix3f testingMatrixAdd(4.0);
+		constructor1 += constructor1;
+		CHECK( constructor1 == testingMatrixAdd );
+
+		constructor1 = 2.0;
+		Math::Matrix3f testingMatrixSub(0.0);
+		constructor1 -= constructor1;
+		CHECK( constructor1 == testingMatrixSub );
+
+		Math::Vector3f v1(1.0,7.0,7.0);
+		Math::Vector3f v2(4.0,3.0,2.0);
+		Math::Vector3f v3(3.0,4.0,3.0);
+		Math::Matrix3f m1(v1,v2,v3);
+		Math::Vector3f v4(1.0,2.0,4.0);
+		Math::Vector3f v5(4.0,5.0,6.0);
+		Math::Vector3f v6(1.0,7.0,3.0);
+		Math::Matrix3f m2(v4,v5,v6);
+
+		Math::Vector3f v7(37.0/53,-155.0/53,-169.0/53);
+		Math::Vector3f v8(20.0/53,-5.0/53,-14.0/53);
+		Math::Vector3f v9(-6.0/53,134.0/53,142.0/53);
+		Math::Matrix3f testingMatrixDiv(v7,v8,v9);
+
+		m1 /= m2;
+		CHECK( matrixFuzzyEquals(m1,testingMatrixDiv) );
+
+		constructor1 = 2.0;
+		Math::Matrix3f testingNegate(-2.0);
+		CHECK( constructor1 == -testingNegate );
+	}
+}
+
+TEST_CASE( "Matrix4 methods work correctly with int", "[math][matrix][matrix-4]" ) {
+	using namespace Core;
+
+	//Test Constructor equivalence and equivalence operator
+	Math::Matrix4i constructor1(2);
+	Math::Matrix4i constructor2(2,3,4,5);
+	Math::Matrix4i constructor3(constructor1);
+
+	Math::Vector4i testingConstructor4(2);
+	Math::Matrix4i constructor4(testingConstructor4,testingConstructor4,testingConstructor4,testingConstructor4);
+
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+	REQUIRE( constructor1 == constructor4 );
+
+	SECTION("methods outside of the Matrix4 struct using int") {
+		Math::Vector4i v1(2,1,-3,0);
+		Math::Vector4i v2(-1,2,1,1);
+		Math::Vector4i v3(0,-4,-2,4);
+		Math::Vector4i v4(3,0,5,3);
+		Math::Matrix4i test(v1,v2,v3,v4);
+
+		REQUIRE( Math::Determinant(test) == -308 );
+
+		Math::Vector4i v5(2,-1,0,3);
+		Math::Vector4i v6(1,2,-4,0);
+		Math::Vector4i v7(-3,1,-2,5);
+		Math::Vector4i v8(0,1,4,3);
+		Math::Matrix4i test2(v5,v6,v7,v8);
+
+		REQUIRE( Math::Transpose(test) == test2 );
+
+		REQUIRE( Math::Inverse(test) == 0 ); //zero because inverse can't represent with int
+
+		CHECK( constructor1 * constructor1 == Math::Matrix4i(16) ); //matrix * matrix
+		CHECK( constructor1 * testingConstructor4 == Math::Vector4i(16) ); //matrix * vector
+		CHECK( constructor1 - constructor1 == Math::Matrix4i(0) );
+		CHECK( constructor1 + constructor1 == Math::Matrix4i(4) );
+
+		//Matrix math with scalar
+		CHECK( constructor1 - 1 == Math::Matrix4i(1) );
+		CHECK( constructor1 + 1 == Math::Matrix4i(3) );
+		CHECK( constructor1 * 2 == Math::Matrix4i(4) );
+		CHECK( constructor1 / 2 == Math::Matrix4i(1) );
+	}
+
+	SECTION("operators inside of the Matrix4 struct using int") {
+		REQUIRE( constructor1[0] == constructor1[0] );
+		CHECK( (constructor1[0] == Math::Vector4i(2) && constructor1[1] == Math::Vector4i(2) && constructor1[2] == Math::Vector4i(2) && constructor1[3] == Math::Vector4i(2)) );
+		CHECK( (constructor2[0] == Math::Vector4i(2) && constructor2[1] == Math::Vector4i(3) && constructor2[2] == Math::Vector4i(4) && constructor2[3] == Math::Vector4i(5)) );
+		CHECK( (constructor2[0][0] == 2 && constructor2[1][0] == 3 && constructor2[2][0] == 4 && constructor2[3][0] == 5) );
+
+		Math::Matrix4i testingAssignment(0);
+		testingAssignment = constructor1; //testing that assignment doesn't copy reference
+		constructor1[0][0] = 3;
+		CHECK( testingAssignment[0][0] != constructor1[0][0] );
+
+		constructor1 = 2;
+		Math::Matrix4i testingConstMult(4);
+		constructor1 *= 2;
+		CHECK( constructor1 == testingConstMult );
+
+		constructor1 = 2;
+		Math::Matrix4i testingMatrixAdd(4);
+		constructor1 += constructor1;
+		CHECK( constructor1 == testingMatrixAdd );
+
+		constructor1 = 2;
+		Math::Matrix4i testingMatrixSub(0);
+		constructor1 -= constructor1;
+		CHECK( constructor1 == testingMatrixSub );
+
+		constructor1 = 2;
+		Math::Matrix4i testingNegate(-2);
+		CHECK( constructor1 == -testingNegate );
+	}
+}
+
+TEST_CASE( "Matrix4 methods work correctly with float", "[math][matrix][matrix-4]" ) {
+	using namespace Core;
+
+	//Test Constructor equivalence and equivalence operator
+	Math::Matrix4f constructor1(2.0);
+	Math::Matrix4f constructor2(2.0,3.0,4.0,5.0);
+	Math::Matrix4f constructor3(constructor1);
+
+	Math::Vector4f testingConstructor4(2.0);
+	Math::Matrix4f constructor4(testingConstructor4,testingConstructor4,testingConstructor4,testingConstructor4);
+
+	REQUIRE( constructor1 == constructor1 );
+	REQUIRE( constructor1 != constructor2 );
+	REQUIRE( constructor2 == constructor2 );
+	REQUIRE( constructor1 == constructor3 );
+	REQUIRE( constructor1 == constructor4 );
+
+	SECTION("methods outside of the Matrix4 struct using float") {
+		Math::Vector4f v1(2.0,1.0,-3.0,0.0);
+		Math::Vector4f v2(-1.0,2.0,1.0,1.0);
+		Math::Vector4f v3(0.0,-4.0,-2.0,4.0);
+		Math::Vector4f v4(3.0,0.0,5.0,3.0);
+		Math::Matrix4f test(v1,v2,v3,v4);
+
+		REQUIRE( Math::Determinant(test) == -308.0 );
+
+		Math::Vector4f v5(2.0,-1.0,0.0,3.0);
+		Math::Vector4f v6(1.0,2.0,-4.0,0.0);
+		Math::Vector4f v7(-3.0,1.0,-2.0,5.0);
+		Math::Vector4f v8(0.0,1.0,4.0,3.0);
+		Math::Matrix4f test2(v5,v6,v7,v8);
+
+		REQUIRE( Math::Transpose(test) == test2 );
+
+		Math::Vector4f v9(60.0/308,-62.0/308,-16.0/308,42.0/308);
+		Math::Vector4f v10(44.0/308,88.0/308,-22.0/308,0);
+		Math::Vector4f v11(-48.0/308,-12.0/308,-18.0/308,28.0/308);
+		Math::Vector4f v12(20.0/308,82.0/308,46.0/308,14.0/308);
+		Math::Matrix4f test3(v9,v10,v11,v12);
+
+		Math::Matrix4f inv = Math::Inverse(test);
+		REQUIRE( matrixFuzzyEquals(inv,test3) ); //zero because inverse can't represent with int
+
+		CHECK( constructor1 * constructor1 == Math::Matrix4f(16.0) ); //matrix * matrix
+		CHECK( constructor1 * testingConstructor4 == Math::Vector4f(16.0) ); //matrix * vector
+		CHECK( constructor1 - constructor1 == Math::Matrix4f(0.0) );
+		CHECK( constructor1 + constructor1 == Math::Matrix4f(4.0) );
+
+		//Matrix math with scalar
+		CHECK( constructor1 - 1 == Math::Matrix4f(1.0) );
+		CHECK( constructor1 + 1 == Math::Matrix4f(3.0) );
+		CHECK( constructor1 * 2 == Math::Matrix4f(4.0) );
+		CHECK( constructor1 / 2 == Math::Matrix4f(1.0) );
+	}
+
+	SECTION("operators inside of the Matrix4 struct using float") {
+		REQUIRE( constructor1[0] == constructor1[0] );
+		CHECK( (constructor1[0] == Math::Vector4f(2.0) && constructor1[1] == Math::Vector4f(2.0) && constructor1[2] == Math::Vector4f(2.0) && constructor1[3] == Math::Vector4f(2.0)) );
+		CHECK( (constructor2[0] == Math::Vector4f(2.0) && constructor2[1] == Math::Vector4f(3.0) && constructor2[2] == Math::Vector4f(4.0) && constructor2[3] == Math::Vector4f(5.0)) );
+		CHECK( (constructor2[0][0] == 2.0 && constructor2[1][0] == 3.0 && constructor2[2][0] == 4.0 && constructor2[3][0] == 5.0) );
+
+		Math::Matrix4f testingAssignment(0);
+		testingAssignment = constructor1; //testing that assignment doesn't copy reference
+		constructor1[0][0] = 3.0;
+		CHECK( testingAssignment[0][0] != constructor1[0][0] );
+
+		constructor1 = 2.0;
+		Math::Matrix4f testingConstMult(4.0);
+		constructor1 *= 2.0;
+		CHECK( constructor1 == testingConstMult );
+
+		constructor1 = 2.0;
+		Math::Matrix4f testingMatrixAdd(4.0);
+		constructor1 += constructor1;
+		CHECK( constructor1 == testingMatrixAdd );
+
+		constructor1 = 2.0;
+		Math::Matrix4f testingMatrixSub(0.0);
+		constructor1 -= constructor1;
+		CHECK( constructor1 == testingMatrixSub );
+
+		constructor1 = 2.0;
+		Math::Matrix4f testingNegate(-2.0);
+		CHECK( constructor1 == -testingNegate );
 	}
 }
 #endif
