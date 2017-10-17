@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 
+#include "Types.h"
 #include "Vector3.h"
 
 namespace Core
@@ -14,6 +15,7 @@ namespace Math
 /**
  * Matrix3 representation using 3 Vector3 as columns.
  *
+ * @author Michael Conard
  * @tparam Type the type for the values in the matrix
  */
 template <typename Type>
@@ -153,7 +155,12 @@ Vector3<Type> operator*(const Matrix3<Type>& m, const Vector3<Type2>& v)
 	return ret;
 }
 
-//Inverse
+/**
+ * Returns the inverse of a 3x3 Matrix
+ *
+ * @param m A Matrix3<Type>
+ * @return Matrix3<Type> The inverse matrix
+ */
 template <typename Type>
 Matrix3<Type> Inverse(Matrix3<Type> m)
 {
@@ -180,7 +187,12 @@ Matrix3<Type> Inverse(Matrix3<Type> m)
 	return inverse;
 }
 
-//Transpose
+/**
+ * Returns the transpose of a 3x3 Matrix
+ *
+ * @param m A Matrix3<Type>
+ * @return Matrix3<Type> The transposed matrix
+ */
 template <typename Type>
 Matrix3<Type> Transpose(Matrix3<Type>& m)
 {
@@ -194,7 +206,13 @@ Matrix3<Type> Transpose(Matrix3<Type>& m)
 	}
 	return transpose;
 }
-//Determinant
+
+/**
+ * Returns the determinant of a 3x3 Matrix
+ *
+ * @param m A Matrix3<Type>
+ * @return Type The determinant of m
+ */
 template <typename Type>
 Type Determinant(Matrix3<Type>& m)
 {
@@ -230,7 +248,7 @@ std::string toString(Matrix3<Type> m) {
 }
 
 //Identity and zero matrices
-template <typename Type> const Matrix3<Type> Matrix3<Type>::Identity(Math::Vector3<Type>(1,0,0),Math::Vector3<Type>(0,1,0),Math::Vector3<Type>(0,0,1));
+template <typename Type> const Matrix3<Type> Matrix3<Type>::Identity;
 template <typename Type> const Matrix3<Type> Matrix3<Type>::Zero(0);
 
 //Type definitions for prettier code and less typing

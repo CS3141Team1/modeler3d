@@ -15,6 +15,7 @@ namespace Math
 /**
  * Struct for a 4-Vector. Contains all operator overloads and math functions.
  *
+ * @author Michael Conard
  * @tparam Type type for the vector values
  */
 template <typename Type>

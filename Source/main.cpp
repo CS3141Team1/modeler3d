@@ -7,8 +7,7 @@
 #include "IEngine.h"
 #include "Types.h"
 
-#include "Math/VectorMath.h"
-#include "Math/MatrixMath.h"
+#include "Math/ModelerMath.h"
 
 #include "Sdl2/Sdl2Engine.h"
 
@@ -45,17 +44,9 @@ public:
 
 int main(int argc, char** asrgv)
 {
-//    IEngine* engine = new Sdl2Engine();
-//    Modeler3D app(engine);
-//    engine->Start(&app);
-
-	Math::Vector4f v1(2,1,-3,0);
-	Math::Vector4f v2(-1,2,1,1);
-	Math::Vector4f v3(0,-4,-2,4);
-	Math::Vector4f v4(3,0,5,3);
-	Math::Matrix4f test(v1,v2,v3,v4);
-
-	Math::Inverse(test);
+    IEngine* engine = new Sdl2Engine();
+    Modeler3D app(engine);
+    engine->Start(&app);
 
     return 0;
 }

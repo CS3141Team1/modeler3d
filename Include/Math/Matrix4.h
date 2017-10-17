@@ -17,6 +17,7 @@ namespace Math
 /**
  * Matrix4 representation using 3 Vector4 as columns.
  *
+ * @author Michael Conard
  * @tparam Type the type for the values in the matrix
  */
 template <typename Type>
@@ -162,7 +163,12 @@ Vector4<Type> operator*(const Matrix4<Type>& m, const Vector4<Type2>& v)
 	return ret;
 }
 
-//Inverse
+/**
+ * Returns the inverse of a 4x4 Matrix
+ *
+ * @param m A Matrix4<Type>
+ * @return Matrix4<Type> The inverse matrix
+ */
 template <typename Type>
 Matrix4<Type> Inverse(Matrix4<Type> m)
 {
@@ -203,7 +209,12 @@ Matrix4<Type> Inverse(Matrix4<Type> m)
 	return inverse;
 }
 
-//Transpose
+/**
+ * Returns the transpose of a 4x4 Matrix
+ *
+ * @param m A Matrix4<Type>
+ * @return Matrix4<Type> The transposed matrix
+ */
 template <typename Type>
 Matrix4<Type> Transpose(Matrix4<Type>& m)
 {
@@ -217,7 +228,13 @@ Matrix4<Type> Transpose(Matrix4<Type>& m)
 	}
 	return transpose;
 }
-//Determinant
+
+/**
+ * Returns the determinant of a 4x4 Matrix
+ *
+ * @param m A Matrix4<Type>
+ * @return Type The determinant of m
+ */
 template <typename Type>
 Type Determinant(Matrix4<Type>& m)
 {
@@ -256,7 +273,7 @@ std::string toString(Matrix4<Type> m) {
 }
 
 //Identity and zero matrices
-template <typename Type> const Matrix4<Type> Matrix4<Type>::Identity(Math::Vector4<Type>(1,0,0,0),Math::Vector4<Type>(0,1,0,0),Math::Vector4<Type>(0,0,1,0),Math::Vector4<Type>(0,0,0,1));
+template <typename Type> const Matrix4<Type> Matrix4<Type>::Identity;
 template <typename Type> const Matrix4<Type> Matrix4<Type>::Zero(0);
 
 //Type definitions for prettier code and less typing

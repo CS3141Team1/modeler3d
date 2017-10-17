@@ -15,6 +15,7 @@ namespace Math
 /**
  * Struct for a 3-Vector. Contains all operator overloads and math functions.
  *
+ * @author Nicholas Hamilton, Michael Conard
  * @tparam Type type for the vector values
  */
 template <typename Type>
