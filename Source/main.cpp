@@ -1,52 +1,30 @@
 #include <iostream>
 #include <cmath>
 
-#include <GL/glew.h>
-
 #include "Application.h"
-#include "IEngine.h"
+#include "IBackend.h"
+#include "Modeler3D.h"
 #include "Types.h"
 
 #include "Math/ModelerMath.h"
-
-#include "Sdl2/Sdl2Engine.h"
+#include "Sdl2/Sdl2Window.h"
+#include "SDL2/Sdl2Backend.h"
 
 using namespace Core;
-
-class Modeler3D : public Application
-{
-public:
-    Modeler3D(IEngine* engine)
-        : Application(engine)
-    {
-    }
-
-    virtual void OnInit()
-    {
-        std::cout << "Initializing application" << std::endl;
-    }
-
-    virtual void OnUpdate(float64 dt)
-    {
-    }
-
-    virtual void OnRender()
-    {
-        glClearColor(0.7, 0.8, 0.9, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-
-    virtual void OnExit()
-    {
-        std::cout << "Exiting application" << std::endl;
-    }
-};
+using namespace std;
 
 int main(int argc, char** asrgv)
 {
-    IEngine* engine = new Sdl2Engine();
-    Modeler3D app(engine);
-    engine->Start(&app);
+    cout << "Starting Modeler3D" << endl;
+
+    IBackend* backend = new Sdl2Backend();
+
+    Modeler3D app(backend);
+    app.Start();
+
+    delete backend;
+
+    cout << "Exiting Modeler3D" << endl;
 
     return 0;
 }
