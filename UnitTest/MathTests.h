@@ -1,5 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <cmath>
+
+#include "Types.h"
+#include "Math/ModelerMath.h"
+
 //************************* Helpers *************************
 template <typename Type>
 bool matrixFuzzyEquals(Type a, Type b)

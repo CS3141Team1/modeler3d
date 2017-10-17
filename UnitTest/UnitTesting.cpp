@@ -1,17 +1,12 @@
-#define DO_UNIT_TESTING 0
+#define DO_UNIT_TESTING 1
 
 #if DO_UNIT_TESTING==1
 
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 
 #include <catch.hpp>
-#include <iostream>
-#include <cmath>
 
-#include "Types.h"
-#include "Math/ModelerMath.h"
-
-//Unit test headers
+//Unit test files
 #include "MathTests.h"
 
 #endif
