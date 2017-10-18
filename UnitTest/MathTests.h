@@ -1,5 +1,12 @@
 #pragma once
 
+#if DO_UNIT_TESTING==1
+
+#define UNIT_TEST_OUTPUT(command) \
+	if (SHOW_SAMPLE_OUTPUT) { \
+		command; \
+	}
+
 #include <iostream>
 #include <cmath>
 
@@ -51,6 +58,8 @@ bool quaternionFuzzyEquals(Type a, Type b)
 	}
 	return fuzzyEquals;
 }
+
+using namespace std;
 
 //************************* Vectors *************************
 TEST_CASE( "Vector2 methods work correctly with int", "[math][vector][vector-2]" ) {
@@ -358,6 +367,7 @@ TEST_CASE( "Vector4 methods work correctly with float", "[math][vector][vector-4
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector4 struct using float") {
+		UNIT_TEST_OUTPUT(cout << "***** Vector3 *****" << endl);
 		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000, 2.000000, 2.000000)" );
 		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000, 4.500000, 5.500000)" );
 
@@ -376,6 +386,7 @@ TEST_CASE( "Vector4 methods work correctly with float", "[math][vector][vector-4
 		len = Math::Length(constructor2);
 		Math::Vector4f testingNormalize2(2.0/len,3.5/len, 4.5/len, 5.5/len);
 		Math::Vector4f norm = Math::Normalize(constructor2);
+		UNIT_TEST_OUTPUT(cout << "Normalize Vector4: Norm" << constructor2 << " == " << testingNormalize2 << endl);
 		CHECK( vectorFuzzyEquals(norm,testingNormalize2) );
 	}
 
@@ -395,12 +406,16 @@ TEST_CASE( "Vector4 methods work correctly with float", "[math][vector][vector-4
 		CHECK( (constructor1 -= constructor2) == testingMinusEquals);
 
 		constructor1 = 2.0;
+		constructor1 *= constructor2;
 		Math::Vector4f testingTimesEquals(4.0,7.0,9.0,11.0);
-		CHECK( (constructor1 *= constructor2) == testingTimesEquals);
+		UNIT_TEST_OUTPUT(cout << "Vector4 mult: " << constructor1 << " * " << constructor2 << " == " << testingTimesEquals << endl);
+		CHECK( constructor1 == testingTimesEquals);
 
 		constructor1 = 2.0;
+		constructor1 /= constructor2;
 		Math::Vector4f testingDivideEquals(1.0,2.0/3.5,2.0/4.5,2.0/5.5);
-		CHECK( (constructor1 /= constructor2) == testingDivideEquals);
+		UNIT_TEST_OUTPUT(cout << "Vector4 div: " << Math::Vector4f(2.0) << " / " << constructor2 << " == " << testingDivideEquals << endl);
+		CHECK( constructor1 == testingDivideEquals);
 
 		constructor1 = 2.0;
 		Math::Vector4f testingPlusEqualsConst(3.0);
@@ -702,11 +717,13 @@ TEST_CASE( "Matrix3 methods work correctly with float", "[math][matrix][matrix-3
 	REQUIRE( constructor1 == constructor4 );
 
 	SECTION("methods outside of the Matrix3 struct using float") {
+		UNIT_TEST_OUTPUT(cout << endl << "***** Matrix3 *****" << endl);
 		Math::Vector3f v1(1.0,2.0,3.0);
 		Math::Vector3f v2(2.0,10.0,4.0);
 		Math::Vector3f v3(4.0,5.0,6.0);
 		Math::Matrix3f test(v1,v2,v3);
 
+		UNIT_TEST_OUTPUT(cout << "Matrix3 det of: " << endl << test << " == " << Math::Determinant(test) << endl);
 		REQUIRE( Math::Determinant(test) == -42.0 );
 
 		Math::Vector3f v4(1.0,2.0,4.0);
@@ -714,6 +731,7 @@ TEST_CASE( "Matrix3 methods work correctly with float", "[math][matrix][matrix-3
 		Math::Vector3f v6(3.0,4.0,6.0);
 		Math::Matrix3f test2(v4,v5,v6);
 
+		UNIT_TEST_OUTPUT(cout << "Matrix3 transpose of: " << endl << test << endl << " == " << endl << Math::Transpose(test) << endl);
 		REQUIRE( Math::Transpose(test) == test2 );
 
 		Math::Vector3f v7(-20.0/21,-1.0/14,11.0/21);
@@ -722,6 +740,7 @@ TEST_CASE( "Matrix3 methods work correctly with float", "[math][matrix][matrix-3
 		Math::Matrix3f test3(v7,v8,v9);
 
 		Math::Matrix3f inv = Math::Inverse(test);
+		UNIT_TEST_OUTPUT(cout << "Matrix3 inverse of: " << endl << test << endl << " == " << endl << inv << endl);
 		REQUIRE( matrixFuzzyEquals(inv,test3) ); //inverse correct
 
 		CHECK( constructor1 * constructor1 == Math::Matrix3f(12.0) ); //matrix * matrix
@@ -776,6 +795,7 @@ TEST_CASE( "Matrix3 methods work correctly with float", "[math][matrix][matrix-3
 		Math::Vector3f v9(-6.0/53,134.0/53,142.0/53);
 		Math::Matrix3f testingMatrixDiv(v7,v8,v9);
 
+		UNIT_TEST_OUTPUT(cout << "Matrix3 div: " << endl << m1 << " / " << endl << m2 << endl << " == " << endl << testingMatrixDiv << endl);
 		m1 /= m2;
 		CHECK( matrixFuzzyEquals(m1,testingMatrixDiv) );
 
@@ -883,12 +903,14 @@ TEST_CASE( "Matrix4 methods work correctly with float", "[math][matrix][matrix-4
 	REQUIRE( constructor1 == constructor4 );
 
 	SECTION("methods outside of the Matrix4 struct using float") {
+		UNIT_TEST_OUTPUT(cout << endl << "***** Matrix4 *****" << endl);
 		Math::Vector4f v1(2.0,1.0,-3.0,0.0);
 		Math::Vector4f v2(-1.0,2.0,1.0,1.0);
 		Math::Vector4f v3(0.0,-4.0,-2.0,4.0);
 		Math::Vector4f v4(3.0,0.0,5.0,3.0);
 		Math::Matrix4f test(v1,v2,v3,v4);
 
+		UNIT_TEST_OUTPUT(cout << "Matrix4 det of: " << endl << test << " == " << Math::Determinant(test) << endl);
 		REQUIRE( Math::Determinant(test) == -308.0 );
 
 		Math::Vector4f v5(2.0,-1.0,0.0,3.0);
@@ -897,6 +919,7 @@ TEST_CASE( "Matrix4 methods work correctly with float", "[math][matrix][matrix-4
 		Math::Vector4f v8(0.0,1.0,4.0,3.0);
 		Math::Matrix4f test2(v5,v6,v7,v8);
 
+		UNIT_TEST_OUTPUT(cout << "Matrix4 transpose of: " << endl << test << endl << " == " << endl << Math::Transpose(test) << endl);
 		REQUIRE( Math::Transpose(test) == test2 );
 
 		Math::Vector4f v9(60.0/308,-62.0/308,-16.0/308,42.0/308);
@@ -906,6 +929,7 @@ TEST_CASE( "Matrix4 methods work correctly with float", "[math][matrix][matrix-4
 		Math::Matrix4f test3(v9,v10,v11,v12);
 
 		Math::Matrix4f inv = Math::Inverse(test);
+		UNIT_TEST_OUTPUT(cout << "Matrix4 inverse of: " << endl << test << endl << " == " << endl << Math::Inverse(test) << endl);
 		REQUIRE( matrixFuzzyEquals(inv,test3) ); //zero because inverse can't represent with int
 
 		CHECK( constructor1 * constructor1 == Math::Matrix4f(16.0) ); //matrix * matrix
@@ -953,7 +977,7 @@ TEST_CASE( "Matrix4 methods work correctly with float", "[math][matrix][matrix-4
 }
 
 //************************* Quaternion *************************
-TEST_CASE( "Quaternion methods work correctly with float", "[math][Quaternion]" ) {
+TEST_CASE( "Quaternion methods work correctly with float", "[math][quaternion]" ) {
 	using namespace Core;
 
 	//Test Constructor equivalence and equivalence operator
@@ -968,16 +992,19 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][Quaternion]" 
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Quaternion struct using float") {
+		UNIT_TEST_OUTPUT(cout << endl << "***** Quaternion *****" << endl);
 		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(2.0*2.0 + 3.5*3.5 + 4.5*4.5 + 5.5*5.5)) );
 		REQUIRE( Math::LengthSq(constructor1) == Approx(2.0*2.0 + 3.5*3.5 + 4.5*4.5 + 5.5*5.5) );
 
 		float len = Math::Length(constructor2);
 		Math::Quaternionf testingNormalize(2.0/len,2.0/len, 2.0/len, 3.0/len);
+		UNIT_TEST_OUTPUT(cout << "Quaternion: Norm" << constructor2 << " == " << Math::Normalize(constructor2) << endl);
 		CHECK( quaternionFuzzyEquals(Math::Normalize(constructor2), testingNormalize) );
 
 		len = Math::Length(constructor1);
 		Math::Quaternionf testingNormalize2(2.0/len,3.5/len, 4.5/len, 5.5/len);
 		Math::Quaternionf norm = Math::Normalize(constructor1);
+		UNIT_TEST_OUTPUT(cout << "Quaternion: Norm" << constructor1 << " == " << norm << endl);
 		CHECK( vectorFuzzyEquals(norm,testingNormalize2) );
 	}
 
@@ -990,50 +1017,96 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][Quaternion]" 
 		Math::Quaternionf reset(testingConstructor2,3);
 		constructor2 = reset;
 		Math::Quaternionf testingTimesEquals(19.0,16.5,27.5,-3.5);
-		CHECK( (constructor2 *= constructor1) == testingTimesEquals );
+		constructor2 *= constructor1;
+		UNIT_TEST_OUTPUT(cout << "Quaternion: " << reset << " * " << constructor1 << " == " << constructor2 << endl);
+		CHECK( constructor2 == testingTimesEquals );
 	}
 
 	SECTION("Quaternion conversions with euler and rotation matrices") {
-		double M_PI = 3.141592653589793;
-		Math::Vector3f v1(M_PI/4.0,0,M_PI/4.0);
+		double PI = 3.141592653589793;
+		Math::Vector3f v1(PI/4.0,0,PI/4.0);
 		Math::Quaternionf testingEulerToQuat(0.3535533328235472,0.1464465516370091,0.3535533328235472,0.853553448362991);
 
 		//Test converting euler angles ZYX to quaternion
 		Math::Quaternionf convertedEuler = Math::Quaternionf::FromEuler(v1);
+		UNIT_TEST_OUTPUT(cout << "FromEuler" << v1 << " == " << convertedEuler << " == " << testingEulerToQuat << endl);
 		REQUIRE( quaternionFuzzyEquals(convertedEuler,testingEulerToQuat) );
 
 		//Test converting quaternion back to euler angles ZYX
+		UNIT_TEST_OUTPUT(cout << "ToEuler" << convertedEuler << " == " << v1 << endl);
 		REQUIRE( vectorFuzzyEquals(Math::Quaternionf::ToEuler(convertedEuler),v1) );
 
 		//Test converting quaternion to rotation matrix
-		Math::Vector3f r1(0.7071065431725605,0.7071070192004545,5.551115123125783e-17);
-		Math::Vector3f r2(-0.49999999999988676,0.49999966339744806,0.7071070192004545);
-		Math::Vector3f r3(0.5000003366025518,-0.49999999999988676,0.7071065431725605);
-		Math::Matrix3f rotationMatrix(r1,r2,r3);
+		Math::Vector4f r1(0.7071065431725605,0.7071070192004545,5.551115123125783e-17,0);
+		Math::Vector4f r2(-0.49999999999988676,0.49999966339744806,0.7071070192004545,0);
+		Math::Vector4f r3(0.5000003366025518,-0.49999999999988676,0.7071065431725605,0);
+		Math::Vector4f r4(0,0,0,1);
+		Math::Matrix4f rotationMatrix(r1,r2,r3,r4);
 		Math::Quaternionf q = testingEulerToQuat;
-		Math::Matrix3f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		UNIT_TEST_OUTPUT(cout << "ToRotationMatrix" << q << " == " << endl << generatedRotationMatrix << endl);
 		REQUIRE( matrixFuzzyEquals(rotationMatrix,generatedRotationMatrix) );
 	}
 
 	SECTION("Quaternion conversions with euler and rotation matrices part2") {
-		double M_PI = 3.141592653589793;
-		Math::Vector3f v1(3.0*M_PI/4.0,M_PI/3.0,M_PI/4.0);
+		double PI = 3.141592653589793;
+		Math::Vector3f v1(3.0*PI/4.0,PI/3.0,PI/4.0);
 		Math::Quaternionf testingEulerToQuat(0.6659757236952106,0.4829628838882861,-0.29995118873620663,0.4829621854873183);
 
 		//Test converting euler angles ZYX to quaternion
 		Math::Quaternionf convertedEuler = Math::Quaternionf::FromEuler(v1);
+		UNIT_TEST_OUTPUT(cout << "FromEuler" << v1 << " == " << convertedEuler << " == " << testingEulerToQuat << endl);
 		REQUIRE( quaternionFuzzyEquals(convertedEuler,testingEulerToQuat) );
 
 		//Test converting quaternion back to euler angles ZYX
+		UNIT_TEST_OUTPUT(cout << "ToEuler" << convertedEuler << " == " << v1 << endl);
 		REQUIRE( vectorFuzzyEquals(Math::Quaternionf::ToEuler(convertedEuler),v1) );
 
 		//Test converting quaternion to rotation matrix
-		Math::Vector3f r1(0.35355227432409286,0.35355294892773975,-0.866026039807557);
-		Math::Vector3f r2(0.9330132755339695,-0.06698876035124601,0.3535515997191588);
-		Math::Vector3f r3(0.06698519984022139,-0.9330127642701906,-0.35355362353009934);
-		Math::Matrix3f rotationMatrix(r1,r2,r3);
+		Math::Vector4f r1(0.35355227432409286,0.35355294892773975,-0.866026039807557,0);
+		Math::Vector4f r2(0.9330132755339695,-0.06698876035124601,0.3535515997191588,0);
+		Math::Vector4f r3(0.06698519984022139,-0.9330127642701906,-0.35355362353009934,0);
+		Math::Vector4f r4(0,0,0,1);
+		Math::Matrix4f rotationMatrix(r1,r2,r3,r4);
 		Math::Quaternionf q = testingEulerToQuat;
-		Math::Matrix3f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		UNIT_TEST_OUTPUT(cout << "ToRotationMatrix" << q << " == " << endl << generatedRotationMatrix << endl);
 		REQUIRE( matrixFuzzyEquals(rotationMatrix,generatedRotationMatrix) );
 	}
 }
+
+//************************* Transform *************************
+TEST_CASE( "Transform methods work correctly with float", "[math][transform]" ) {
+	using namespace Core;
+	double PI = 3.141592653589793;
+
+	Math::Vector3f zeroV(0,0,0);
+	Math::Quaternionf identityQ;
+	Math::Vector3f oneV(1,1,1);
+
+	Math::Transformf t;
+
+	REQUIRE( vectorFuzzyEquals(t.GetPosition(), zeroV) );
+	REQUIRE( quaternionFuzzyEquals(t.GetRotation(), identityQ) );
+	REQUIRE( vectorFuzzyEquals(t.GetScale(), oneV) );
+
+	SECTION("Transform world/parent operations") {
+		UNIT_TEST_OUTPUT(cout << endl << "***** Transform *****" << endl);
+		Math::Transformf t2(Math::Vector3f(1,0,0),Math::Quaternionf::AxisAngle(Math::Vector3f(0,1,0),PI/4.0),Math::Vector3f(3,3,3), &t);
+		Math::Transformf t3(t2);
+		t3.SetParentTransform(&t2);
+
+		Math::Vector4f v1(3/sqrt(2.0),0,-3/sqrt(2),0);
+		Math::Vector4f v2(0,3,0,0);
+		Math::Vector4f v3(3/sqrt(2.0),0,3/sqrt(2),0);
+		Math::Vector4f v4(1,0,0,1);
+		Math::Matrix4f m(v1,v2,v3,v4);
+
+		UNIT_TEST_OUTPUT(cout << "Transform World Matrix: " << endl << t2.GetWorldMatrix() << endl << " == " << endl << m << endl);
+		REQUIRE( matrixFuzzyEquals(t2.GetWorldMatrix(), m) );
+		UNIT_TEST_OUTPUT(cout << "TWM with parent as prev: " << endl << t3.GetWorldMatrix() << endl  << " == " << endl << m * m << endl);
+		REQUIRE( matrixFuzzyEquals(t3.GetWorldMatrix(), m * m) );
+	}
+}
+
+#endif
