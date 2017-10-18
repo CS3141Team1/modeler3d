@@ -93,7 +93,7 @@ public:
 	{
 		if(isDirty)
 		{
-			mCachedLocal = Matrix4<Type>::ToTranslationMatrix(mPosition) * Quaternion<Type>::ToRotationMatrix(mRotation) * Matrix4<Type>::ToScaleMatrix(mScale);
+			mCachedLocal = Matrix4<Type>::ToTranslation(mPosition) * Quaternion<Type>::ToRotation(mRotation) * Matrix4<Type>::ToScale(mScale);
 			MakeClean();
 		}
 		return mCachedLocal;

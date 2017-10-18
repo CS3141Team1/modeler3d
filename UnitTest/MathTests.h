@@ -1038,7 +1038,7 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][quaternion]" 
 		Math::Vector4f r4(0,0,0,1);
 		Math::Matrix4f rotationMatrix(r1,r2,r3,r4);
 		Math::Quaternionf q = testingEulerToQuat;
-		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotation(q);
 		UNIT_TEST_OUTPUT(cout << "ToRotationMatrix" << q << " == " << endl << generatedRotationMatrix << endl);
 		REQUIRE( matrixFuzzyEquals(rotationMatrix,generatedRotationMatrix) );
 	}
@@ -1064,7 +1064,7 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][quaternion]" 
 		Math::Vector4f r4(0,0,0,1);
 		Math::Matrix4f rotationMatrix(r1,r2,r3,r4);
 		Math::Quaternionf q = testingEulerToQuat;
-		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotationMatrix(q);
+		Math::Matrix4f generatedRotationMatrix = Math::Quaternionf::ToRotation(q);
 		UNIT_TEST_OUTPUT(cout << "ToRotationMatrix" << q << " == " << endl << generatedRotationMatrix << endl);
 		REQUIRE( matrixFuzzyEquals(rotationMatrix,generatedRotationMatrix) );
 	}
