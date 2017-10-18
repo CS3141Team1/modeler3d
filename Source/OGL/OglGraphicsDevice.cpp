@@ -1,5 +1,6 @@
 #include "OGL/OglGraphicsDevice.h"
 
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,6 +9,7 @@
 #include <GL/glu.h>
 
 #include "Math/ModelerMath.h"
+#include "Math/Matrix4.h"
 #include "OGL/OglGeometry.h"
 #include "OGL/OglVertexBuffer.h"
 
@@ -84,7 +86,16 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
     // bind current shader
     glUseProgram(mShader->GetId());
 
-//    Matrix4f projection;
+    // TODO real aspect ratio
+    Matrix4f projection = Math::GetPerspectiveMatrix(Math::ToRadians(70.0f), 1.3333f, 0.1f, 1000.0f);
+    Matrix4f view = Math::GetLookAtMatrix(Vector3f(0, 1, -5), Vector3f::Zero, Vector3f::Up);
+    Matrix4f model = Matrix4f::Identity;
+    Matrix3f normalMat(model);
+
+    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Projection"), 1, GL_FALSE, &projection[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "View"), 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Model"), 1, GL_FALSE, &model[0][0]);
+    glUniformMatrix3fv(glGetUniformLocation(mShader->GetId(), "NormalMat"), 1, GL_FALSE, &normalMat[0][0]);
 
 //    glMatrixMode(GL_PROJECTION);
 //    glLoadIdentity();

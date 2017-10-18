@@ -6,13 +6,15 @@
 #include "Types.h"
 #include "Vector3.h"
 #include "Vector4.h"
-#include "Matrix3.h"
 
 namespace Core
 {
 
 namespace Math
 {
+
+template <typename T>
+struct Matrix3;
 
 /**
  * Matrix4 representation using 3 Vector4 as columns.
@@ -342,7 +344,7 @@ static Matrix4<Type> GetLookAtMatrix(const Vector3<Type>& eye, const Vector3<Typ
 	lookat[1][2] = -f[1];
 	lookat[2][2] = -f[2];
 
-	lookat = GetTransformMatrix(-eye) * lookat;
+	lookat = ToTranslationMatrix(-eye) * lookat;
 
 	return lookat;
 }
@@ -354,44 +356,7 @@ static Matrix4<Type> GetLookAtMatrix(const Vector3<Type>& eye, const Vector3<Typ
  * @return Matrix4<Type> The inverse matrix
  */
 template <typename Type>
-Matrix4<Type> Inverse(Matrix4<Type> m)
-{
-	Type determinant = Determinant(m);
-	if(determinant == 0)
-	{
-		Matrix4<Type> ret(0); //return zero matrix
-		return ret;
-	}
-	Matrix4<Type> inverse(0); // inverse of matrix m
-
-	for(int32 i = 0; i < 4; ++i)
-	{
-		for(int32 j = 0; j < 4; ++j)
-		{
-			Math::Matrix3<Type> m3(0);
-			int32 xx = 0;
-			for(int32 x = 0; x < 4; ++x)
-			{
-				int32 yy = 0;
-				for(int32 y = 0; y < 4; ++y)
-				{
-					if(y != j) {
-						m3[xx][yy] = m[x][y];
-				 		yy += 1;
-					}
-				}
-				if(x != i)
-					xx += 1;
-			}
-			inverse[i][j] = std::pow(-1,i+j) * Math::Determinant(m3);
-		}
-	}
-
-	inverse = Transpose(inverse);
-	inverse /= determinant;
-
-	return inverse;
-}
+Matrix4<Type> Inverse(Matrix4<Type> m);
 
 /**
  * Returns the transpose of a 4x4 Matrix
@@ -420,21 +385,7 @@ Matrix4<Type> Transpose(Matrix4<Type>& m)
  * @return Type The determinant of m
  */
 template <typename Type>
-Type Determinant(Matrix4<Type>& m)
-{
-	Vector3<Type> v1(m[0][1],m[0][2],m[0][3]);
-	Vector3<Type> v2(m[1][1],m[1][2],m[1][3]);
-	Vector3<Type> v3(m[2][1],m[2][2],m[2][3]);
-	Vector3<Type> v4(m[3][1],m[3][2],m[3][3]);
-
-	Matrix3<Type> m1(v2,v3,v4);
-	Matrix3<Type> m2(v1,v3,v4);
-	Matrix3<Type> m3(v1,v2,v4);
-	Matrix3<Type> m4(v1,v2,v3);
-	Type det = m[0][0] * Math::Determinant(m1) - m[1][0] * Math::Determinant(m2) +
-			m[2][0] * Math::Determinant(m3) - m[3][0] * Math::Determinant(m4);
-	return det;
-}
+Type Determinant(Matrix4<Type>& m);
 
 //To string
 template <typename Type>
@@ -467,6 +418,67 @@ typedef Matrix4<int32> Matrix4i;
 typedef Matrix4<uint32> Matrix4ui;
 typedef Matrix4<int64> Matrix4l;
 typedef Matrix4<uint64> Matrix4ul;
+
+}}
+#include "Matrix3.h"
+namespace Core { namespace Math {
+
+template <typename Type>
+Type Determinant(Matrix4<Type>& m)
+{
+    Vector3<Type> v1(m[0][1],m[0][2],m[0][3]);
+    Vector3<Type> v2(m[1][1],m[1][2],m[1][3]);
+    Vector3<Type> v3(m[2][1],m[2][2],m[2][3]);
+    Vector3<Type> v4(m[3][1],m[3][2],m[3][3]);
+
+    Matrix3<Type> m1(v2,v3,v4);
+    Matrix3<Type> m2(v1,v3,v4);
+    Matrix3<Type> m3(v1,v2,v4);
+    Matrix3<Type> m4(v1,v2,v3);
+    Type det = m[0][0] * Math::Determinant(m1) - m[1][0] * Math::Determinant(m2) +
+            m[2][0] * Math::Determinant(m3) - m[3][0] * Math::Determinant(m4);
+    return det;
+}
+
+template <typename Type>
+Matrix4<Type> Inverse(Matrix4<Type> m)
+{
+    Type determinant = Determinant(m);
+    if(determinant == 0)
+    {
+        Matrix4<Type> ret(0); //return zero matrix
+        return ret;
+    }
+    Matrix4<Type> inverse(0); // inverse of matrix m
+
+    for(int32 i = 0; i < 4; ++i)
+    {
+        for(int32 j = 0; j < 4; ++j)
+        {
+            Math::Matrix3<Type> m3(0);
+            int32 xx = 0;
+            for(int32 x = 0; x < 4; ++x)
+            {
+                int32 yy = 0;
+                for(int32 y = 0; y < 4; ++y)
+                {
+                    if(y != j) {
+                        m3[xx][yy] = m[x][y];
+                        yy += 1;
+                    }
+                }
+                if(x != i)
+                    xx += 1;
+            }
+            inverse[i][j] = std::pow(-1,i+j) * Math::Determinant(m3);
+        }
+    }
+
+    inverse = Transpose(inverse);
+    inverse /= determinant;
+
+    return inverse;
+}
 
 }
 
