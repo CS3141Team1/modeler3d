@@ -5,6 +5,7 @@
 #include "Types.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include "Matrix4.h"
 
 namespace Core
 {
@@ -132,7 +133,7 @@ struct Quaternion
 	 * @param q Quaternion<Type> the quaternion to convert
 	 * @return Matrix3<Type> The rotation matrix of q
 	 */
-	static Matrix4<Type> ToRotationMatrix(const Quaternion<Type>& q)
+	static Matrix4<Type> ToRotation(const Quaternion<Type>& q)
 	{
 		Matrix4<Type> ret;
 		Type y2 = q.Y * q.Y;
@@ -355,7 +356,7 @@ std::ostream& operator<<(std::ostream& out, const Quaternion<Type>& q)
 }
 
 template <typename Type>
-std::string toString(Quaternion<Type> q) {
+std::string ToString(Quaternion<Type> q) {
 	std::string ret = "";
 	ret += "(" + std::to_string(q.X) + ", " + std::to_string(q.Y) + ", " + std::to_string(q.Z) + ", " + std::to_string(q.W) + ")";
 	return ret;
