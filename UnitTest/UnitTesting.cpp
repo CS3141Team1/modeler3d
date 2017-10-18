@@ -1,5 +1,5 @@
-#define DO_UNIT_TESTING    1
-#define SHOW_SAMPLE_OUTPUT 1
+#define DO_UNIT_TESTING    0
+#define SHOW_SAMPLE_OUTPUT 0
 
 #if DO_UNIT_TESTING==1
 
