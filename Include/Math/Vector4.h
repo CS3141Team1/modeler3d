@@ -135,7 +135,7 @@ std::ostream& operator<<(std::ostream& out, const Vector4<Type>& v)
 }
 
 template <typename Type>
-std::string toString(Vector4<Type> v) {
+std::string ToString(Vector4<Type> v) {
 	std::string ret = "";
 	ret += "(" + std::to_string(v.X) + ", " + std::to_string(v.Y) + ", " + std::to_string(v.Z) + ", " + std::to_string(v.W) + ")";
 	return ret;
