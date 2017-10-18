@@ -133,7 +133,7 @@ struct Quaternion
 	 * @param q Quaternion<Type> the quaternion to convert
 	 * @return Matrix3<Type> The rotation matrix of q
 	 */
-	static Matrix4<Type> ToRotationMatrix(const Quaternion<Type>& q)
+	static Matrix4<Type> ToRotation(const Quaternion<Type>& q)
 	{
 		Matrix4<Type> ret;
 		Type y2 = q.Y * q.Y;

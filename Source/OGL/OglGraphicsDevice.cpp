@@ -63,7 +63,6 @@ void OglGraphicsDevice::Clear(bool color, bool depth)
 void OglGraphicsDevice::SetGeometry(IGeometry* geom)
 {
     mGeometry = dynamic_cast<OglGeometry*>(geom);
-    cout << "Geometry: " << mGeometry << endl;
 }
 
 IShader* OglGraphicsDevice::CreateShader(const std::string& vertex,
@@ -75,7 +74,6 @@ IShader* OglGraphicsDevice::CreateShader(const std::string& vertex,
 void OglGraphicsDevice::SetShader(IShader* shader)
 {
     mShader = dynamic_cast<OglShader*>(shader);
-    cout << "Shader: " << mShader << endl;
 }
 
 void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
@@ -87,8 +85,8 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
     glUseProgram(mShader->GetId());
 
     // TODO real aspect ratio
-    Matrix4f projection = Math::GetPerspectiveMatrix(Math::ToRadians(70.0f), 1.3333f, 0.1f, 1000.0f);
-    Matrix4f view = Math::GetLookAtMatrix(Vector3f(0, 1, -5), Vector3f::Zero, Vector3f::Up);
+    Matrix4f projection = Math::Matrix4f::ToPerspective(Math::ToRadians(70.0f), 1.3333f, 0.1f, 1000.0f);
+    Matrix4f view = Math::Matrix4f::ToLookAt(Vector3f(0, 1, -5), Vector3f::Zero, Vector3f::Up);
     Matrix4f model = Matrix4f::Identity;
     Matrix3f normalMat(model);
 
