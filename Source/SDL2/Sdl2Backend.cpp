@@ -21,7 +21,9 @@ Sdl2Backend::~Sdl2Backend()
 
 void Sdl2Backend::Init()
 {
-    InitSdl2();
+//    InitSdl2();
+
+    mGraphics.Init();
 }
 
 void Sdl2Backend::Destroy()
