@@ -2,11 +2,6 @@
 
 #if DO_UNIT_TESTING==1
 
-#define UNIT_TEST_OUTPUT(command) \
-	if (SHOW_SAMPLE_OUTPUT) { \
-		command; \
-	}
-
 #include <iostream>
 #include <cmath>
 
@@ -76,8 +71,8 @@ TEST_CASE( "Vector2 methods work correctly with int", "[math][vector][vector-2]"
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector2 struct using int") {
-		CHECK( Math::toString(constructor1) == "(2, 2)" );
-		CHECK( Math::toString(constructor2) == "(2, 3)" );
+		CHECK( Math::ToString(constructor1) == "(2, 2)" );
+		CHECK( Math::ToString(constructor2) == "(2, 3)" );
 
 		REQUIRE( Math::Length(constructor1) == 2 ); //real 2.8, should truncate to maintain type
 		REQUIRE( Math::LengthSq(constructor1) == 8 );
@@ -132,8 +127,8 @@ TEST_CASE( "Vector2 methods work correctly with float", "[math][vector][vector-2
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector2 struct using float") {
-		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000)" );
-		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000)" );
+		CHECK( Math::ToString(constructor1) == "(2.000000, 2.000000)" );
+		CHECK( Math::ToString(constructor2) == "(2.000000, 3.500000)" );
 
 		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(8)) );
 		REQUIRE( Math::LengthSq(constructor1) == Approx(8.0) );
@@ -193,8 +188,8 @@ TEST_CASE( "Vector3 methods work correctly with int", "[math][vector][vector-3]"
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector3 struct using int") {
-		CHECK( Math::toString(constructor1) == "(2, 2, 2)" );
-		CHECK( Math::toString(constructor2) == "(2, 3, 4)" );
+		CHECK( Math::ToString(constructor1) == "(2, 2, 2)" );
+		CHECK( Math::ToString(constructor2) == "(2, 3, 4)" );
 
 		REQUIRE( Math::Length(constructor1) == 3 ); //real 3.4, should truncate to maintain type
 		REQUIRE( Math::LengthSq(constructor1) == 12 );
@@ -248,8 +243,8 @@ TEST_CASE( "Vector3 methods work correctly with float", "[math][vector][vector-3
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector3 struct using float") {
-		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000, 2.000000)" );
-		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000, 4.500000)" );
+		CHECK( Math::ToString(constructor1) == "(2.000000, 2.000000, 2.000000)" );
+		CHECK( Math::ToString(constructor2) == "(2.000000, 3.500000, 4.500000)" );
 
 		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(12.0)) );
 		REQUIRE( Math::LengthSq(constructor1) == Approx(12.0) );
@@ -315,8 +310,8 @@ TEST_CASE( "Vector4 methods work correctly with int", "[math][vector][vector-4]"
 	REQUIRE( constructor1 == constructor3 );
 
 	SECTION("methods outside of the Vector4 struct using int") {
-		CHECK( Math::toString(constructor1) == "(2, 2, 2, 2)" );
-		CHECK( Math::toString(constructor2) == "(2, 3, 4, 5)" );
+		CHECK( Math::ToString(constructor1) == "(2, 2, 2, 2)" );
+		CHECK( Math::ToString(constructor2) == "(2, 3, 4, 5)" );
 
 		REQUIRE( Math::Length(constructor1) == 4 );
 		REQUIRE( Math::LengthSq(constructor1) == 16 );
@@ -368,8 +363,8 @@ TEST_CASE( "Vector4 methods work correctly with float", "[math][vector][vector-4
 
 	SECTION("methods outside of the Vector4 struct using float") {
 		UNIT_TEST_OUTPUT(cout << "***** Vector3 *****" << endl);
-		CHECK( Math::toString(constructor1) == "(2.000000, 2.000000, 2.000000, 2.000000)" );
-		CHECK( Math::toString(constructor2) == "(2.000000, 3.500000, 4.500000, 5.500000)" );
+		CHECK( Math::ToString(constructor1) == "(2.000000, 2.000000, 2.000000, 2.000000)" );
+		CHECK( Math::ToString(constructor2) == "(2.000000, 3.500000, 4.500000, 5.500000)" );
 
 		REQUIRE( Math::Length(constructor1) == Approx(std::sqrt(16.0)) );
 		REQUIRE( Math::LengthSq(constructor1) == Approx(16.0) );

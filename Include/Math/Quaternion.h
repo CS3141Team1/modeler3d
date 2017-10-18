@@ -5,6 +5,7 @@
 #include "Types.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include "Matrix4.h"
 
 namespace Core
 {
@@ -355,7 +356,7 @@ std::ostream& operator<<(std::ostream& out, const Quaternion<Type>& q)
 }
 
 template <typename Type>
-std::string toString(Quaternion<Type> q) {
+std::string ToString(Quaternion<Type> q) {
 	std::string ret = "";
 	ret += "(" + std::to_string(q.X) + ", " + std::to_string(q.Y) + ", " + std::to_string(q.Z) + ", " + std::to_string(q.W) + ")";
 	return ret;
