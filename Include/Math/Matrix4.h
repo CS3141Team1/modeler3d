@@ -36,7 +36,7 @@ struct Matrix4
 		mMatrix[0] = Math::Vector4<Type>(1,0,0,0);
 		mMatrix[1] = Math::Vector4<Type>(0,1,0,0);
 		mMatrix[2] = Math::Vector4<Type>(0,0,1,0);
-		mMatrix[2] = Math::Vector4<Type>(0,0,0,1);
+		mMatrix[3] = Math::Vector4<Type>(0,0,0,1);
 	}
 	Matrix4(const Type& s)
 	{
@@ -164,6 +164,190 @@ Vector4<Type> operator*(const Matrix4<Type>& m, const Vector4<Type2>& v)
 }
 
 /**
+ * Generates a 4x4 translation matrix from a Vector3
+ *
+ * @oaram v A vector3 to generate translation matrix from
+ * @return the translation matrix
+ */
+template <typename Type>
+static Matrix4<Type> ToTranslationMatrix(const Vector3<Type>& v)
+{
+	Matrix4<Type> translation;
+
+	translation[3][0] = v[0];
+	translation[3][1] = v[1];
+	translation[3][2] = v[2];
+
+	return translation;
+}
+
+/**
+ * Generates a 4x4 translation matrix from a Vector3
+ *
+ * @oaram v A vector3 to generate translation matrix from
+ * @return the translation matrix
+ */
+template <typename Type>
+static Matrix4<Type> ToScaleMatrix(const Vector3<Type>& v)
+{
+	Matrix4<Type> scale;
+
+	scale[0][0] = v[0];
+	scale[1][1] = v[1];
+	scale[2][2] = v[2];
+
+	return scale;
+}
+
+/**
+ * Generates a 4x4 rotation matrix from a radian angle for the roll (z)
+ *
+ * @oaram theta A radian angle to generate roll matrix from
+ * @return the rotation matrix for roll
+ */
+template <typename Type>
+static Matrix4<Type> GetRollMatrix(const Type& theta)
+{
+	Matrix4<Type> roll;
+	Type c = std::cos(theta);
+	Type s = std::sin(theta);
+
+	roll[0][0] = c;
+	roll[1][0] = -s;
+	roll[0][1] = s;
+	roll[1][1] = c;
+
+	return roll;
+}
+
+/**
+ * Generates a 4x4 rotation matrix from a radian angle for the yaw (y)
+ *
+ * @oaram theta A radian angle to generate yaw matrix from
+ * @return the rotation matrix for yaw
+ */
+template <typename Type>
+static Matrix4<Type> GetYawMatrix(const Type& theta)
+{
+	Matrix4<Type> yaw;
+	Type c = std::cos(theta);
+	Type s = std::sin(theta);
+
+	yaw[0][0] = c;
+	yaw[2][0] = s;
+	yaw[0][2] = -s;
+	yaw[2][2] = c;
+
+	return yaw;
+}
+
+/**
+ * Generates a 4x4 rotation matrix from a radian angle for the pitch (x)
+ *
+ * @oaram theta A radian angle to generate pitch matrix from
+ * @return the rotation matrix for pitch
+ */
+template <typename Type>
+static Matrix4<Type> GetPitchMatrix(const Type& theta)
+{
+	Matrix4<Type> pitch;
+	Type c = std::cos(theta);
+	Type s = std::sin(theta);
+
+	pitch[1][1] = c;
+	pitch[2][1] = -s;
+	pitch[1][2] = s;
+	pitch[2][2] = c;
+
+	return pitch;
+}
+
+/**
+ * Get perspective matrix
+ *
+ * @param fov fields of view in radians
+ * @param ar aspect ratio
+ * @param n near distance
+ * @param f far distance
+ *
+ * @return Matrix4<Type> the perspective matrix
+ */
+template <typename Type>
+static Matrix4<Type> GetPerspectiveMatrix(Type fov, Type ar, Type n, Type f)
+{
+	Type S = 1.0 / (std::tan(fov/2.0));
+	Matrix4<Type> perspective;
+
+	perspective[0][0] = S / ar;
+	perspective[1][1] = S;
+	perspective[2][2] = (f + n) / (f - n);
+	perspective[2][3] = -1;
+	perspective[3][2] = (2.0 * f * n) / (f - n);
+
+	return perspective;
+}
+
+/**
+ * Get orthographic matrix
+ *
+ * @param n near distance
+ * @param f far distance
+ * @param r right coord
+ * @param l left coord
+ * @param t top coord
+ * @param b bottom coord
+ *
+ * @return Matrix4<Type> the perspective matrix
+ */
+template <typename Type>
+static Matrix4<Type> GetOrthographicMatrix(Type n, Type f, Type r, Type l, Type t, Type b)
+{
+	Matrix4<Type> orthographic;
+
+	orthographic[0][0] = 2.0 / (r - l);
+	orthographic[1][1] = 2.0 / (t - b);
+	orthographic[2][2] = -2.0 / (f - n);
+	orthographic[3][2] = -(f + n) / (f - n);
+
+	return orthographic;
+}
+
+/**
+ * Get lookat matrix
+ *
+ * @param eye Vector3 position of camera
+ * @param target Vector3 view target
+ * @param up Vector3 direction of up, default (0,1,0)
+ *
+ * @return Matrix4<Type> the perspective matrix
+ */
+template <typename Type>
+static Matrix4<Type> GetLookAtMatrix(const Vector3<Type>& eye, const Vector3<Type> target, const Vector3<Type> up = Vector3<Type>(0,1,0))
+{
+	Matrix4<Type> lookat;
+
+	Vector3<Type> f = Normalize(target - eye);
+	Vector3<Type> s = Normalize(Cross(f, up));
+	Vector3<Type> Y = Normalize(Cross(s,f));
+
+	lookat[0][0] = s[0];
+	lookat[1][0] = s[1];
+	lookat[2][0] = s[2];
+
+	lookat[0][1] = Y[0];
+	lookat[1][1] = Y[1];
+	lookat[2][1] = Y[2];
+
+	lookat[0][2] = -f[0];
+	lookat[1][2] = -f[1];
+	lookat[2][2] = -f[2];
+
+	lookat = GetTransformMatrix(-eye) * lookat;
+
+	return lookat;
+}
+
+/**
  * Returns the inverse of a 4x4 Matrix
  *
  * @param m A Matrix4<Type>
@@ -193,7 +377,7 @@ Matrix4<Type> Inverse(Matrix4<Type> m)
 				{
 					if(y != j) {
 						m3[xx][yy] = m[x][y];
-						yy += 1;
+				 		yy += 1;
 					}
 				}
 				if(x != i)
