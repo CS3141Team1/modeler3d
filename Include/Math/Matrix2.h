@@ -214,7 +214,7 @@ std::ostream& operator<<(std::ostream& out, const Matrix2<Type>& m)
 }
 
 template <typename Type>
-std::string toString(Matrix2<Type> m) {
+std::string ToString(Matrix2<Type> m) {
 	std::string ret = "";
 	ret += "[" + m.mMatrix[0][0] + ", " + m.mMatrix[1][0] + "]" + std::endl
     		+ "[" + m.mMatrix[0][1] + ", " + m.mMatrix[1][1] + "]";

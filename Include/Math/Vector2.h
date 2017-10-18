@@ -173,7 +173,7 @@ std::ostream& operator<<(std::ostream& out, const Vector2<Type>& v)
 }
 
 template <typename Type>
-std::string toString(Vector2<Type> v) {
+std::string ToString(Vector2<Type> v) {
 	std::string ret = "";
 	ret += "(" + std::to_string(v.X) + ", " + std::to_string(v.Y) + ")";
 	return ret;
