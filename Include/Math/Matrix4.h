@@ -148,7 +148,7 @@ struct Matrix4
      * @oaram v A vector3 to generate translation matrix from
      * @return the translation matrix
      */
-    static Matrix4<Type> ToTranslationMatrix(const Vector3<Type>& v)
+    static Matrix4<Type> ToTranslation(const Vector3<Type>& v)
     {
     	Matrix4<Type> translation;
 
@@ -165,7 +165,7 @@ struct Matrix4
      * @oaram v A vector3 to generate translation matrix from
      * @return the translation matrix
      */
-    static Matrix4<Type> ToScaleMatrix(const Vector3<Type>& v)
+    static Matrix4<Type> ToScale(const Vector3<Type>& v)
     {
     	Matrix4<Type> scale;
 
@@ -182,7 +182,7 @@ struct Matrix4
      * @oaram theta A radian angle to generate roll matrix from
      * @return the rotation matrix for roll
      */
-    static Matrix4<Type> GetRollMatrix(const Type& theta)
+    static Matrix4<Type> ToRoll(const Type& theta)
     {
     	Matrix4<Type> roll;
     	Type c = std::cos(theta);
@@ -202,7 +202,7 @@ struct Matrix4
      * @oaram theta A radian angle to generate yaw matrix from
      * @return the rotation matrix for yaw
      */
-    static Matrix4<Type> GetYawMatrix(const Type& theta)
+    static Matrix4<Type> ToYaw(const Type& theta)
     {
     	Matrix4<Type> yaw;
     	Type c = std::cos(theta);
@@ -222,7 +222,7 @@ struct Matrix4
      * @oaram theta A radian angle to generate pitch matrix from
      * @return the rotation matrix for pitch
      */
-    static Matrix4<Type> GetPitchMatrix(const Type& theta)
+    static Matrix4<Type> ToPitch(const Type& theta)
     {
     	Matrix4<Type> pitch;
     	Type c = std::cos(theta);
@@ -246,7 +246,7 @@ struct Matrix4
      *
      * @return Matrix4<Type> the perspective matrix
      */
-    static Matrix4<Type> GetPerspectiveMatrix(Type fov, Type ar, Type n, Type f)
+    static Matrix4<Type> ToPerspective(Type fov, Type ar, Type n, Type f)
     {
     	Type S = 1.0 / (std::tan(fov/2.0));
     	Matrix4<Type> perspective;
@@ -272,7 +272,7 @@ struct Matrix4
      *
      * @return Matrix4<Type> the perspective matrix
      */
-    static Matrix4<Type> GetOrthographicMatrix(Type n, Type f, Type r, Type l, Type t, Type b)
+    static Matrix4<Type> ToOrthographic(Type n, Type f, Type r, Type l, Type t, Type b)
     {
     	Matrix4<Type> orthographic;
 
@@ -293,7 +293,7 @@ struct Matrix4
      *
      * @return Matrix4<Type> the perspective matrix
      */
-    static Matrix4<Type> GetLookAtMatrix(const Vector3<Type>& eye, const Vector3<Type> target, const Vector3<Type> up = Vector3<Type>(0,1,0))
+    static Matrix4<Type> ToLookAt(const Vector3<Type>& eye, const Vector3<Type> target, const Vector3<Type> up = Vector3<Type>(0,1,0))
     {
     	Matrix4<Type> lookat;
 
