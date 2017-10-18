@@ -10,6 +10,7 @@ namespace Math
 
 /**
  * Transform class to track positions, rotations, and scales
+ * as well as the local and world matrix
  *
  * @tparam the datatype for the transform
  */
@@ -21,6 +22,10 @@ private:
 	Quaternion<Type> mRotation;
 	Vector3<Type> mScale;
 	Transform* mParentTransform;
+
+	Matrix4<Type> mCachedLocal = NULL;
+	Matrix4<Type> mCachedWorld = NULL;
+	bool isDirty = true;
 
 public:
 	Transform(Transform* ParentTransform = nullptr) : mPosition(0), mRotation(0,0,0,1), mScale(1), mParentTransform(ParentTransform) {}
@@ -41,6 +46,12 @@ public:
 	Vector3<Type> GetPosition() const { return mPosition; }
 	Quaternion<Type> GetRotation() const { return mRotation; }
 	Vector3<Type> GetScale() const { return mScale; }
+	bool GetIsWorldDirty() const
+	{
+		if(mParentTransform == nullptr)
+			return isDirty;
+		return isDirty || mParentTransform->GetIsWorldDirty();
+	}
 
 	/**
 	 * Translate the position by the passed in Vector3
@@ -48,26 +59,29 @@ public:
 	 * @param v Vector3<Type> to translate by
 	 * @return a reference to this transform
 	 */
-	Transform& Translate(Vector3<Type> v) { mPosition += v; return *this; }
+	Transform& Translate(Vector3<Type> v) { mPosition += v; MakeDirty(); return *this; }
 	/**
 	 * Rotate by the passed in quaternion
 	 *
 	 * @param q Quaternion<Type> to rotate by
 	 * @return a reference to this transform
 	 */
-	Transform& Rotate(Quaternion<Type> q) { mRotation = Normalize(mRotation * Normlize(q)); return *this; }
+	Transform& Rotate(Quaternion<Type> q) { mRotation = Normalize(mRotation * Normlize(q)); MakeDirty(); return *this; }
 	/**
 	 * Scale by the passed in Vector3
 	 *
 	 * @param v Vector3<Type> to scale by
 	 * @return a reference to this transform
 	 */
-	Transform& Scale(Vector3<Type> s) { mScale *= s; return *this; }
+	Transform& Scale(Vector3<Type> s) { mScale *= s; MakeDirty(); return *this; }
 
-	void SetParentTransform(Transform* t) { mParentTransform = t; }
-	void SetPosition(Vector3<Type> v) { mPosition = v; }
-	void SetRotation(Quaternion<Type> q) { mRotation = Normlize(q); }
-	void SetScale(Vector3<Type> s) { mScale = s; }
+	void SetParentTransform(Transform* t) { mParentTransform = t; MakeDirty(); }
+	void SetPosition(Vector3<Type> v) { mPosition = v; MakeDirty(); }
+	void SetRotation(Quaternion<Type> q) { mRotation = Normlize(q); MakeDirty(); }
+	void SetScale(Vector3<Type> s) { mScale = s; MakeDirty(); }
+
+	void MakeDirty() { isDirty = true; }
+	void MakeClean() { isDirty = false; }
 
 	/**
 	 * Get the local matrix for this transform, Translation * Rotation * Scale
@@ -75,7 +89,15 @@ public:
 	 *
 	 * @return A Matrix4<Type> local matrix
 	 */
-	Matrix4<Type> GetLocalMatrix() { return ToTranslationMatrix(mPosition) * Quaternion<Type>::ToRotationMatrix(mRotation) * ToScaleMatrix(mScale); }
+	Matrix4<Type> GetLocalMatrix()
+	{
+		if(isDirty)
+		{
+			mCachedLocal = ToTranslationMatrix(mPosition) * Quaternion<Type>::ToRotationMatrix(mRotation) * ToScaleMatrix(mScale);
+			MakeClean();
+		}
+		return mCachedLocal;
+	}
 	/**
 	 * Get the world matrix for this transform, which is either
 	 * the local matrix if no parent or local multiplied by
@@ -85,14 +107,18 @@ public:
 	 */
 	Matrix4<Type> GetWorldMatrix()
 	{
-		if(mParentTransform == nullptr)
+		if(GetIsWorldDirty())
 		{
-			return GetLocalMatrix();
+			if(mParentTransform == nullptr)
+			{
+				mCachedWorld = GetLocalMatrix();
+			}
+			else
+			{
+				mCachedWorld = GetLocalMatrix() * mParentTransform->GetWorldMatrix();
+			}
 		}
-		else
-		{
-			return GetLocalMatrix() * mParentTransform->GetWorldMatrix();
-		}
+		return mCachedWorld;
 	}
 };
 
