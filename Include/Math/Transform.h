@@ -23,8 +23,8 @@ private:
 	Vector3<Type> mScale;
 	Transform* mParentTransform;
 
-	Matrix4<Type> mCachedLocal = NULL;
-	Matrix4<Type> mCachedWorld = NULL;
+	Matrix4<Type> mCachedLocal;
+	Matrix4<Type> mCachedWorld;
 	bool isDirty = true;
 
 public:
@@ -93,7 +93,7 @@ public:
 	{
 		if(isDirty)
 		{
-			mCachedLocal = ToTranslationMatrix(mPosition) * Quaternion<Type>::ToRotationMatrix(mRotation) * ToScaleMatrix(mScale);
+			mCachedLocal = Matrix4<Type>::ToTranslationMatrix(mPosition) * Quaternion<Type>::ToRotationMatrix(mRotation) * Matrix4<Type>::ToScaleMatrix(mScale);
 			MakeClean();
 		}
 		return mCachedLocal;
