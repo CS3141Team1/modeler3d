@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "Types.h"
@@ -69,6 +70,16 @@ public:
     uint GetElementCount() const { return mElems.size(); }
     const VertexElement& GetElement(uint index) const { return mElems[index]; }
     const VertexElement& operator[](uint index) const { return GetElement(index); }
+
+    uint GetOffsetOf(uint index) const
+    {
+        uint total = 0;
+        for (uint i = 0; i < index; i++)
+        {
+            total += GetElement(i).GetSizeInBytes();
+        }
+        return total;
+    }
 
     VertexFormat& AddElement(VertexElement elem)
     {

@@ -301,21 +301,21 @@ struct Matrix4
 
     	Vector3<Type> f = Normalize(target - eye);
     	Vector3<Type> s = Normalize(Cross(f, up));
-    	Vector3<Type> Y = Normalize(Cross(s,f));
+    	Vector3<Type> y = Normalize(Cross(s, f));
 
     	lookat[0][0] = s[0];
     	lookat[1][0] = s[1];
     	lookat[2][0] = s[2];
 
-    	lookat[0][1] = Y[0];
-    	lookat[1][1] = Y[1];
-    	lookat[2][1] = Y[2];
+    	lookat[0][1] = y[0];
+    	lookat[1][1] = y[1];
+    	lookat[2][1] = y[2];
 
     	lookat[0][2] = -f[0];
     	lookat[1][2] = -f[1];
     	lookat[2][2] = -f[2];
 
-    	lookat = ToTranslation(-eye) * lookat;
+    	lookat *= ToTranslation(-eye);
 
     	return lookat;
     }
