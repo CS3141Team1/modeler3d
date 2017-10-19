@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Math/VectorMath.h"
+#include "Math/MathUtil.h"
 #include "Math/MatrixMath.h"
 #include "Math/Quaternion.h"
 #include "Math/Transform.h"

@@ -12,6 +12,9 @@ namespace Core
 namespace Math
 {
 
+template <typename Type>
+struct Matrix4;
+
 /**
  * Matrix3 representation using 3 Vector3 as columns.
  *
@@ -67,6 +70,9 @@ struct Matrix3
 		mMatrix[1] = y;
 		mMatrix[2] = z;
 	}
+
+	template <typename Type2>
+	Matrix3(const Matrix4<Type2>& a);
 
 	//Array access overload
 	const Math::Vector3<Type>& operator[](uint i) const { return mMatrix[i]; }
@@ -258,6 +264,19 @@ typedef Matrix3<int32> Matrix3i;
 typedef Matrix3<uint32> Matrix3ui;
 typedef Matrix3<int64> Matrix3l;
 typedef Matrix3<uint64> Matrix3ul;
+
+}}
+#include "Matrix4.h"
+namespace Core { namespace Math {
+
+template <typename Type>
+template <typename Type2>
+Matrix3<Type>::Matrix3(const Matrix4<Type2>& a)
+{
+    mMatrix[0] = Vector3<Type2>(a[0][0], a[0][1], a[0][2]);
+    mMatrix[1] = Vector3<Type2>(a[1][0], a[1][1], a[1][2]);
+    mMatrix[2] = Vector3<Type2>(a[2][0], a[2][1], a[2][2]);
+}
 
 }
 
