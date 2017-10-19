@@ -53,7 +53,7 @@ OglGraphicsDevice::~OglGraphicsDevice()
 
 void OglGraphicsDevice::Init()
 {
-
+    glEnable(GL_DEPTH_TEST);
 }
 
 void OglGraphicsDevice::SetClearColor(float32 r, float32 g, float32 b, float32 a)
@@ -113,7 +113,7 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
 
     // TODO real aspect ratio
     Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), 1.3333f, 0.1f, 1000.0f);
-    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 0, -1), Vector3f::Zero, Vector3f::Up);
+    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
     Matrix4f model = Matrix4f::ToYaw(Angle);
     Matrix3f normalMat(Inverse(Transpose(model)));
 
