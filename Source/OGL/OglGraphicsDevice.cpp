@@ -109,12 +109,12 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
     // bind current shader
     glUseProgram(mShader->GetId());
 
-    Angle += Math::ToRadians(1.0);
+    Angle += Math::ToRadians(0.3);
 
     // TODO real aspect ratio
     Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), 1.3333f, 0.1f, 1000.0f);
     Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
-    Matrix4f model = Matrix4f::ToYaw(Angle);
+    Matrix4f model = Matrix4f::ToYaw(Angle) * Matrix4f::ToPitch(Angle * 1.3) * Matrix4f::ToRoll(Angle * 1.7);
     Matrix3f normalMat(Inverse(Transpose(model)));
 
 //    cout << "Matrices" << endl;
@@ -126,6 +126,8 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
     glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "View"), 1, GL_FALSE, &view[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Model"), 1, GL_FALSE, &model[0][0]);
     glUniformMatrix3fv(glGetUniformLocation(mShader->GetId(), "NormalMat"), 1, GL_FALSE, &normalMat[0][0]);
+
+//    glUniform3f(glGetUniformLocation(mShader->GetId(), "CameraPosition"), 0, 0, 2);
 
     unordered_set<int> usedAttribs;
 
