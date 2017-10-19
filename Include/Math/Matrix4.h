@@ -250,14 +250,15 @@ struct Matrix4
      */
     static Matrix4<Type> ToPerspective(Type fov, Type ar, Type n, Type f)
     {
-    	Type S = 1.0 / (std::tan(fov/2.0));
+    	Type S = 1.0 / (std::tan(fov * 0.5));
     	Matrix4<Type> perspective;
 
     	perspective[0][0] = S / ar;
     	perspective[1][1] = S;
-    	perspective[2][2] = (f + n) / (f - n);
+    	perspective[2][2] = (f + n) / (n - f);
     	perspective[2][3] = -1;
-    	perspective[3][2] = (2.0 * f * n) / (f - n);
+    	perspective[3][2] = (2.0 * f * n) / (n - f);
+    	perspective[3][3] = 0;
 
     	return perspective;
     }
