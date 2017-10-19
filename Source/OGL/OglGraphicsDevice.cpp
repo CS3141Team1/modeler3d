@@ -127,8 +127,6 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
     glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Model"), 1, GL_FALSE, &model[0][0]);
     glUniformMatrix3fv(glGetUniformLocation(mShader->GetId(), "NormalMat"), 1, GL_FALSE, &normalMat[0][0]);
 
-//    glUniform3f(glGetUniformLocation(mShader->GetId(), "CameraPosition"), 0, 0, 2);
-
     unordered_set<int> usedAttribs;
 
     for (uint i = 0; i < mGeometry->GetVertexBufferCount(); i++)
