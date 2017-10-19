@@ -8,7 +8,7 @@
 #include "Types.h"
 
 #include "Math/ModelerMath.h"
-#include "Sdl2/Sdl2Window.h"
+#include "SDL2/Sdl2Window.h"
 #include "SDL2/Sdl2Backend.h"
 
 using namespace Core;

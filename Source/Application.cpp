@@ -38,7 +38,7 @@ void Application::Stop()
 
 void Application::UpdateLoop()
 {
-//    Backend->Init();
+    Backend->Init();
     Window->SetVisible(true);
     OnInit();
 

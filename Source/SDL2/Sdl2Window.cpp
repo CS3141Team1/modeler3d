@@ -1,5 +1,6 @@
 #include "SDL2/Sdl2Window.h"
 
+#include <iostream>
 #include <string>
 
 #include <SDL2/SDL.h>
@@ -19,6 +20,10 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
       mVisible(false),
       mWindow(nullptr)
 {
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
     mWindow = SDL_CreateWindow
     (
             title.c_str(),
@@ -28,6 +33,14 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
     );
 
     mContext = SDL_GL_CreateContext(mWindow);
+
+    const char* version = (const char*)glGetString(GL_VERSION);
+    std::cout << version << std::endl;
+//    delete[] version;
+
+    version = (const char*)glGetString(GL_RENDERER);
+    std::cout << version << std::endl;
+//    delete[] version;
 }
 
 Sdl2Window::~Sdl2Window()
