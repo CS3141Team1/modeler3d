@@ -102,27 +102,34 @@ void Modeler3D::OnInit()
 
 //    float32 s = 0.5f;
 
-    boost::filesystem::path obj("Assets/cube.obj");
+    boost::filesystem::path obj("Assets/bunny.obj");
 
     FileIO objFile;
     objFile.LoadObj(obj);
 
     vector<VertexPosition3fNormal3f> vertices;
     vector<vector<double>> positions = objFile.getGeometricVertices();
-    vector<vector<double>> normals = objFile.getNormalVertices();
     vector<vector<vector<int>>> faces = objFile.getFaceElements();
 
-    for (uint i = 0; i < positions.size(); i++)
+    for (uint i = 0; i < faces.size(); i++)
     {
-        for (uint j = 0; j < positions[i].size(); j++) {
-            cout << positions[i][j] << endl;
+        VertexPosition3fNormal3f verts[3];
+        for (uint j = 0; j < 3; j++)
+        {
+            vector<double> pos = positions[faces[i][0][j] - 1];
+            for (uint k = 0; k < 3; k++)
+            {
+                verts[j].Position[k] = pos[k] * 10;
+            }
         }
-//        for (uint j = 0; j < 3; j++)
-//        {
-//            Vector3f pos;
-//            Vector3f norm;
-//            int
-//        }
+        Vector3f normal = Cross(Normalize( verts[1].Position -  verts[0].Position), Normalize( verts[2].Position -  verts[0].Position));
+        verts[0].Normal = normal;
+        verts[1].Normal = normal;
+        verts[2].Normal = normal;
+
+        vertices.push_back(verts[0]);
+        vertices.push_back(verts[1]);
+        vertices.push_back(verts[2]);
     }
 
 //    VertexPosition3fNormal3f vertices[] =

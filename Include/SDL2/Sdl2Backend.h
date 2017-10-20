@@ -13,6 +13,11 @@ public:
     ~Sdl2Backend();
 
     void Init();
+    void Update(float64 dt)
+    {
+        float32 ratio = mWindow.GetAspectRatio();
+        mGraphics.Ratio = ratio;
+    }
     void Destroy();
 
     IWindow* GetWindow() { return &mWindow; }
