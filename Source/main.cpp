@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 
+#include "../Include/Boost.h"
 #include "Application.h"
 #include "IBackend.h"
 #include "Modeler3D.h"
@@ -25,6 +26,8 @@ int main(int argc, char** asrgv)
     delete backend;
 
     cout << "Exiting Modeler3D" << endl;
+
+   ListDir("C:/");
 
     return 0;
 }

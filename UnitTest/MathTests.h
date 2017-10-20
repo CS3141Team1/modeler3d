@@ -1019,6 +1019,7 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][quaternion]" 
 
 	SECTION("Quaternion conversions with euler and rotation matrices") {
 		double PI = 3.141592653589793;
+
 		Math::Vector3f v1(PI/4.0,0,PI/4.0);
 		Math::Quaternionf testingEulerToQuat(0.3535533328235472,0.1464465516370091,0.3535533328235472,0.853553448362991);
 
@@ -1045,6 +1046,7 @@ TEST_CASE( "Quaternion methods work correctly with float", "[math][quaternion]" 
 
 	SECTION("Quaternion conversions with euler and rotation matrices part2") {
 		double PI = 3.141592653589793;
+
 		Math::Vector3f v1(3.0*PI/4.0,PI/3.0,PI/4.0);
 		Math::Quaternionf testingEulerToQuat(0.6659757236952106,0.4829628838882861,-0.29995118873620663,0.4829621854873183);
 

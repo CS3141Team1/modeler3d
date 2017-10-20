@@ -110,7 +110,7 @@ void Modeler3D::OnInit()
     vector<VertexPosition3fNormal3f> vertices;
     vector<vector<double>> positions = objFile.getGeometricVertices();
     vector<vector<double>> normals = objFile.getNormalVertices();
-    vector<vector<int>> faces = objFile.getFaceElements();
+    vector<vector<vector<int>>> faces = objFile.getFaceElements();
 
     for (uint i = 0; i < positions.size(); i++)
     {

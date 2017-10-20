@@ -6,11 +6,10 @@
 
 class FileIO{
 	private:
-
 		std::vector<std::vector<double>> geometricVertices;
 		std::vector<std::vector<double>> textureVertices;
 		std::vector<std::vector<double>> normalVertices;
-		std::vector<std::vector<int>> faceElements;
+		std::vector<std::vector<std::vector<int>>> faceElements;
 	public:
 		void SaveObj(boost::filesystem::path p);
 		void SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<int>> newFaceElements);
@@ -24,7 +23,8 @@ class FileIO{
 		void setTextureVertices(std::vector<std::vector<double>> newTextureVertices);
 		std::vector<std::vector<double>> getNormalVertices();
 		void setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices);
-		std::vector<std::vector<int>> getFaceElements();
-		void setFaceElements(std::vector<std::vector<int>> newFaceElements);
+
+		std::vector<std::vector<std::vector<int>>> getFaceElements();
+		void setFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements);
 		void Test();
 };
