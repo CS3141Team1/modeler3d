@@ -126,7 +126,7 @@ std::vector<std::vector<double>> FileIO::getTextureVertices(){
 void FileIO::setTextureVertices(std::vector<std::vector<double>> newTextureVertices){
 
 }
-std::vector<std::vector<double>> FileIO::getNoramlVertices(){
+std::vector<std::vector<double>> FileIO::getNormalVertices(){
 	return normalVertices;
 }
 void FileIO::setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices){

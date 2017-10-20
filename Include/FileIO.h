@@ -22,7 +22,7 @@ class FileIO{
 		void setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices);
 		std::vector<std::vector<double>> getTextureVertices();
 		void setTextureVertices(std::vector<std::vector<double>> newTextureVertices);
-		std::vector<std::vector<double>> getNoramlVertices();
+		std::vector<std::vector<double>> getNormalVertices();
 		void setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices);
 		std::vector<std::vector<int>> getFaceElements();
 		void setFaceElements(std::vector<std::vector<int>> newFaceElements);

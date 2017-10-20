@@ -2,59 +2,17 @@
 
 #include <iostream>
 
+#include <boost/filesystem.hpp>
+
 #include <GL/glew.h>
 
 #include "Math/VectorMath.h"
 
+#include "FileIO.h"
+
 using namespace std;
 using namespace Core;
 using namespace Core::Math;
-
-//std::string VertSource = ""
-//        "#version 120"
-//        ""
-//        "attribute vec3 aPosition; "
-//        "attribute vec3 aNormal; "
-//        ""
-//        "varying vec3 vPosition; "
-//        "varying vec3 vNormal; "
-//        ""
-//        "uniform mat4 Projection; "
-//        "uniform mat4 View; "
-//        "uniform mat4 Model; "
-//        "uniform mat3 NormalMat; "
-//        ""
-//        "void main() "
-//        "{"
-//        "   vNormal = normalize(NormalMat * aNormal); "
-//        "   gl_Position = Model * vec4(aPosition); "
-//        "   vPosition = gl_Position.xyz / gl_Position.w; "
-//        "   gl_Position = Projection * View * gl_Position; "
-//        "}";
-//
-//std::string FragSource = ""
-//        "#version 120 "
-//        ""
-//        "varying vec3 vPosition; "
-//        "varying vec3 vNormal; "
-//        ""
-//        "uniform vec3 LightDirection = vec3(0.0, -1.0, 0.0); "
-//        ""
-//        "float Diffuse(vec3 normal, vec3 lightDir) "
-//        "{"
-//        "   return clamp(dot(normal, lightDir), 0.0, 1.0); "
-//        "}"
-//        ""
-//        "void main() "
-//        "{"
-//        "   vec3 normal = normalize(vNormal); "
-//        "   vec3 lightDir = normalize(LightDirection); "
-//        ""
-//        "   vec3 color = vec3(0.5, 0.5, 0.5); "
-//        "   float diffuse = Diffuse(normal, lightDir); "
-//        ""
-//        "   gl_FragColor = vec4(color * diffuse, 1.0); "
-//        "}";
 
 std::string VertSource = ""
         "#version 120 \n"
@@ -142,58 +100,80 @@ void Modeler3D::OnInit()
 
     Shader = Graphics->CreateShader(VertSource, FragSource);
 
-    vbo = Graphics->CreateVertexBuffer(vboFormat, 6 * 6, Video::BufferHint::Static);
-    geom = Graphics->CreateGeometry();
+//    float32 s = 0.5f;
 
-    float32 s = 0.5f;
+    boost::filesystem::path obj("Assets/cube.obj");
 
-    VertexPosition3fNormal3f vertices[] =
+    FileIO objFile;
+    objFile.LoadObj(obj);
+
+    vector<VertexPosition3fNormal3f> vertices;
+    vector<vector<double>> positions = objFile.getGeometricVertices();
+    vector<vector<double>> normals = objFile.getNormalVertices();
+    vector<vector<int>> faces = objFile.getFaceElements();
+
+    for (uint i = 0; i < positions.size(); i++)
     {
-            // front
-            { {-s, -s, -s}, {0, 0, -1} },
-            { { s, -s, -s}, {0, 0, -1} },
-            { { s,  s, -s}, {0, 0, -1} },
-            { {-s, -s, -s}, {0, 0, -1} },
-            { { s,  s, -s}, {0, 0, -1} },
-            { {-s,  s, -s}, {0, 0, -1} },
-            // back
-            { {-s, -s,  s}, {0, 0, 1} },
-            { { s, -s,  s}, {0, 0, 1} },
-            { { s,  s,  s}, {0, 0, 1} },
-            { {-s, -s,  s}, {0, 0, 1} },
-            { { s,  s,  s}, {0, 0, 1} },
-            { {-s,  s,  s}, {0, 0, 1} },
-            // top
-            { {-s,  s, -s}, {0, 1, 0} },
-            { { s,  s, -s}, {0, 1, 0} },
-            { { s,  s,  s}, {0, 1, 0} },
-            { {-s,  s, -s}, {0, 1, 0} },
-            { { s,  s,  s}, {0, 1, 0} },
-            { {-s,  s,  s}, {0, 1, 0} },
-            // bottom
-            { {-s, -s, -s}, {0,-1, 0} },
-            { { s, -s, -s}, {0,-1, 0} },
-            { { s, -s,  s}, {0,-1, 0} },
-            { {-s, -s, -s}, {0,-1, 0} },
-            { { s, -s,  s}, {0,-1, 0} },
-            { {-s, -s,  s}, {0,-1, 0} },
-            // right
-            { { s, -s, -s}, {1, 0, 0} },
-            { { s, -s,  s}, {1, 0, 0} },
-            { { s,  s,  s}, {1, 0, 0} },
-            { { s, -s, -s}, {1, 0, 0} },
-            { { s,  s,  s}, {1, 0, 0} },
-            { { s,  s, -s}, {1, 0, 0} },
-            // left
-            { {-s, -s, -s}, {-1, 0, 0} },
-            { {-s, -s,  s}, {-1, 0, 0} },
-            { {-s,  s,  s}, {-1, 0, 0} },
-            { {-s, -s, -s}, {-1, 0, 0} },
-            { {-s,  s,  s}, {-1, 0, 0} },
-            { {-s,  s, -s}, {-1, 0, 0} },
-    };
+        for (uint j = 0; j < positions[i].size(); j++) {
+            cout << positions[i][j] << endl;
+        }
+//        for (uint j = 0; j < 3; j++)
+//        {
+//            Vector3f pos;
+//            Vector3f norm;
+//            int
+//        }
+    }
 
-    vbo->SetData(vertices, 0, 6 * 6);
+//    VertexPosition3fNormal3f vertices[] =
+//    {
+//            // front
+//            { {-s, -s, -s}, {0, 0, -1} },
+//            { { s, -s, -s}, {0, 0, -1} },
+//            { { s,  s, -s}, {0, 0, -1} },
+//            { {-s, -s, -s}, {0, 0, -1} },
+//            { { s,  s, -s}, {0, 0, -1} },
+//            { {-s,  s, -s}, {0, 0, -1} },
+//            // back
+//            { {-s, -s,  s}, {0, 0, 1} },
+//            { { s, -s,  s}, {0, 0, 1} },
+//            { { s,  s,  s}, {0, 0, 1} },
+//            { {-s, -s,  s}, {0, 0, 1} },
+//            { { s,  s,  s}, {0, 0, 1} },
+//            { {-s,  s,  s}, {0, 0, 1} },
+//            // top
+//            { {-s,  s, -s}, {0, 1, 0} },
+//            { { s,  s, -s}, {0, 1, 0} },
+//            { { s,  s,  s}, {0, 1, 0} },
+//            { {-s,  s, -s}, {0, 1, 0} },
+//            { { s,  s,  s}, {0, 1, 0} },
+//            { {-s,  s,  s}, {0, 1, 0} },
+//            // bottom
+//            { {-s, -s, -s}, {0,-1, 0} },
+//            { { s, -s, -s}, {0,-1, 0} },
+//            { { s, -s,  s}, {0,-1, 0} },
+//            { {-s, -s, -s}, {0,-1, 0} },
+//            { { s, -s,  s}, {0,-1, 0} },
+//            { {-s, -s,  s}, {0,-1, 0} },
+//            // right
+//            { { s, -s, -s}, {1, 0, 0} },
+//            { { s, -s,  s}, {1, 0, 0} },
+//            { { s,  s,  s}, {1, 0, 0} },
+//            { { s, -s, -s}, {1, 0, 0} },
+//            { { s,  s,  s}, {1, 0, 0} },
+//            { { s,  s, -s}, {1, 0, 0} },
+//            // left
+//            { {-s, -s, -s}, {-1, 0, 0} },
+//            { {-s, -s,  s}, {-1, 0, 0} },
+//            { {-s,  s,  s}, {-1, 0, 0} },
+//            { {-s, -s, -s}, {-1, 0, 0} },
+//            { {-s,  s,  s}, {-1, 0, 0} },
+//            { {-s,  s, -s}, {-1, 0, 0} },
+//    };
+
+    vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
+    geom = Graphics->CreateGeometry();
+    vbo->SetData(&vertices[0], 0, vertices.size());
     geom->SetVertexBuffer(vbo);
 }
 
@@ -208,7 +188,7 @@ void Modeler3D::OnRender()
 
     Graphics->SetShader(Shader);
     Graphics->SetGeometry(geom);
-    Graphics->Draw(Video::Primitive::TriangleList, 0, 2 * 6);
+    Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 }
 
 void Modeler3D::OnDestroy()
