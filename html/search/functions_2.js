@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['destroy',['Destroy',['../classCore_1_1IBackend.html#a9e4f66804f8035ed4f2e464554d69db0',1,'Core::IBackend::Destroy()'],['../classCore_1_1Sdl2Backend.html#ad1040998e8df16cdc9d256d7ea480b43',1,'Core::Sdl2Backend::Destroy()']]],
+  ['determinant',['Determinant',['../namespaceCore_1_1Math.html#a4c3adfb53a2f1143323750d1bd2a3d39',1,'Core::Math::Determinant(Matrix2&lt; Type &gt; &amp;m)'],['../namespaceCore_1_1Math.html#a0bf152a65a1de8787b6ebda387ea7f75',1,'Core::Math::Determinant(Matrix3&lt; Type &gt; &amp;m)'],['../namespaceCore_1_1Math.html#a2185b3e24fd79d425498f7112ff51cb5',1,'Core::Math::Determinant(Matrix4&lt; Type &gt; &amp;m)']]],
+  ['dot',['Dot',['../namespaceCore_1_1Math.html#af8e732ef0b157ef87642f3188a23d518',1,'Core::Math::Dot(const Vector2&lt; Type &gt; &amp;a, const Vector2&lt; Type &gt; &amp;b)'],['../namespaceCore_1_1Math.html#a94b961578a548455dd1cba9ee33c7358',1,'Core::Math::Dot(const Vector3&lt; Type &gt; &amp;a, const Vector3&lt; Type &gt; &amp;b)'],['../namespaceCore_1_1Math.html#aee4cfe54be01427e5572328d2f6a6e79',1,'Core::Math::Dot(const Vector4&lt; Type &gt; &amp;a, const Vector4&lt; Type &gt; &amp;b)']]],
+  ['draw',['Draw',['../classVideo_1_1IGraphicsDevice.html#aa98a910278f135435926ab7e7158e769',1,'Video::IGraphicsDevice::Draw()'],['../classVideo_1_1OglGraphicsDevice.html#ad43a0616c39f0df20f7b423da1412eb8',1,'Video::OglGraphicsDevice::Draw()']]]
+];

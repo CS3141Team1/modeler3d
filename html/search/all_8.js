@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['ibackend',['IBackend',['../classCore_1_1IBackend.html',1,'Core']]],
+  ['ibackend_2eh',['IBackend.h',['../IBackend_8h.html',1,'']]],
+  ['identity',['Identity',['../structCore_1_1Math_1_1Matrix2.html#a5279c6d55d702439625b9165fd6f1947',1,'Core::Math::Matrix2::Identity()'],['../structCore_1_1Math_1_1Matrix3.html#ae4938ceab00784d51df44e51a03cb68d',1,'Core::Math::Matrix3::Identity()'],['../structCore_1_1Math_1_1Matrix4.html#a565076759cb8ccf6fc03b6482d6cd136',1,'Core::Math::Matrix4::Identity()'],['../structCore_1_1Math_1_1Quaternion.html#a1f8c6c23617f1d37e5d7547a1468c093',1,'Core::Math::Quaternion::Identity()']]],
+  ['igeometry',['IGeometry',['../classVideo_1_1IGeometry.html',1,'Video']]],
+  ['igeometry_2eh',['IGeometry.h',['../IGeometry_8h.html',1,'']]],
+  ['igraphicsdevice',['IGraphicsDevice',['../classVideo_1_1IGraphicsDevice.html',1,'Video']]],
+  ['igraphicsdevice_2eh',['IGraphicsDevice.h',['../IGraphicsDevice_8h.html',1,'']]],
+  ['igraphicsresource',['IGraphicsResource',['../classVideo_1_1IGraphicsResource.html',1,'Video']]],
+  ['igraphicsresource_2eh',['IGraphicsResource.h',['../IGraphicsResource_8h.html',1,'']]],
+  ['init',['Init',['../classCore_1_1IBackend.html#a29df5f58845518d86b1c961b3128cf2c',1,'Core::IBackend::Init()'],['../classVideo_1_1OglGraphicsDevice.html#a6750aba901411296ce694f04b675ffb5',1,'Video::OglGraphicsDevice::Init()'],['../classCore_1_1Sdl2Backend.html#a6185b38ff9089ec56aa54b2a6f556571',1,'Core::Sdl2Backend::Init()']]],
+  ['int16',['int16',['../Types_8h.html#aa0d0fdc87fd135ef2bedb030901cdb9c',1,'Types.h']]],
+  ['int32',['int32',['../Types_8h.html#ab7903878916593daecbeb95b98115ab0',1,'Types.h']]],
+  ['int64',['int64',['../Types_8h.html#a7cde0074dfd288f2d70c0e035dacb28a',1,'Types.h']]],
+  ['int8',['int8',['../Types_8h.html#aa79c2d3de4fcd200458c406f40b2ae64',1,'Types.h']]],
+  ['inverse',['Inverse',['../namespaceCore_1_1Math.html#acb89727cbfabef16fd356041de7ed91d',1,'Core::Math::Inverse(Matrix2&lt; Type &gt; m)'],['../namespaceCore_1_1Math.html#ac31ec9f676d5a0ed4b7b68603cc72f2e',1,'Core::Math::Inverse(Matrix3&lt; Type &gt; m)'],['../namespaceCore_1_1Math.html#af8aa91dd7859040ae0ef5b066dc2e567',1,'Core::Math::Inverse(Matrix4&lt; Type &gt; m)'],['../namespaceCore_1_1Math.html#a8048be569f29ead5a2002db7dbf94f0e',1,'Core::Math::Inverse(Quaternion&lt; Type &gt; &amp;q)']]],
+  ['ishader',['IShader',['../classVideo_1_1IShader.html',1,'Video']]],
+  ['ishader_2eh',['IShader.h',['../IShader_8h.html',1,'']]],
+  ['isvisible',['IsVisible',['../classCore_1_1IWindow.html#a82159e42c2c20906df0cf6c712732e43',1,'Core::IWindow::IsVisible()'],['../classCore_1_1Sdl2Window.html#a22fdd95fcbc7ad6729733ea70288faed',1,'Core::Sdl2Window::IsVisible()']]],
+  ['ivertexbuffer',['IVertexBuffer',['../classVideo_1_1IVertexBuffer.html',1,'Video']]],
+  ['ivertexbuffer_2eh',['IVertexBuffer.h',['../IVertexBuffer_8h.html',1,'']]],
+  ['iwindow',['IWindow',['../classCore_1_1IWindow.html',1,'Core']]],
+  ['iwindow_2eh',['IWindow.h',['../IWindow_8h.html',1,'']]]
+];
