@@ -123,7 +123,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a94a55a097c3251143484aa85a54f8053"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classVideo_1_1IGraphicsDevice.html">Video::IGraphicsDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCore_1_1IBackend.html#a94a55a097c3251143484aa85a54f8053">GetGraphicsDevice</a> ()=0</td></tr>
 <tr class="separator:a94a55a097c3251143484aa85a54f8053"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Backend for an application, includes window and graphics support</p>
+<dl class="section author"><dt>Author</dt><dd>Nicholas Hamilton </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6cde8bde86802aabdada0cd36df0a58f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -168,6 +171,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when application is ending </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Sdl2Backend.html#ad1040998e8df16cdc9d256d7ea480b43">Core::Sdl2Backend</a>.</p>
 
@@ -193,6 +197,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get pointer to graphics device </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Sdl2Backend.html#aeccf0ca3bf213355553a59e857122458">Core::Sdl2Backend</a>.</p>
 
@@ -218,6 +223,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get pointer to window </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Sdl2Backend.html#a12b0f420d134c594fd1cc1d7ab420fa0">Core::Sdl2Backend</a>.</p>
 
@@ -243,6 +249,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when application is starting up </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Sdl2Backend.html#a6185b38ff9089ec56aa54b2a6f556571">Core::Sdl2Backend</a>.</p>
 
@@ -269,6 +276,13 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when application is updating</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td><a class="el" href="namespaceCore_1_1Time.html">Time</a> since last update in seconds </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="classCore_1_1Sdl2Backend.html#a6988294c62a9c71eabb0c663bcc4e036">Core::Sdl2Backend</a>.</p>
 

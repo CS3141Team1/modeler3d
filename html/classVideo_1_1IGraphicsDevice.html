@@ -137,7 +137,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa98a910278f135435926ab7e7158e769"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideo_1_1IGraphicsDevice.html#aa98a910278f135435926ab7e7158e769">Draw</a> (<a class="el" href="namespaceVideo.html#ac12bfb87f02559ba482979ab2731f872">Primitive</a> prim, <a class="el" href="Types_8h.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> start, <a class="el" href="Types_8h.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> primCount)=0</td></tr>
 <tr class="separator:aa98a910278f135435926ab7e7158e769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base interface for graphics</p>
+<dl class="section author"><dt>Author</dt><dd>Nicholas Hamilton </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a45b55c3f8c9e915f36abb129297a1460"></a>
 <div class="memitem">
 <div class="memproto">
@@ -193,6 +196,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Clears the buffers of the current render target (default is screen) </p>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a9667e37d926b3a685ae68846469f321a">Video::OglGraphicsDevice</a>.</p>
 
@@ -218,6 +222,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>geometry created by the device </dd></dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a31a20f4ab10b0b48b05a07d9fcda3997">Video::OglGraphicsDevice</a>.</p>
 
@@ -254,6 +259,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Shader created by the device</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertex</td><td>GLSL vertex shader source code </td></tr>
+    <tr><td class="paramname">fragment</td><td>GLSL fragment shader source code </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a36a26c713a982aa5cc4a23df95b91690">Video::OglGraphicsDevice</a>.</p>
 
@@ -296,6 +309,13 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Vertex buffer created by the device</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>Number of vertices in the buffer </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a081fdd842593183028f8d0e7e27079d0">Video::OglGraphicsDevice</a>.</p>
 
@@ -338,6 +358,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Draw the current geometry with the set shader</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prim</td><td>Primitive type to draw </td></tr>
+    <tr><td class="paramname">start</td><td>Index of first vertex to draw </td></tr>
+    <tr><td class="paramname">primCount</td><td>Number of primitives to draw, NOT number of vertices </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#ad43a0616c39f0df20f7b423da1412eb8">Video::OglGraphicsDevice</a>.</p>
 
@@ -363,6 +392,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current geometry </dd></dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#aac6e9699ef2dbd18d2760e9651bde3e4">Video::OglGraphicsDevice</a>.</p>
 
@@ -388,6 +418,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current geometry </dd></dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a149b8b6e94be77be38d0deadf197d977">Video::OglGraphicsDevice</a>.</p>
 
@@ -413,6 +444,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current shader </dd></dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#afa648858ec1dd1653ad652fa8854d3f8">Video::OglGraphicsDevice</a>.</p>
 
@@ -438,6 +470,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current shader </dd></dl>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a1d1cad36baa3a783d27cfcd9f76fd964">Video::OglGraphicsDevice</a>.</p>
 
@@ -486,6 +519,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets the color that the screen should be when being cleared. values should be between 0 and 1. </p>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#ade9c6eaf6cbcdd41d1882d753fc0c225">Video::OglGraphicsDevice</a>.</p>
 
@@ -512,6 +546,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Set the current geometry </p>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a48e8760dcf9573e8a07d635c593f71dd">Video::OglGraphicsDevice</a>.</p>
 
@@ -538,6 +573,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Set the current shader </p>
 
 <p>Implemented in <a class="el" href="classVideo_1_1OglGraphicsDevice.html#a5114e4f0dcf5fbccce69cca681456c61">Video::OglGraphicsDevice</a>.</p>
 

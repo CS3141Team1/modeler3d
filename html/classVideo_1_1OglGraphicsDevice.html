@@ -213,6 +213,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Clears the buffers of the current render target (default is screen) </p>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#ae7b72eeb7e2f2053bb168c54c9fb731f">Video::IGraphicsDevice</a>.</p>
 
@@ -238,6 +239,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>geometry created by the device </dd></dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a0758635dbb73d318be61438fe5f23a25">Video::IGraphicsDevice</a>.</p>
 
@@ -274,6 +276,14 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Shader created by the device</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertex</td><td>GLSL vertex shader source code </td></tr>
+    <tr><td class="paramname">fragment</td><td>GLSL fragment shader source code </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a4140d72c58ed9d66038982c945d82870">Video::IGraphicsDevice</a>.</p>
 
@@ -316,6 +326,13 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Vertex buffer created by the device</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>Number of vertices in the buffer </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a9dd8a2c521ad29f9abf4bf811773d54d">Video::IGraphicsDevice</a>.</p>
 
@@ -358,6 +375,15 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Draw the current geometry with the set shader</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prim</td><td>Primitive type to draw </td></tr>
+    <tr><td class="paramname">start</td><td>Index of first vertex to draw </td></tr>
+    <tr><td class="paramname">primCount</td><td>Number of primitives to draw, NOT number of vertices </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#aa98a910278f135435926ab7e7158e769">Video::IGraphicsDevice</a>.</p>
 
@@ -383,6 +409,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current geometry </dd></dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a42d8b1d60e636f9a7c1ba2ec30772ba3">Video::IGraphicsDevice</a>.</p>
 
@@ -408,6 +435,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current geometry </dd></dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a06fc088b234ade005eec84f62c130a1e">Video::IGraphicsDevice</a>.</p>
 
@@ -433,6 +461,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current shader </dd></dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#aa03b96925ff9a4b0867d159c68799042">Video::IGraphicsDevice</a>.</p>
 
@@ -458,6 +487,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Current shader </dd></dl>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#a81411a9e1190728424c619815faddff6">Video::IGraphicsDevice</a>.</p>
 
@@ -521,6 +551,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets the color that the screen should be when being cleared. values should be between 0 and 1. </p>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#adb7e9e38fe2ad665aa3e29d8551fb5c2">Video::IGraphicsDevice</a>.</p>
 
@@ -547,6 +578,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Set the current geometry </p>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#ae547d50e6264fcd1a80a2b7439339956">Video::IGraphicsDevice</a>.</p>
 
@@ -573,6 +605,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Set the current shader </p>
 
 <p>Implements <a class="el" href="classVideo_1_1IGraphicsDevice.html#af8015abe8ece77559dd76942a666d235">Video::IGraphicsDevice</a>.</p>
 

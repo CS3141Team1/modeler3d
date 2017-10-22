@@ -141,7 +141,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a68fadb5db6f724ccf90c75dd1a5b0e0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVideo_1_1IGraphicsDevice.html">Video::IGraphicsDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCore_1_1Application.html#a68fadb5db6f724ccf90c75dd1a5b0e0e">Graphics</a> = nullptr</td></tr>
 <tr class="separator:a68fadb5db6f724ccf90c75dd1a5b0e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Program base. Uses a backend to update and render</p>
+<dl class="section author"><dt>Author</dt><dd>Nicholas Hamilton </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab1bf02175f41a5b9c70b00a626f982c6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -202,6 +205,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get the current frames per second </p>
 
 </div>
 </div>
@@ -225,6 +229,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Get the current updates per second </p>
 
 </div>
 </div>
@@ -248,6 +253,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the application is ending </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Modeler3D.html#aed53fc55053be7a11ecc2b1c787efd02">Core::Modeler3D</a>.</p>
 
@@ -273,6 +279,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the application is initializing </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Modeler3D.html#a5026632aca8ac2a0a9214be7b10b182e">Core::Modeler3D</a>.</p>
 
@@ -298,6 +305,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the application is rendering </p>
 
 <p>Implemented in <a class="el" href="classCore_1_1Modeler3D.html#a5810d11ad1abfbe792d7c916f12a1155">Core::Modeler3D</a>.</p>
 
@@ -324,6 +332,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the application is updating</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dt</td><td><a class="el" href="namespaceCore_1_1Time.html">Time</a> since last update in seconds </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="classCore_1_1Modeler3D.html#add14b4995e94d6d464a06c611e835a97">Core::Modeler3D</a>.</p>
 
@@ -341,6 +356,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Start the application, call this at the beginning </p>
 
 </div>
 </div>
@@ -356,6 +372,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stop the application, call this when the program should quit </p>
 
 </div>
 </div>
@@ -377,6 +394,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Pointer to the backend being used </p>
 
 </div>
 </div>
@@ -397,6 +415,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Convenience pointer to the graphics device being used </p>
 
 </div>
 </div>
@@ -417,6 +436,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Convenience pointer to the window being used </p>
 
 </div>
 </div>
