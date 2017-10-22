@@ -12,6 +12,7 @@ public:
     virtual ~IBackend() {}
 
     virtual void Init() = 0;
+    virtual void Update(float64 dt) = 0;
     virtual void Destroy() = 0;
 
     virtual IWindow* GetWindow() = 0;

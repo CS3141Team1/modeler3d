@@ -60,11 +60,6 @@ void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>>
 }
 */
 
-/**
- * Loads a .obj file and parses the file for the geometric vertices, texture coordinates, normal vertices, and face elements from the .obj file
- *
- * @param p - path of .obj file
- */
 void FileIO::LoadObj(boost::filesystem::path p)
 {
 	boost::filesystem::ifstream File(p);
@@ -298,14 +293,9 @@ void FileIO::SetNoramlVertices(std::vector<std::vector<double>> newNoramlVertice
 {
 
 }
-/**
- * Returns the face elements of a .obj file
- *
- * @return mFaceElements - A vector<vector<vector<int>>>
- */
-std::vector<std::vector<std::vector<int>>> FileIO::GetFaceElements()
-{
-	return mFaceElements;
+
+std::vector<std::vector<std::vector<int>>> FileIO::getFaceElements(){
+	return faceElements;
 }
 
 /**

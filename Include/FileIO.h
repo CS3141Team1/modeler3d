@@ -30,17 +30,13 @@ class FileIO{
 		
 		//Get and Set methods for geometric vertices
 		std::vector<std::vector<double>> getGeometricVertices();
-		void SetGeometricVertices(std::vector<std::vector<double>> newGeometricVertices);
-		
-		//Get and Set methods for texture vertices
-		std::vector<std::vector<double>> GetTextureVertices();
-		void SetTextureVertices(std::vector<std::vector<double>> newTextureVertices);
-		
-		//Get and Set methods for normal vertices
-		std::vector<std::vector<double>> GetNormalVertices();
-		void SetNoramlVertices(std::vector<std::vector<double>> newNoramlVertices);
-		
-		//Get and Set methods for Face elements
-		std::vector<std::vector<std::vector<int>>> GetFaceElements();
-		void SetFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements);
+		void setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices);
+		std::vector<std::vector<double>> getTextureVertices();
+		void setTextureVertices(std::vector<std::vector<double>> newTextureVertices);
+		std::vector<std::vector<double>> getNormalVertices();
+		void setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices);
+
+		std::vector<std::vector<std::vector<int>>> getFaceElements();
+		void setFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements);
+		void Test();
 };

@@ -8,7 +8,7 @@ namespace Core
 bool Sdl2Backend::mSdl2Init = false;
 
 Sdl2Backend::Sdl2Backend()
-    : mWindow("Test", 800, 600)
+    : mWindow("Modeler3D", 800, 600)
 {
     // TODO Auto-generated constructor stub
 

@@ -78,6 +78,10 @@ void Sdl2Window::PollEvents()
 void Sdl2Window::SwapBuffers()
 {
     SDL_GL_SwapWindow(mWindow);
+    int width, height;
+    SDL_GetWindowSize(mWindow, &width, &height);
+    glViewport(0, 0, width, height);
+
 }
 
 void Sdl2Window::SetVisible(bool visible)

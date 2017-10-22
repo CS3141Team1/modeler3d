@@ -60,6 +60,7 @@ void Application::UpdateLoop()
             ups++;
             Window->PollEvents();
             // TODO actual dt
+            Backend->Update(skipUpdates);
             OnUpdate(skipUpdates);
         }
 

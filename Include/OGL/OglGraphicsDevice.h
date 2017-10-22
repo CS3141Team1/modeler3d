@@ -32,6 +32,8 @@ public:
     void SetShader(IShader* shader);
 
     void Draw(Primitive prim, uint start, uint primCount);
+
+    float32 Ratio = 1.3333;
 private:
     OglGeometry* mGeometry = nullptr;
     OglShader* mShader = nullptr;

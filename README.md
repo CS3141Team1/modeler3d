@@ -6,3 +6,8 @@ Authors:
 - Michael Conard 
 - Chris Blatt 
 - Ryan Hamilton 
+
+We use the following libraries:  
+- SDL2
+- GLEW
+- Boost

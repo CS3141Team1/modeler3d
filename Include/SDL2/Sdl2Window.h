@@ -22,6 +22,7 @@ public:
     virtual const std::string& GetTitle() const { return mTitle; };
     virtual void SetTitle(const std::string& title);
 
+    // TODO query from SDL
     virtual uint GetWidth() const { return mWidth; };
     virtual uint GetHeight() const { return mHeight; };
     virtual void SetSize(uint width, uint height);
@@ -30,6 +31,13 @@ public:
 
     virtual void PollEvents();
     virtual void SwapBuffers();
+
+    float32 GetAspectRatio()
+    {
+        int width, height;
+        SDL_GetWindowSize(mWindow, &width, &height);
+        return (float32) width / height;
+    }
 private:
     void InitGlew();
 
