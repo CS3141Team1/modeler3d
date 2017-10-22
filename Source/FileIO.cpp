@@ -1,4 +1,5 @@
 #include "../Include/FileIO.h"
+
 #include <math.h>
 
 #include <boost/filesystem.hpp>
@@ -7,205 +8,313 @@
 #include <iostream>
 #include <sstream>
 
-void FileIO::SaveObj(boost::filesystem::path p){
+/**
+ * Class for loading and saving for 3d modeler
+ *
+ * @author Ryan Hamilton
+ */
+
+
+/**
+ * Save 3d model as a .obj
+ *
+ * @param p - A path
+ */
+void FileIO::SaveObj(boost::filesystem::path p)
+{
 
 }
 
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<int>> faceElements){
+/**
+ * Save 3d model as a .obj
+ *
+ * @param p - A path
+ *        newmGeometricVertices - A vector<vector<double>>
+ *        newFaceElements - A vector<vector<vector<int>>>
+ */
+void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<std::vector<int>>> newFaceElements)
+{
 
 }
 
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices,
-		std::vector<std::vector<double>> textureVectices, std::vector<std::vector<double>> normalVectices, std::vector<std::vector<int>> faceElements){
+/**
+ * Save 3d model as a .obj
+ *
+ * @param p - A path
+ *        newmGeometricVertices - A vector<vector<double>>
+ *		  newTextureVectices - A vector<vector<double>>
+ *        newNormalVectices - A vector<vector<double>>
+ *        newFaceElements - A vector<vector<vector<int>>>
+ */
+void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
+		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices, std::vector<std::vector<int>> mFaceElements)
+		{
 
 }
 /*
  *
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices,
+void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
 		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices,
-		std::vector<std::vector<int>> newFaceElements){
+		std::vector<std::vector<int>> newmFaceElements){
 
 }
 */
+
+/**
+ * Loads a .obj file and parses the file for the geometric vertices, texture coordinates, normal vertices, and face elements from the .obj file
+ *
+ * @param p - path of .obj file
+ */
 void FileIO::LoadObj(boost::filesystem::path p)
 {
-		boost::filesystem::ifstream file(p);
-		std::string fileLine;
-		while(std::getline(file, fileLine))
-		{
-			std::cout<<fileLine<<"\n";
+	boost::filesystem::ifstream File(p);
+	std::string FileLine;
+	
+	//loops through entire .obj file
+	while(std::getline(File, FileLine))
+	{
+		std::cout<<FileLine<<"\n";
 
-			if(fileLine.size() > 2){
-				if(fileLine.at(0) == 'v' && fileLine.at(1) == ' '){
-					double x, y, z;
-					std::stringstream ss(fileLine);
-					char temp;
-					ss >> temp;
-					ss >> x;
-					ss >> y;
-					ss >> z;
+		if(FileLine.size() > 2){
+			
+			//checks for Geometric vertex coordinates
+			if(FileLine.at(0) == 'v' && FileLine.at(1) == ' ')
+			{
+				double X, Y, Z;
+				std::stringstream S(FileLine);
+				char Temp;
+				S >> Temp;
+				S >> X;
+				S >> Y;
+				S >> Z;
 
-					std::vector<double> geometricVector;
-					geometricVector.push_back(x);
-					geometricVector.push_back(y);
-					geometricVector.push_back(z);
+				std::vector<double> GeometricVector;
+				GeometricVector.push_back(X);
+				GeometricVector.push_back(Y);
+				GeometricVector.push_back(Z);
 
-					geometricVertices.push_back(geometricVector);
-				}
-
-				if(fileLine.at(0) == 'v' && fileLine.at(1) == 't'){
-					double x, y;
-					std::stringstream ss(fileLine);
-					char temp;
-					char temp2;
-					ss >> temp;
-					ss >> temp2;
-					ss >> x;
-					ss >> y;
-
-					std::vector<double> textureVector;
-
-					textureVector.push_back(x);
-					textureVector.push_back(y);
-
-					textureVertices.push_back(textureVector);
-				}
-
-			if(fileLine.at(0) == 'v' && fileLine.at(1) == 'n'){
-				double x, y, z;
-				std::stringstream ss(fileLine);
-				char temp;
-				char temp2;
-				ss >> temp;
-				ss >> temp2;
-				ss >> x;
-				ss >> y;
-				ss >> z;
-
-				std::vector<double> normalVector;
-
-				normalVector.push_back(x);
-				normalVector.push_back(y);
-				normalVector.push_back(z);
-
-				normalVertices.push_back(normalVector);
+				mGeometricVertices.push_back(GeometricVector);
 			}
 
-			if(fileLine.at(0) == 'f' && fileLine.at(1) == ' '){
-				int v1, v2, v3;
-				std::stringstream ss(fileLine);
-				char temp;
-				ss >> temp;
-				std::vector<int> verticeVector1;
-				std::vector<std::vector<int>> faceVector;
+			//checks for texture coordinates
+			if(FileLine.at(0) == 'v' && FileLine.at(1) == 't')
+			{
+				double X, Y;
+				std::stringstream S(FileLine);
+				char Temp;
+				char Temp2;
+				S >> Temp;
+				S >> Temp2;
+				S >> X;
+				S >> Y;
 
-				ss >> v1;
-				verticeVector1.push_back(v1);
+				std::vector<double> TextureVector;
 
-				if(ss.peek() == '/')
-					ss >> temp;
+				TextureVector.push_back(X);
+				TextureVector.push_back(Y);
 
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v2;
-					verticeVector1.push_back(v2);
-				}
-				else
-					verticeVector1.push_back(0);
-
-				if(ss.peek() == '/')
-					ss >> temp;
-
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v3;
-					verticeVector1.push_back(v3);
-				}
-				else
-					verticeVector1.push_back(0);
-
-				faceVector.push_back(verticeVector1);
-				std::vector<int> verticeVector2;
-
-				ss >> v1;
-				verticeVector2.push_back(v1);
-				if(ss.peek() == '/')
-					ss >> temp;
-
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v2;
-					verticeVector2.push_back(v2);
-				}
-				else
-					verticeVector2.push_back(0);
-
-				if(ss.peek() == '/')
-					ss >> temp;
-
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v3;
-					verticeVector2.push_back(v3);
-				}
-				else
-					verticeVector2.push_back(0);
-
-				faceVector.push_back(verticeVector2);
-				std::vector<int> verticeVector3;
-
-				ss >> v1;
-				verticeVector3.push_back(v1);
-				if(ss.peek() == '/')
-					ss >> temp;
-
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v2;
-					verticeVector3.push_back(v2);
-				}
-				else
-					verticeVector3.push_back(0);
-
-				if(ss.peek() == '/')
-					ss >> temp;
-
-				if(ss.peek() != '/' || ss.peek() != ' '){
-					ss >> v3;
-					verticeVector3.push_back(v3);
-				}
-				else
-					verticeVector3.push_back(0);
-
-				faceVector.push_back(verticeVector3);
-				faceElements.push_back(faceVector);
+				mTextureVertices.push_back(TextureVector);
 			}
+
+			//checks for normal vertex coordinates
+			if(FileLine.at(0) == 'v' && FileLine.at(1) == 'n')
+			{
+				double X, Y, Z;
+				std::stringstream S(FileLine);
+				char Temp;
+				char Temp2;
+				S >> Temp;
+				S >> Temp2;
+				S >> X;
+				S >> Y;
+				S >> Z;
+
+				std::vector<double> NormalVector;
+
+				NormalVector.push_back(X);
+				NormalVector.push_back(Y);
+				NormalVector.push_back(Z);
+
+				mNormalVertices.push_back(NormalVector);
+			}
+
+			//checks for face elements
+			if(FileLine.at(0) == 'f' && FileLine.at(1) == ' ')
+			{
+				int V1, V2, V3;
+				std::stringstream S(FileLine);
+				char Temp;
+				S >> Temp;
+				std::vector<int> VerticeVector1;
+				std::vector<std::vector<int>> FaceVector;
+				
+				//parses through first set of vertices
+				S >> V1;
+				VerticeVector1.push_back(V1);
+
+				if(S.peek() == '/')
+					S >> Temp;
+
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V2;
+					VerticeVector1.push_back(V2);
+				}
+				else
+					VerticeVector1.push_back(0);
+
+				if(S.peek() == '/')
+					S >> Temp;
+
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V3;
+					VerticeVector1.push_back(V3);
+				}
+				else
+					VerticeVector1.push_back(0);
+
+				FaceVector.push_back(VerticeVector1);
+				std::vector<int> VerticeVector2;
+
+				// parses through second set of vertices
+				S >> V1;
+				VerticeVector2.push_back(V1);
+				
+				if(S.peek() == '/')
+					S >> Temp;
+
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V2;
+					VerticeVector2.push_back(V2);
+				}
+				else
+					VerticeVector2.push_back(0);
+
+				if(S.peek() == '/')
+					S >> Temp;
+
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V3;
+					VerticeVector2.push_back(V3);
+				}
+				else
+					VerticeVector2.push_back(0);
+
+				FaceVector.push_back(VerticeVector2);
+				std::vector<int> VerticeVector3;
+
+				//parses through the third set of vertices
+				S >> V1;
+				VerticeVector3.push_back(V1);
+					
+				if(S.peek() == '/')
+					S >> Temp;
+
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V2;
+					VerticeVector3.push_back(V2);
+				}
+				else
+					VerticeVector3.push_back(0);
+	
+				if(S.peek() == '/')
+					S >> Temp;
+	
+				if(S.peek() != '/' || S.peek() != ' ')
+				{
+					S >> V3;
+					VerticeVector3.push_back(V3);
+				}
+				else
+					VerticeVector3.push_back(0);
+
+				FaceVector.push_back(VerticeVector3);
+				mmFaceElements.push_back(FaceVector);
 			}
 		}
+	}
+}
+
+/**
+ * Returns the geometric vertices of a .obj file
+ *
+ * @return mGeometricVertices - A vector<vector<double>>
+ */
+std::vector<std::vector<double>> FileIO::GetGeometricVertices()
+{
+	return mGeometricVertices;
+}
+
+/**
+ * Sets mGeometricVertices to new values in order to be saved
+ *
+ * @param newGeometricVertices - A vector<vector<double>>
+ */
+void FileIO::SetGeometricVertices(std::vector<std::vector<double>> FileIO::newGeometricVertices)
+{
 
 }
 
-std::vector<std::vector<double>> FileIO::getGeometricVertices(){
-	return geometricVertices;
+/**
+ * Returns the texture vertices of a .obj file
+ *
+ * @return mTextureVertices - A vector<vector<double>>
+ */
+std::vector<std::vector<double>> FileIO::GetTextureVertices()
+{
+	return mTextureVertices;
 }
-void FileIO::setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices){
+
+/**
+ * Sets mTextureVertices to new values in order to be saved
+ *
+ * @param newTextureVertices - A vector<vector<double>>
+ */
+void FileIO::SetTextureVertices(std::vector<std::vector<double>> newTextureVertices)
+{
 
 }
 
-std::vector<std::vector<double>> FileIO::getTextureVertices(){
-	return textureVertices;
-}
-void FileIO::setTextureVertices(std::vector<std::vector<double>> newTextureVertices){
-
-}
-std::vector<std::vector<double>> FileIO::getNormalVertices(){
-	return normalVertices;
-}
-void FileIO::setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices){
-
-}
-std::vector<std::vector<std::vector<int>>> FileIO::getFaceElements(){
-	return faceElements;
-}
-void FileIO::setFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements){
-
+/**
+ * Returns the normal vertices of a .obj file
+ *
+ * @return mNormalVertices - A vector<vector<double>>
+ */
+std::vector<std::vector<double>> FileIO::GetNormalVertices()
+{
+	return mNormalVertices;
 }
 
-void FileIO::Test(){
-	std::cout << "test";
+/**
+ * Sets mNormalVertices to new values in order to be saved
+ *
+ * @param newNormalVertices - A vector<vector<double>>
+ */
+void FileIO::SetNoramlVertices(std::vector<std::vector<double>> newNoramlVertices)
+{
+
 }
+/**
+ * Returns the face elements of a .obj file
+ *
+ * @return mFaceElements - A vector<vector<vector<int>>>
+ */
+std::vector<std::vector<std::vector<int>>> FileIO::GetFaceElements()
+{
+	return mFaceElements;
+}
+
+/**
+ * Sets mFaceElements to new values in order to be saved
+ *
+ * @param newFaceElements - A vector<vector<vector<int>>>
+ */
+void FileIO::SetFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements)
+{
+
+}
+
