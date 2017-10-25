@@ -18,17 +18,13 @@ class FileIO{
 		
 	public:
 	
-		//Save methods for .obj files
-		void SaveObj(boost::filesystem::path p);
-		void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<int>> newFaceElements);
-		void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
-						std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices, std::vector<std::vector<int>> mFaceElements);
-
-		
-		//load method for .onj files
+		// load method for .obj files
 		void LoadObj(boost::filesystem::path p);
 		
-		//Get and Set methods for geometric vertices
+		// save method for .obj files
+		void SaveObj(std::string filename);
+
+		// Get and Set methods for geometric vertices
 		std::vector<std::vector<double>> getGeometricVertices();
 		void setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices);
 		std::vector<std::vector<double>> getTextureVertices();

@@ -1,4 +1,4 @@
-#include "../Include/FileIO.h"
+#include "FileIO.h"
 
 #include <math.h>
 
@@ -13,50 +13,6 @@
  *
  * @author Ryan Hamilton
  */
-
-
-/**
- * Save 3d model as a .obj
- *
- * @param p - A path
- */
-void FileIO::SaveObj(boost::filesystem::path p) {
-
-}
-
-/**
- * Save 3d model as a .obj
- *
- * @param p - A path
- *        newmGeometricVertices - A vector<vector<double>>
- *        newFaceElements - A vector<vector<vector<int>>>
- */
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<int>> newFaceElements) {
-
-}
-
-/**
- * Save 3d model as a .obj
- *
- * @param p - A path
- *        newmGeometricVertices - A vector<vector<double>>
- *		  newTextureVectices - A vector<vector<double>>
- *        newNormalVectices - A vector<vector<double>>
- *        newFaceElements - A vector<vector<vector<int>>>
- */
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
-		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices, std::vector<std::vector<int>> mFaceElements)
-		{
-
-}
-/*
- *
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
-		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices,
-		std::vector<std::vector<int>> newmFaceElements){
-
-}
-*/
 
 void FileIO::LoadObj(boost::filesystem::path p)
 {
@@ -232,12 +188,16 @@ void FileIO::LoadObj(boost::filesystem::path p)
 	}
 }
 
+void FileIO::SaveObj(std::string filename) {
+
+}
+
 /**
  * Returns the geometric vertices of a .obj file
  *
  * @return mGeometricVertices - A vector<vector<double>>
  */
-std::vector<std::vector<double>> getGeometricVertices()
+std::vector<std::vector<double>> FileIO::getGeometricVertices()
 {
 	return mGeometricVertices;
 }
@@ -247,7 +207,7 @@ std::vector<std::vector<double>> getGeometricVertices()
  *
  * @param newGeometricVertices - A vector<vector<double>>
  */
-void setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices)
+void FileIO::setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices)
 {
 
 }
@@ -257,7 +217,7 @@ void setGeometricVertices(std::vector<std::vector<double>> newGeometricVertices)
  *
  * @return mTextureVertices - A vector<vector<double>>
  */
-std::vector<std::vector<double>> getTextureVertices()
+std::vector<std::vector<double>> FileIO::getTextureVertices()
 {
 	return mTextureVertices;
 }
@@ -267,7 +227,7 @@ std::vector<std::vector<double>> getTextureVertices()
  *
  * @param newTextureVertices - A vector<vector<double>>
  */
-void setTextureVertices(std::vector<std::vector<double>> newTextureVertices)
+void FileIO::setTextureVertices(std::vector<std::vector<double>> newTextureVertices)
 {
 
 }
@@ -277,7 +237,7 @@ void setTextureVertices(std::vector<std::vector<double>> newTextureVertices)
  *
  * @return mNormalVertices - A vector<vector<double>>
  */
-std::vector<std::vector<double>> getNormalVertices()
+std::vector<std::vector<double>> FileIO::getNormalVertices()
 {
 	return mNormalVertices;
 }
@@ -287,13 +247,13 @@ std::vector<std::vector<double>> getNormalVertices()
  *
  * @param newNormalVertices - A vector<vector<double>>
  */
-void setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices)
+void FileIO::setNoramlVertices(std::vector<std::vector<double>> newNoramlVertices)
 {
 
 }
 
 std::vector<std::vector<std::vector<int>>> FileIO::getFaceElements(){
-	return mfaceElements;
+	return mFaceElements;
 }
 
 /**
@@ -301,8 +261,7 @@ std::vector<std::vector<std::vector<int>>> FileIO::getFaceElements(){
  *
  * @param newFaceElements - A vector<vector<vector<int>>>
  */
-void setFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements)
+void FileIO::setFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements)
 {
 
 }
-
