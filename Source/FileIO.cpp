@@ -188,8 +188,21 @@ void FileIO::LoadObj(boost::filesystem::path p)
 	}
 }
 
+/**
+ * This function saves a .obj file with a given name.
+ *
+ * @param filename - name wanted for the obj file being saved.
+ */
 void FileIO::SaveObj(std::string filename) {
+	// Filename is read in and file is created with that name.
+	boost::filesystem::ofstream outputFile;
+	outputFile.open(filename + ".obj");
 
+
+	// Information is written to a .obj file.
+	outputFile << "Test writing to a file.\n Hello People!!";
+
+	outputFile.close();
 }
 
 /**

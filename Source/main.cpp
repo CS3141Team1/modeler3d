@@ -29,6 +29,9 @@ int main(int argc, char** asrgv)
     cout << "Exiting Modeler3D" << endl;
 
     //ListDir("C:/");
+    //FileIO objFile;
+    //objFile.SaveObj("test");
+
 
     return 0;
 }
