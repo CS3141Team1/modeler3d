@@ -23,40 +23,6 @@ enum class Attribute
 };
 
 /**
- * Vertex data types
- *
- * @author Nicholas Hamilton
- */
-enum class DataType
-{
-    UInt8,
-    UInt16,
-    UInt32,
-    Float32
-};
-
-/**
- * @return size of a data type in bytes
- *
- * @author Nicholas Hamilton
- */
-static uint SizeInBytes(DataType type)
-{
-    switch (type)
-    {
-    case DataType::UInt8:
-        return 1;
-    case DataType::UInt16:
-        return 2;
-    case DataType::UInt32:
-    case DataType::Float32:
-        return 4;
-    default:
-        return 0;
-    }
-}
-
-/**
  * Piece of a vertex format
  *
  * @author Nicholas Hamilton
@@ -65,14 +31,12 @@ struct VertexElement
 {
     Attribute Attrib;
     uint Count;
-    DataType Type;
 
-    VertexElement(Attribute attrib, uint count, DataType type = DataType::Float32)
+    VertexElement(Attribute attrib, uint count)
         : Attrib(attrib),
-          Count(count),
-          Type(type) {}
+          Count(count) {}
 
-    uint GetSizeInBytes() const { return Video::SizeInBytes(Type) * Count; }
+    uint GetSizeInBytes() const { return 4 * Count; }
 };
 
 /**
@@ -83,9 +47,9 @@ struct VertexElement
 class VertexFormat
 {
 public:
-    static const VertexFormat Position3fTexCoord02fColor4f;
-    static const VertexFormat Position3fNormal3fColor4f;
-    static const VertexFormat Position3fNormal3fTexCoord02fColor4f;
+    static const VertexFormat Position3TexCoord02Color4;
+    static const VertexFormat Position3Normal3Color4;
+    static const VertexFormat Position3Normal3TexCoord02Color4;
 
     VertexFormat() : mElems(), mBytes(0) {}
 
@@ -124,9 +88,9 @@ public:
      *
      * @return self, for easy chaining
      */
-    VertexFormat& AddElement(Attribute attrib, uint count, DataType type = DataType::Float32)
+    VertexFormat& AddElement(Attribute attrib, uint count)
     {
-        return AddElement(VertexElement(attrib, count, type));
+        return AddElement(VertexElement(attrib, count));
     }
 private:
     std::vector<VertexElement> mElems;

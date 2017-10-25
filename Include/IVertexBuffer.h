@@ -35,12 +35,12 @@ public:
     /**
      * @param out location to put the data
      */
-    virtual void GetData(void* out, uint start, uint count) const = 0;
+    virtual void GetData(float* out, uint start, uint count) const = 0;
 
     /**
      * @param in location of data to set
      */
-    virtual void SetData(void* in, uint start, uint count) = 0;
+    virtual void SetData(float* in, uint start, uint count) = 0;
 };
 
 }

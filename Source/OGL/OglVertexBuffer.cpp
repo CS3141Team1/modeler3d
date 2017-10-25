@@ -31,14 +31,14 @@ void OglVertexBuffer::Release()
     mId = 0;
 }
 
-void OglVertexBuffer::GetData(void* out, uint start, uint count) const
+void OglVertexBuffer::GetData(float* out, uint start, uint count) const
 {
     uint index = start * mFormat.GetSizeInBytes();
     uint size = count * mFormat.GetSizeInBytes();
     memcpy(out, &mData[index], size);
 }
 
-void OglVertexBuffer::SetData(void* in, uint start, uint count)
+void OglVertexBuffer::SetData(float* in, uint start, uint count)
 {
     uint index = start * mFormat.GetSizeInBytes();
     uint size = count * mFormat.GetSizeInBytes();

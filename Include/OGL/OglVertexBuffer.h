@@ -21,8 +21,8 @@ public:
 
     uint GetLength() const { return mLength; }
 
-    void GetData(void* out, uint start, uint count) const;
-    void SetData(void* in, uint start, uint count);
+    void GetData(float* out, uint start, uint count) const;
+    void SetData(float* in, uint start, uint count);
 
     GLuint GetId() const { return mId; }
 private:

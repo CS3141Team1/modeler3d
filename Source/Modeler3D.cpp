@@ -180,7 +180,7 @@ void Modeler3D::OnInit()
 
     vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
     geom = Graphics->CreateGeometry();
-    vbo->SetData(&vertices[0], 0, vertices.size());
+    vbo->SetData(reinterpret_cast<float*>(&vertices[0]), 0, vertices.size());
     geom->SetVertexBuffer(vbo);
 }
 
