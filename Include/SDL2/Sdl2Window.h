@@ -22,9 +22,8 @@ public:
     virtual const std::string& GetTitle() const { return mTitle; };
     virtual void SetTitle(const std::string& title);
 
-    // TODO query from SDL
-    virtual uint GetWidth() const { return mWidth; };
-    virtual uint GetHeight() const { return mHeight; };
+    virtual uint GetWidth() const { int width; SDL_GetWindowSize(mWindow, &width, NULL); return width; };
+    virtual uint GetHeight() const { int height; SDL_GetWindowSize(mWindow, NULL, &height); return height; };
     virtual void SetSize(uint width, uint height);
 
     virtual SDL_GLContext GetOglContext() { return mContext; }
@@ -44,8 +43,6 @@ private:
     static bool mGlewInit;
 
     std::string mTitle;
-    uint mWidth;
-    uint mHeight;
     bool mVisible;
     SDL_Window* mWindow;
     SDL_GLContext mContext;

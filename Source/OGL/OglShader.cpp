@@ -4,6 +4,7 @@
 #include <vector>
 
 using namespace std;
+using namespace Core::Math;
 
 namespace Video
 {
@@ -68,6 +69,48 @@ GLuint OglShader::CompileShader(const std::string& source, GLenum type,
     }
 
     return id;
+}
+
+void OglShader::SetMatrix4f(const std::string& name, const Matrix4f& mat)
+{
+    glUseProgram(mId);
+    glUniformMatrix4fv(glGetUniformLocation(mId, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
+void OglShader::SetMatrix3f(const std::string& name, const Matrix3f& mat)
+{
+    glUseProgram(mId);
+    glUniformMatrix3fv(glGetUniformLocation(mId, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
+void OglShader::SetVector4f(const std::string& name, const Vector4f& vec)
+{
+    glUseProgram(mId);
+    glUniform4fv(glGetUniformLocation(mId, name.c_str()), 1, &vec[0]);
+}
+
+void OglShader::SetVector3f(const std::string& name, const Vector3f& vec)
+{
+    glUseProgram(mId);
+    glUniform3fv(glGetUniformLocation(mId, name.c_str()), 1, &vec[0]);
+}
+
+void OglShader::SetVector2f(const std::string& name, const Vector2f& vec)
+{
+    glUseProgram(mId);
+    glUniform2fv(glGetUniformLocation(mId, name.c_str()), 1, &vec[0]);
+}
+
+void OglShader::SetFloat32(const std::string& name, float32 f)
+{
+    glUseProgram(mId);
+    glUniform1f(glGetUniformLocation(mId, name.c_str()), f);
+}
+
+void OglShader::SetInt32(const std::string& name, int32 i)
+{
+    glUseProgram(mId);
+    glUniform1i(glGetUniformLocation(mId, name.c_str()), i);
 }
 
 bool OglShader::LinkProgram(GLuint vertex, GLuint fragment)

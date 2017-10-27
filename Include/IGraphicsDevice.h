@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGeometry.h"
+#include "IIndexBuffer.h"
 #include "IShader.h"
 #include "IVertexBuffer.h"
 #include "Types.h"
@@ -44,11 +45,33 @@ public:
     virtual ~IGraphicsDevice() {}
 
     /**
+     * Get width of the window screen
+     */
+    virtual float32 GetWidth() const = 0;
+
+    /**
+     * Get height of the window screen
+     */
+    virtual float32 GetHeight() const = 0;
+
+    /**
+     * Get aspect ratio of the window screen
+     */
+    virtual float32 GetAspectRatio() const = 0;
+
+    /**
      * @return Vertex buffer created by the device
      *
      * @param count Number of vertices in the buffer
      */
     virtual IVertexBuffer* CreateVertexBuffer(VertexFormat format, uint count, BufferHint hint = BufferHint::Dynamic) = 0;
+
+    /**
+     * @return Index buffer created by the device
+     *
+     * @param count Number of indices in the buffer
+     */
+    virtual IIndexBuffer* CreateIndexBuffer(uint count, BufferHint hint = BufferHint::Dynamic) = 0;
 
     /**
      * @return Shader created by the device
@@ -112,6 +135,15 @@ public:
      * @param primCount Number of primitives to draw, NOT number of vertices
      */
     virtual void Draw(Primitive prim, uint start, uint primCount) = 0;
+
+    /**
+     * Draw the current geometry with the set shader
+     *
+     * @param prim Primitive type to draw
+     * @param start Index of first vertex to draw
+     * @param primCount Number of primitives to draw, NOT number of indices
+     */
+    virtual void DrawIndices(Primitive prim, uint start, uint primCount) = 0;
 };
 
 }

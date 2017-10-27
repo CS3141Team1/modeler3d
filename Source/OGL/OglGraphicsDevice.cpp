@@ -11,7 +11,11 @@
 
 #include "Math/ModelerMath.h"
 #include "Math/Matrix4.h"
+
+#include "SDL2/Sdl2Window.h"
+
 #include "OGL/OglGeometry.h"
+#include "OGL/OglIndexBuffer.h"
 #include "OGL/OglVertexBuffer.h"
 
 using namespace std;
@@ -43,7 +47,8 @@ static std::string AttributeName(Attribute attrib)
     }
 }
 
-OglGraphicsDevice::OglGraphicsDevice()
+OglGraphicsDevice::OglGraphicsDevice(Sdl2Window* window)
+    : mWindow(window)
 {
 }
 
@@ -61,11 +66,16 @@ void OglGraphicsDevice::SetClearColor(float32 r, float32 g, float32 b, float32 a
     glClearColor(r, g, b, a);
 }
 
-IVertexBuffer* OglGraphicsDevice::CreateVertexBuffer(VertexFormat format,
-        uint count, BufferHint hint)
+IVertexBuffer* OglGraphicsDevice::CreateVertexBuffer(VertexFormat format, uint count, BufferHint hint)
 {
     OglVertexBuffer* vbo = new OglVertexBuffer(format, count); //, hint);
     return vbo;
+}
+
+IIndexBuffer* OglGraphicsDevice::CreateIndexBuffer(uint count, BufferHint hint)
+{
+    OglIndexBuffer* ibo = new OglIndexBuffer(count); //, hint);
+    return ibo;
 }
 
 IGeometry* OglGraphicsDevice::CreateGeometry()
@@ -136,15 +146,70 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
         if (vbo)
         {
             glBindBuffer(GL_ARRAY_BUFFER, vbo->GetId());
-//            cout << "VBO: " << vbo->GetId() << endl;
 
-//            vector<GLfloat> floats(6 * 3);
-//            glGetBufferSubData(GL_ARRAY_BUFFER, 0, 4 * 6 * 3, &floats[0]);
-//            for (uint i = 0; i < floats.size(); i++)
-//            {
-//                cout << floats[i] << " ";
-//            }
-//            cout << endl;
+            const VertexFormat& format = vbo->GetFormat();
+
+            for (uint j = 0; j < format.GetElementCount(); j++)
+            {
+                const VertexElement& elem = format.GetElement(j);
+
+                int attribId = static_cast<int>(elem.Attrib);
+
+                if (usedAttribs.find(attribId) == usedAttribs.end())
+                {
+                    usedAttribs.insert(attribId);
+                    string name = AttributeName(elem.Attrib);
+
+                    glVertexAttribPointer(
+                            glGetAttribLocation(mShader->GetId(), name.c_str()),
+                            elem.Count,
+                            GL_FLOAT,
+                            GL_FALSE,
+                            format.GetSizeInBytes(),
+                            reinterpret_cast<void*>(format.GetOffsetOf(j))
+                    );
+                    GLint location = glGetAttribLocation(mShader->GetId(), name.c_str());
+                    glEnableVertexAttribArray(location);
+                }
+            }
+        }
+    }
+
+    glDrawArrays(GL_TRIANGLES, start, primCount * 3);
+}
+
+float32 OglGraphicsDevice::GetWidth() const
+{
+    return mWindow->GetWidth();
+}
+
+float32 OglGraphicsDevice::GetHeight() const
+{
+    return mWindow->GetHeight();
+}
+
+float32 OglGraphicsDevice::GetAspectRatio() const
+{
+    return mWindow->GetAspectRatio();
+}
+
+void OglGraphicsDevice::DrawIndices(Primitive prim, uint start, uint primCount)
+{
+    if (mGeometry == nullptr) return;
+    if (mShader == nullptr) return;
+
+    // bind current shader
+    glUseProgram(mShader->GetId());
+
+    unordered_set<int> usedAttribs;
+
+    for (uint i = 0; i < mGeometry->GetVertexBufferCount(); i++)
+    {
+        OglVertexBuffer* vbo = dynamic_cast<OglVertexBuffer*>(mGeometry->GetVertexBuffer(i));
+
+        if (vbo)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, vbo->GetId());
 
             const VertexFormat& format = vbo->GetFormat();
 
@@ -175,25 +240,13 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
         }
     }
 
-    glDrawArrays(GL_TRIANGLES, start, primCount * 3);
+    OglIndexBuffer* ibo = dynamic_cast<OglIndexBuffer*>(mGeometry->GetIndexBuffer());
 
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluPerspective(70.0, 4.0 / 3.0, 0.1, 100.0);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-//    glTranslatef(0.0f, 0.0f, -2.0f);
-//
-//    glEnable(GL_COLOR);
-//
-//    glBegin(GL_TRIANGLES);
-//        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-//        glVertex3f(-0.5f, -0.5f, 0.0);
-//        glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-//        glVertex3f( 0.5f, -0.5f, 0.0);
-//        glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-//        glVertex3f( 0.0f,  0.5f, 0.0);
-//    glEnd();
+    if (ibo)
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo->GetId());
+        glDrawElements(GL_TRIANGLES, primCount * 3, GL_UNSIGNED_INT, reinterpret_cast<void*>(start));
+    }
 }
 
 }

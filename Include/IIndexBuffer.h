@@ -36,7 +36,7 @@ public:
     /**
      * @param in location of data to set
      */
-    virtual void SetData(uint32* in, uint start, uint count) = 0;
+    virtual void SetData(const uint32* in, uint start, uint count) = 0;
 };
 
 }

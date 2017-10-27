@@ -15,8 +15,6 @@ bool Sdl2Window::mGlewInit = false;
 
 Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
     : mTitle(title),
-      mWidth(width),
-      mHeight(height),
       mVisible(false),
       mWindow(nullptr)
 {

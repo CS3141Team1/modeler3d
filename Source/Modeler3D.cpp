@@ -13,6 +13,7 @@
 using namespace std;
 using namespace Core;
 using namespace Core::Math;
+using namespace Video;
 
 std::string VertSource = ""
         "#version 120 \n"
@@ -69,6 +70,8 @@ std::string FragSource = ""
         "} \n";
 
 Video::IShader* Shader = nullptr;
+
+float Angle = 0.0f;
 
 namespace Core
 {
@@ -186,12 +189,23 @@ void Modeler3D::OnInit()
 
 void Modeler3D::OnUpdate(float64 dt)
 {
+    Angle += 1.0 * dt;
 }
 
 void Modeler3D::OnRender()
 {
     Graphics->SetClearColor(0.3, 0.3, 0.3);
     Graphics->Clear();
+
+    Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 1000.0f);
+    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
+    Matrix4f model = Matrix4f::ToYaw(Angle) * Matrix4f::ToPitch(Angle * 1.3) * Matrix4f::ToRoll(Angle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+    Matrix3f normalMat(Inverse(Transpose(model)));
+
+    Shader->SetMatrix4f("Projection", projection);
+    Shader->SetMatrix4f("View", view);
+    Shader->SetMatrix4f("Model", model);
+    Shader->SetMatrix3f("NormalMat", normalMat);
 
     Graphics->SetShader(Shader);
     Graphics->SetGeometry(geom);
