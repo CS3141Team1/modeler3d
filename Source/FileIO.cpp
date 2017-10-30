@@ -127,42 +127,6 @@ void FileIO::SaveObj(boost::filesystem::path p)
 }
 
 /**
- * Save 3d model as a .obj
- *
- * @param p - A path
- *        newmGeometricVertices - A vector<vector<double>>
- *        newFaceElements - A vector<vector<vector<int>>>
- */
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newGeometricVertices, std::vector<std::vector<int>> newFaceElements)
-{
-
-}
-
-/**
- * Save 3d model as a .obj
- *
- * @param p - A path
- *        newmGeometricVertices - A vector<vector<double>>
- *		  newTextureVectices - A vector<vector<double>>
- *        newNormalVectices - A vector<vector<double>>
- *        newFaceElements - A vector<vector<vector<int>>>
- */
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
-		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices, std::vector<std::vector<int>> mFaceElements)
-		{
-
-}
-
-/*
- *
-void FileIO::SaveObj(boost::filesystem::path p, std::vector<std::vector<double>> newmGeometricVertices,
-		std::vector<std::vector<double>> newTextureVectices, std::vector<std::vector<double>> newNormalVectices,
-		std::vector<std::vector<int>> newFaceElements){
-
-}
-*/
-
-/**
  * Loads a .obj file and parses the file for the geometric vertices, texture coordinates, normal vertices, and face elements from the .obj file
  *
  * @param p - path of .obj file
