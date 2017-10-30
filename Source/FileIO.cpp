@@ -333,12 +333,10 @@ void FileIO::LoadObj2( boost::filesystem::path p, std::vector< std::vector< doub
 					mParseGeometricVertex( fileLine, refGeometricVertices );
 				}
 
-				if( fileLine.at( 0 ) == 'v' && fileLine.at( 1 ) == 't' )
-				{
-					std::vector< double > TextureCoordinate;
-					refTextureCoordinates.push_back( TextureCoordinate );
-					mParseTextureCoordinates( fileLine, refTextureCoordinates );
-				}
+	// Information is written to a .obj file.
+	outputFile << "# Vertices \n";
+	outputFile << mGeometricVertices.size();
+
 
 				if( fileLine.at( 0 ) == 'v' && fileLine.at( 1 ) == 'n' )
 				{

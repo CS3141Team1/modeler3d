@@ -29,8 +29,14 @@ int main(int argc, char** asrgv)
     cout << "Exiting Modeler3D" << endl;
 
     //ListDir("C:/");
-    //FileIO objFile;
-    //objFile.SaveObj("test");
+
+    boost::filesystem::path obj("Assets/bunny.obj");
+
+    FileIO objIn;
+    objIn.LoadObj(obj);
+
+    /*FileIO objOut;
+    objOut.SaveObj("testing");*/
 
 
     return 0;
