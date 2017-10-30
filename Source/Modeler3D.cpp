@@ -108,8 +108,8 @@ void Modeler3D::OnInit()
     objFile.LoadObj(obj);
 
     vector<VertexPosition3fNormal3f> vertices;
-    vector<vector<double>> positions = objFile.getGeometricVertices();
-    vector<vector<vector<int>>> faces = objFile.getFaceElements();
+    vector<vector<double>> positions = objFile.GetGeometricVertices();
+    vector<vector<vector<int>>> faces = objFile.GetFaceElements();
 
     for (uint i = 0; i < faces.size(); i++)
     {

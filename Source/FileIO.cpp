@@ -121,8 +121,39 @@ void FileIO::mParseNormalVertex( std::string str, std::vector< std::vector< doub
  *
  * @param p - A path
  */
-void FileIO::SaveObj(boost::filesystem::path p)
+void FileIO::SaveObj(std::string filename)
 {
+	std::string file = filename + ".obj";
+	boost::filesystem::ofstream outputFile;
+	outputFile.open(file);
+
+	// Vertices written to a .obj file.
+	outputFile << "# Vertices \n";
+
+	for ( uint i = 0; i < mGeometricVertices.size(); i++ ) {
+		outputFile << "v " << mGeometricVertices[i].at(0) << " " << mGeometricVertices[i].at(1) << " " << mGeometricVertices[i].at(2) << "\n";
+	}
+
+	outputFile << "\n";
+	outputFile << "# Texture Coordinates \n";
+
+	// Texture Coordinates written to a .obj file.
+	for (uint i = 0; i < mTextureCoordinates.size(); i++ ) {
+		outputFile << "vt " << mTextureCoordinates[i].at(0) << " " << mTextureCoordinates[i].at(1) << "\n";
+	}
+
+	outputFile << "\n";
+	outputFile << "# Normals \n";
+
+	// Normal vertices written to a .obj file.
+	for (uint i = 0; i < mNormalVertices.size(); i++ ) {
+		outputFile << "vn " << mNormalVertices[i].at(0) << " " << mNormalVertices[i].at(1) << " " << mNormalVertices[i].at(2) << "\n";
+	}
+
+	outputFile << "\n";
+	outputFile << "# Faces \n";
+
+	// Faces written to a .obj file.
 
 }
 
@@ -332,11 +363,6 @@ void FileIO::LoadObj2( boost::filesystem::path p, std::vector< std::vector< doub
 					refGeometricVertices.push_back( geometricVertex );
 					mParseGeometricVertex( fileLine, refGeometricVertices );
 				}
-
-	// Information is written to a .obj file.
-	outputFile << "# Vertices \n";
-	outputFile << mGeometricVertices.size();
-
 
 				if( fileLine.at( 0 ) == 'v' && fileLine.at( 1 ) == 'n' )
 				{

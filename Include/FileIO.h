@@ -26,11 +26,8 @@ class FileIO{
 	public:
 	
 		//Save methods for .obj files
-		void SaveObj( boost::filesystem::path p );
-		void SaveObj( boost::filesystem::path p, std::vector<std::vector< double > > newGeometricVertices, std::vector< std::vector< int > > newFaceElements );
-		void SaveObj( boost::filesystem::path p, std::vector<std::vector< double > > newGeometricVertices,
-				std::vector< std::vector< double > > newTextureVectices, std::vector< std::vector< double > > newNormalVectices,
-				std::vector< std::vector< int > > newFaceElements );
+		void SaveObj( std::string filename );
+
 		
 		//load method for .onj files
 		void LoadObj( boost::filesystem::path p );

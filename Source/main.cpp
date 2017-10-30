@@ -30,13 +30,11 @@ int main(int argc, char** asrgv)
 
     //ListDir("C:/");
 
-    boost::filesystem::path obj("Assets/bunny.obj");
+    boost::filesystem::path obj("Assets/cube.obj");
 
     FileIO objIn;
     objIn.LoadObj(obj);
-
-    /*FileIO objOut;
-    objOut.SaveObj("testing");*/
+    objIn.SaveObj("CubeTest");
 
 
     return 0;
