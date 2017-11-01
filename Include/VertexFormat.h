@@ -54,6 +54,7 @@ public:
     VertexFormat() : mElems(), mBytes(0) {}
 
     uint GetSizeInBytes() const { return mBytes; }
+    uint GetSizeInFloats() const { return mBytes / 4; }
     uint GetElementCount() const { return mElems.size(); }
     const VertexElement& GetElement(uint index) const { return mElems[index]; }
     const VertexElement& operator[](uint index) const { return GetElement(index); }

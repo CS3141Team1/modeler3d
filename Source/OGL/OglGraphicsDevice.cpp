@@ -159,6 +159,7 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
                 {
                     usedAttribs.insert(attribId);
                     string name = AttributeName(elem.Attrib);
+                    cout << "Found " << name << ": " << elem.Count << ", " << format.GetOffsetOf(j) << ", " << format.GetSizeInBytes() << ", " << glGetAttribLocation(mShader->GetId(), name.c_str()) << endl;
 
                     glVertexAttribPointer(
                             glGetAttribLocation(mShader->GetId(), name.c_str()),
@@ -169,11 +170,13 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
                             reinterpret_cast<void*>(format.GetOffsetOf(j))
                     );
                     GLint location = glGetAttribLocation(mShader->GetId(), name.c_str());
+                    cout << location << " ";
                     glEnableVertexAttribArray(location);
                 }
             }
         }
     }
+    cout << endl;
 
     glDrawArrays(GL_TRIANGLES, start, primCount * 3);
 }

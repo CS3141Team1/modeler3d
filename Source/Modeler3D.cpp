@@ -9,6 +9,7 @@
 #include "Math/VectorMath.h"
 
 #include "FileIO.h"
+#include "GuiRenderer.h"
 
 using namespace std;
 using namespace Core;
@@ -70,6 +71,7 @@ std::string FragSource = ""
         "} \n";
 
 Video::IShader* Shader = nullptr;
+Video::GuiRenderer* Gui = nullptr;
 
 float Angle = 0.0f;
 
@@ -102,6 +104,7 @@ void Modeler3D::OnInit()
     cout << "Initializing Modeler3D" << endl;
 
     Shader = Graphics->CreateShader(VertSource, FragSource);
+    Gui = new GuiRenderer(Graphics);
 
 //    float32 s = 0.5f;
 
@@ -210,11 +213,18 @@ void Modeler3D::OnRender()
     Graphics->SetShader(Shader);
     Graphics->SetGeometry(geom);
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
+
+    Gui->SetColor(0.5, 0.5, 0.5);
+    Gui->FillRect(50, 50, 300, 500);
+    Gui->FillRect(Graphics->GetWidth() - 250, Graphics->GetHeight() - 550, 200, 500);
+    Gui->FillRect(Graphics->GetWidth() - 250, 50, 200, 100);
 }
 
 void Modeler3D::OnDestroy()
 {
     cout << "Destroying Modeler3D" << endl;
+    Gui->Release();
+    Shader->Release();
 }
 
 }
