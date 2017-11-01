@@ -29,11 +29,13 @@ public:
 	{
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
+			std::cout << "Child " << i << " OnMouseButton\n";
 			if(GetChild(i)->OnMouseClick(x+mX,y+mY,button,down))
 			{
 				return true;
 			}
 		}
+		std::cout << "Root OnMouseButton: " << InBounds(x,y) << "\n";
 		return InBounds(x,y);
 	}
 
@@ -51,7 +53,7 @@ public:
 
 	void OnDraw(Video::GuiRenderer* g)
 	{
-		g->SetColor(0,0,.5);
+		g->SetColor(mR, mG, mB);
 		g->FillRect(mX, mY, mWidth - 1, mHeight - 1);
 	}
 
@@ -110,6 +112,13 @@ public:
 		SetSize(w, h);
 	}
 
+	void SetColor(float64 r, float64 g, float64 b)
+	{
+		mR = r;
+		mG = g;
+		mB = b;
+	}
+
 	bool InBounds(int32 x, int32 y)
 	{
 		x = x - GetX();
@@ -128,6 +137,9 @@ public:
 	Widget* GetParent() { return mParent; }
 	Widget* GetChild(uint32 i) { return mChildren[i]; }
 	int GetChildCount() { return mChildren.size(); }
+
+private:
+	float64 mR = 0, mG = 0, mB = .5;
 };
 
 

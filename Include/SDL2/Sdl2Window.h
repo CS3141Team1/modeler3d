@@ -8,6 +8,9 @@
 #include "IWindow.h"
 #include "Types.h"
 
+#include "GUI/Environment.h"
+#include "SdlMouse.h"
+
 
 namespace Core
 {
@@ -39,6 +42,9 @@ public:
         SDL_GetWindowSize(mWindow, &width, &height);
         return (float32) width / height;
     }
+
+    virtual GUInterface::Environment* GetEnvironment();
+    virtual SdlMouse* GetMouse();
 private:
     void InitGlew();
 
@@ -48,7 +54,8 @@ private:
     bool mVisible;
     SDL_Window* mWindow;
     SDL_GLContext mContext;
-    SdlMouse mMouse;
+    SdlMouse* mMouse;
+    GUInterface::Environment* mEnv;
 };
 
 }

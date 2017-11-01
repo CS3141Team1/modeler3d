@@ -97,7 +97,7 @@ Modeler3D::Modeler3D(IBackend* backend)
     : Application(backend)
 {
     GUInterface::SampleWidget widget(50,50,100,100);
-    Env = new GUInterface::Environment(widget);
+    mEnv = backend->GetWindow()->GetEnvironment();
 }
 
 Modeler3D::~Modeler3D()
@@ -222,10 +222,7 @@ void Modeler3D::OnRender()
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
     Gui->SetColor(0.5, 0.5, 0.5);
-    Env->Draw(Gui);
-//    Gui->FillRect(50, 50, 300, 500);
-//    Gui->FillRect(Graphics->GetWidth() - 250, Graphics->GetHeight() - 550, 200, 500);
-//    Gui->FillRect(Graphics->GetWidth() - 250, 50, 200, 100);
+    mEnv->Draw(Gui);
 }
 
 void Modeler3D::OnDestroy()

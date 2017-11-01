@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "GUI/Environment.h"
+#include "Sdl2/SdlMouse.h"
 #include "Types.h"
 
 namespace Core
@@ -22,7 +23,7 @@ public:
     virtual void OnDestroy();
 
 private:
-    GUInterface::Environment* Env;
+    GUInterface::Environment* mEnv;
 };
 
 }

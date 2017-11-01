@@ -17,7 +17,7 @@ public:
 
 	void OnDraw(Video::GuiRenderer* g)
 	{
-		g->SetColor(0,0,.5);
+		g->SetColor(mR, mG, mB);
 		g->FillRect(GetX(), GetY(), GetWidth(), GetHeight());
 	}
 
@@ -26,10 +26,13 @@ public:
 		if (down && InBounds(x, y))
 		{
 			this->Focus();
+			std::cout << "in widget\n";
 			return true;
 		}
 		return false;
 	}
+private:
+	float64 mR = 0, mG = 0, mB = .5;
 };
 
 }

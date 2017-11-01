@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include "GUI/Environment.h"
+#include "Sdl2/SdlMouse.h"
+
 namespace Video
 {
 
@@ -34,6 +37,9 @@ public:
     virtual uint GetWidth() const = 0;
     virtual uint GetHeight() const = 0;
     virtual void SetSize(uint width, uint height) = 0;
+
+    virtual GUInterface::Environment* GetEnvironment() = 0;
+    virtual SdlMouse* GetMouse() = 0;
 
     /**
      * Call to update input events
