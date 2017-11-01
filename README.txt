@@ -4,7 +4,7 @@ Pre-requisites:
 
 MUST HAVE Boost libraries compiled and linked.
 MUST HAVE SDL2 compiled and linked.
-MUST HAVE glew compiled and linked.
+MUST HAVE GLEW compiled and linked.
 
 Primary support is for MinGW but it may work on Cygwin or VisualC++.
 
