@@ -3,6 +3,8 @@
 #include <OGL/OglGraphicsDevice.h>
 #include <SDL2/SDL.h>
 
+#include "Sdl2/SdlMouse.h"
+
 #include "IWindow.h"
 #include "Types.h"
 
@@ -46,6 +48,7 @@ private:
     bool mVisible;
     SDL_Window* mWindow;
     SDL_GLContext mContext;
+    SdlMouse mMouse;
 };
 
 }

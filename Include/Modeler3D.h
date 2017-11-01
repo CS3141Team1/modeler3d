@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Application.h"
+#include "GUI/Environment.h"
 #include "Types.h"
 
 namespace Core
@@ -19,6 +20,9 @@ public:
     virtual void OnUpdate(float64 dt);
     virtual void OnRender();
     virtual void OnDestroy();
+
+private:
+    GUInterface::Environment* Env;
 };
 
 }

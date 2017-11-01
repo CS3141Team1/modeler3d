@@ -8,7 +8,7 @@
 #include "GuiRenderer.h"
 #include "Types.h"
 
-namespace Gui
+namespace GUInterface
 {
 
 class Widget
@@ -21,39 +21,37 @@ private:
 public:
 	virtual ~Widget() {}
 
-	Widget() : mX(0),mY(0),mWidth(0),mHeight(0),mParent(nullptr),mChildren(std::vector<Widget>()) {}
-	Widget(int32 x, int32 y, int32 width, int32 height) : mX(x),mY(y),mWidth(width),mHeight(mHeight),mParent(nullptr),mChildren(std::vector<Widget>()) {}
-	Widget(int32 x, int32 y, int32 width, int32 height, Widget* parent) : mX(x),mY(y),mWidth(width),mHeight(mHeight),mParent(parent),mChildren(std::vector<Widget>()) {}
+	Widget() : mX(0),mY(0),mWidth(0),mHeight(0),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
+	Widget(int32 x, int32 y, int32 width, int32 height) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
+	Widget(int32 x, int32 y, int32 width, int32 height, Widget* parent) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(parent),mChildren(std::vector<Widget*>()) {}
 
-	virtual bool OnMouseClick(Environment* e, int32 x, int32 y, int32 button, bool down)
+	bool OnMouseClick(int32 x, int32 y, int32 button, bool down)
 	{
-		bool result = false;
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
-			if(GetChild(i)->OnMouseClick(e, x+mX,y+mY,button,down))
+			if(GetChild(i)->OnMouseClick(x+mX,y+mY,button,down))
 			{
-				result = true;
-				break;
+				return true;
 			}
 		}
 		return InBounds(x,y);
 	}
 
-	void Draw(Environment* e, Video::GuiRenderer* g)
+	void Draw(Video::GuiRenderer* g)
 	{
-		OnDraw(e, g);
+		OnDraw(g);
 
-		g->Translate(mX, mY);
-		for (uint32 i = GetChildCount() - 1; i >= 0; i--)
+		//g->Translate(mX, mY);
+		for (uint32 i = 0; i < GetChildCount(); i++)
 		{
-			GetChild(i)->Draw(e, g);
+			GetChild(GetChildCount() - i - 1)->Draw(g);
 		}
-		g->Translate(-mX, -mY);
+		//g->Translate(-mX, -mY);
 	}
 
-	void OnDraw(Environment* e, Video::GuiRenderer* g)
+	void OnDraw(Video::GuiRenderer* g)
 	{
-		g->SetColor(255,255,255);
+		g->SetColor(0,0,.5);
 		g->FillRect(mX, mY, mWidth - 1, mHeight - 1);
 	}
 

@@ -1,21 +1,27 @@
 #pragma once
 
-#include "Widget.h"
 #include "Environment.h"
+#include "Widget.h"
 
-namespace Gui
+namespace GUInterface
 {
 
 class SampleWidget : public Widget
 {
 public:
-	void OnDraw(Environment* e, Video::GuiRenderer* g)
+	SampleWidget(int32 x, int32 y, int32 w, int32 h)
+		: Widget(x, y, w, h)
 	{
-		g->SetColor(255,255,255);
+
+	}
+
+	void OnDraw(Video::GuiRenderer* g)
+	{
+		g->SetColor(0,0,.5);
 		g->FillRect(GetX(), GetY(), GetWidth(), GetHeight());
 	}
 
-	bool OnMouseButton(Environment* e, int32 x, int32 y, int32 button, bool down)
+	bool OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
 		if (down && InBounds(x, y))
 		{

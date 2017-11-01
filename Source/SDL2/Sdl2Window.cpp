@@ -60,15 +60,40 @@ void Sdl2Window::SetSize(uint width, uint height)
 
 void Sdl2Window::PollEvents()
 {
-    // TODO finish
+	SDL_Event e;
 
-    SDL_Event e;
+	mMouse.SetClicks(0,0,0);
+	mMouse.SetRelativePosition(0,0);
 
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
         {
             SetVisible(false);
+        }
+        else if(e.type == SDL_MOUSEBUTTONUP)
+        {
+        	int32 button = (int)e.button.button;
+        	int32 x = e.button.x;
+        	int32 y = e.button.y;
+        	int32 clicks = (int)e.button.clicks;
+
+        	std::cout << "Clicked button : " << (int)e.button.button << std::endl;
+        	mMouse.SetPosition(x,y);
+
+        	if(button == 1) mMouse.SetLeftClicks(clicks);
+        	else if(button == 2) mMouse.SetMiddleClicks(clicks);
+        	else mMouse.SetRightClicks(clicks);
+        }
+        else if(e.type == SDL_MOUSEMOTION)
+        {
+        	int32 x = e.motion.x;
+        	int32 y = e.motion.y;
+        	int32 xRel = e.motion.xrel;
+        	int32 yRel = e.motion.yrel;
+
+        	mMouse.SetPosition(x,y);
+        	mMouse.SetRelativePosition(xRel,yRel);
         }
     }
 }

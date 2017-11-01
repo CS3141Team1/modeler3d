@@ -5,6 +5,9 @@
 #include <boost/filesystem.hpp>
 
 #include <GL/glew.h>
+#include <GUI/Environment.h>
+#include <GUI/SampleWidget.h>
+#include <GUI/Widget.h>
 
 #include "Math/VectorMath.h"
 
@@ -93,6 +96,8 @@ struct VertexPosition3fNormal3f
 Modeler3D::Modeler3D(IBackend* backend)
     : Application(backend)
 {
+    GUInterface::SampleWidget widget(50,50,100,100);
+    Env = new GUInterface::Environment(widget);
 }
 
 Modeler3D::~Modeler3D()
@@ -137,6 +142,8 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[1]);
         vertices.push_back(verts[2]);
     }
+
+
 
 //    VertexPosition3fNormal3f vertices[] =
 //    {
@@ -215,9 +222,10 @@ void Modeler3D::OnRender()
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
     Gui->SetColor(0.5, 0.5, 0.5);
-    Gui->FillRect(50, 50, 300, 500);
-    Gui->FillRect(Graphics->GetWidth() - 250, Graphics->GetHeight() - 550, 200, 500);
-    Gui->FillRect(Graphics->GetWidth() - 250, 50, 200, 100);
+    Env->Draw(Gui);
+//    Gui->FillRect(50, 50, 300, 500);
+//    Gui->FillRect(Graphics->GetWidth() - 250, Graphics->GetHeight() - 550, 200, 500);
+//    Gui->FillRect(Graphics->GetWidth() - 250, 50, 200, 100);
 }
 
 void Modeler3D::OnDestroy()

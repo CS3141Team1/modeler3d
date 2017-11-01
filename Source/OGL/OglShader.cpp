@@ -13,8 +13,8 @@ OglShader::OglShader(const string& vs, const string& fs)
     : mVertexSource(vs),
       mFragmentSource(fs)
 {
-    cout << "Vertex: " << vs << endl;
-    cout << "Fragment: " << fs << endl;
+//    cout << "Vertex: " << vs << endl;
+//    cout << "Fragment: " << fs << endl;
 
     mId = glCreateProgram();
 
