@@ -6,6 +6,9 @@
 namespace Core
 {
 
+/**
+ * 3D modeler class
+ */
 class Modeler3D : public Application
 {
 public:

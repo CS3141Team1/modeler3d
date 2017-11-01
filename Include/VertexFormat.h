@@ -8,6 +8,9 @@
 namespace Video
 {
 
+/**
+ * Vertex attributes
+ */
 enum class Attribute
 {
     Position,
@@ -19,6 +22,11 @@ enum class Attribute
     TexCoord3
 };
 
+/**
+ * Vertex data types
+ *
+ * @author Nicholas Hamilton
+ */
 enum class DataType
 {
     UInt8,
@@ -27,6 +35,11 @@ enum class DataType
     Float32
 };
 
+/**
+ * @return size of a data type in bytes
+ *
+ * @author Nicholas Hamilton
+ */
 static uint SizeInBytes(DataType type)
 {
     switch (type)
@@ -43,6 +56,11 @@ static uint SizeInBytes(DataType type)
     }
 }
 
+/**
+ * Piece of a vertex format
+ *
+ * @author Nicholas Hamilton
+ */
 struct VertexElement
 {
     Attribute Attrib;
@@ -57,6 +75,11 @@ struct VertexElement
     uint GetSizeInBytes() const { return Video::SizeInBytes(Type) * Count; }
 };
 
+/**
+ * Collection of vertex elements
+ *
+ * @author Nicholas Hamilton
+ */
 class VertexFormat
 {
 public:
@@ -71,6 +94,9 @@ public:
     const VertexElement& GetElement(uint index) const { return mElems[index]; }
     const VertexElement& operator[](uint index) const { return GetElement(index); }
 
+    /**
+     * @return byte offset of an element
+     */
     uint GetOffsetOf(uint index) const
     {
         uint total = 0;
@@ -81,12 +107,23 @@ public:
         return total;
     }
 
+    /**
+     * Add an element to this format
+     *
+     * @return self, for easy chaining
+     */
     VertexFormat& AddElement(VertexElement elem)
     {
         mElems.push_back(elem);
         mBytes += elem.GetSizeInBytes();
         return *this;
     }
+
+    /**
+     * Add properties of an element
+     *
+     * @return self, for easy chaining
+     */
     VertexFormat& AddElement(Attribute attrib, uint count, DataType type = DataType::Float32)
     {
         return AddElement(VertexElement(attrib, count, type));
