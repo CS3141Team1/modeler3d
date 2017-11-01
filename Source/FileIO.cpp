@@ -123,8 +123,10 @@ void FileIO::mParseNormalVertex( std::string str, std::vector< std::vector< doub
  */
 void FileIO::SaveObj(std::string filename)
 {
+	// Adds the obj file extension to the filename
 	std::string file = filename + ".obj";
 	boost::filesystem::ofstream outputFile;
+	// Opens the output file for writing
 	outputFile.open(file);
 
 	// Check to see if any vertices were read in, if not then skips outputing this line
@@ -172,16 +174,25 @@ void FileIO::SaveObj(std::string filename)
 		for ( uint j = 0; j < 3; j++ ) {
 			// Cycles through each elements of a line of faces
 			// IF statements to check for zeros in face vectors
-			if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 ) {
+			if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 && j < 2) {
 				outputFile << mFaceElements[i][j].at(0) << " ";
-			} else if ( mFaceElements[i][j].at(1) == 0 ) {
+			} else if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 ) {
+				outputFile << mFaceElements[i][j].at(0);
+			} else if ( mFaceElements[i][j].at(1) == 0 && j < 2 ) {
 				outputFile << mFaceElements[i][j].at(0) << "//" << mFaceElements[i][j].at(2) << " ";
-			} else {
+			} else if ( mFaceElements[i][j].at(1) == 0 ) {
+				outputFile << mFaceElements[i][j].at(0) << "//" << mFaceElements[i][j].at(2);
+			} else if ( j < 2 ){ // Prevents extra space at end of line
 				outputFile << mFaceElements[i][j].at(0) << "/" << mFaceElements[i][j].at(1) << "/" << mFaceElements[i][j].at(2) << " ";
+			} else {
+				outputFile << mFaceElements[i][j].at(0) << "/" << mFaceElements[i][j].at(1) << "/" << mFaceElements[i][j].at(2);
 			}
 		}
-		outputFile << "\n";
+			outputFile << "\n";
 	}
+
+	// Closes the output file buffer
+	outputFile.close();
 }
 
 /**
