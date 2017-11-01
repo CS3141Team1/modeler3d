@@ -215,9 +215,11 @@ void Modeler3D::OnRender()
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
     Gui->SetColor(0.5, 0.5, 0.5);
-    Gui->FillRect(50, 50, 300, 500);
-    Gui->FillRect(Graphics->GetWidth() - 250, Graphics->GetHeight() - 550, 200, 500);
-    Gui->FillRect(Graphics->GetWidth() - 250, 50, 200, 100);
+    Gui->FillRect(20, 20, 300, 500);
+    Gui->SetColor(0.8, 0.7, 0.5);
+    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
+    Gui->SetColor(0.5, 0.7, 0.8);
+    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
 }
 
 void Modeler3D::OnDestroy()
