@@ -127,34 +127,61 @@ void FileIO::SaveObj(std::string filename)
 	boost::filesystem::ofstream outputFile;
 	outputFile.open(file);
 
-	// Vertices written to a .obj file.
-	outputFile << "# Vertices \n";
+	// Check to see if any vertices were read in, if not then skips outputing this line
+	if ( mGeometricVertices.size() > 0 ) {
+		outputFile << "# Vertices \n";
+	}
 
+	// Vertices written to a .obj file.
 	for ( uint i = 0; i < mGeometricVertices.size(); i++ ) {
 		outputFile << "v " << mGeometricVertices[i].at(0) << " " << mGeometricVertices[i].at(1) << " " << mGeometricVertices[i].at(2) << "\n";
 	}
 
-	outputFile << "\n";
-	outputFile << "# Texture Coordinates \n";
+	// Check to see if any textures were read in, if not then skips outputing this line
+	if ( mTextureCoordinates.size() > 0 ) {
+		outputFile << "\n";
+		outputFile << "# Texture Coordinates \n";
+	}
 
 	// Texture Coordinates written to a .obj file.
-	for (uint i = 0; i < mTextureCoordinates.size(); i++ ) {
+	for ( uint i = 0; i < mTextureCoordinates.size(); i++ ) {
 		outputFile << "vt " << mTextureCoordinates[i].at(0) << " " << mTextureCoordinates[i].at(1) << "\n";
 	}
 
-	outputFile << "\n";
-	outputFile << "# Normals \n";
+	// Check to see if any normals were read in, if not then skips outputing this line
+	if ( mNormalVertices.size() > 0 ) {
+		outputFile << "\n";
+		outputFile << "# Normals \n";
+	}
 
 	// Normal vertices written to a .obj file.
-	for (uint i = 0; i < mNormalVertices.size(); i++ ) {
+	for ( uint i = 0; i < mNormalVertices.size(); i++ ) {
 		outputFile << "vn " << mNormalVertices[i].at(0) << " " << mNormalVertices[i].at(1) << " " << mNormalVertices[i].at(2) << "\n";
 	}
 
-	outputFile << "\n";
-	outputFile << "# Faces \n";
+	// Check to see if any faces were read in, if not then skips outputing this line
+	if ( mFaceElements.size() > 0 ) {
+		outputFile << "\n";
+		outputFile << "# Faces (vertex/texcoord/normal) \n";
+	}
 
 	// Faces written to a .obj file.
-
+	for ( uint i = 0; i < mFaceElements.size(); i++ ) {
+		// Cycles through each row of faces
+		outputFile << "f ";
+		for ( uint j = 0; j < 3; j++ ) {
+			// Cycles through each elements of a line of faces
+			// IF statements to check for zeros in face vectors
+			if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 ) {
+				outputFile << mFaceElements[i][j].at(0) << " ";
+			} else if ( mFaceElements[i][j].at(1) == 0 ) {
+				outputFile << mFaceElements[i][j].at(0) << "//" << mFaceElements[i][j].at(2) << " ";
+			} else {
+				outputFile << mFaceElements[i][j].at(0) << "/" << mFaceElements[i][j].at(1) << "/" << mFaceElements[i][j].at(2) << " ";
+			}
+		}
+		outputFile << "\n";
+	}
 }
 
 /**

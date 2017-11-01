@@ -12,7 +12,24 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+/******************************************
+ *
+ * Boost Directory Tests
+ *
+ ******************************************/
+    ListDir("C:/");
 
+/******************************************
+ *
+ * Boost FilIO Tests
+ *
+ ******************************************/
+
+    boost::filesystem::path obj("Assets/cube.obj");
+
+    FileIO objIn;
+    objIn.LoadObj(obj);
+    objIn.SaveObj("CubeTest1");
 
 
 

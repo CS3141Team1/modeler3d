@@ -28,14 +28,5 @@ int main(int argc, char** asrgv)
 
     cout << "Exiting Modeler3D" << endl;
 
-    //ListDir("C:/");
-
-    boost::filesystem::path obj("Assets/cube.obj");
-
-    FileIO objIn;
-    objIn.LoadObj(obj);
-    objIn.SaveObj("CubeTest");
-
-
     return 0;
 }
