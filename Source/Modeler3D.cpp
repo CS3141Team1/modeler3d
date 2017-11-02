@@ -212,6 +212,7 @@ void Modeler3D::OnUpdate(float64 dt)
 
 void Modeler3D::OnRender()
 {
+    Gui->Reset();
     Graphics->SetClearColor(0.3, 0.3, 0.3);
     Graphics->Clear();
 
@@ -229,6 +230,7 @@ void Modeler3D::OnRender()
     Graphics->SetGeometry(geom);
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
+    Gui->Translate(10, 0);
     Gui->SetColor(0.5, 0.5, 0.5);
     mEnv->Draw(Gui);
     Gui->FillRect(20, 20, 300, 500);
@@ -236,6 +238,7 @@ void Modeler3D::OnRender()
     Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
     Gui->SetColor(0.5, 0.7, 0.8);
     Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
+    Gui->Translate(-10, 0);
 }
 
 void Modeler3D::OnDestroy()
