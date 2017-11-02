@@ -6,10 +6,10 @@
 namespace GUInterface
 {
 
-class SampleWidget : public Widget
+class ColorChangerWidget : public Widget
 {
 public:
-	SampleWidget(int32 x, int32 y, int32 w, int32 h)
+	ColorChangerWidget(int32 x, int32 y, int32 w, int32 h)
 		: Widget(x, y, w, h)
 	{
 

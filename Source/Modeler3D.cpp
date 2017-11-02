@@ -94,7 +94,7 @@ struct VertexPosition3fNormal3f
 Modeler3D::Modeler3D(IBackend* backend)
     : Application(backend)
 {
-    GUInterface::SampleWidget widget(50,50,100,100);
+    GUInterface::ColorChangerWidget widget(50,50,100,100);
     mEnv = backend->GetWindow()->GetEnvironment();
 }
 
@@ -189,9 +189,9 @@ void Modeler3D::OnInit()
 //            { {-s,  s, -s}, {-1, 0, 0} },
 //    };
 
-    GUInterface::SampleWidget* bottomLeft = new GUInterface::SampleWidget(20,20,80,40);
-    GUInterface::SampleWidget* topLeft = new GUInterface::SampleWidget(20,200,150,350);
-    GUInterface::SampleWidget* topRight = new GUInterface::SampleWidget(60,150,200,300);
+    GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(20,20,80,40);
+    GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(20,200,150,350);
+    GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(500,150,200,300);
     mEnv->SetGraphics(Graphics);
     mEnv->AddWidget(bottomLeft);
     mEnv->AddWidget(topLeft);
