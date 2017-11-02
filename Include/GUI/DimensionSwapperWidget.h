@@ -6,10 +6,10 @@
 namespace GUInterface
 {
 
-class ColorChangerWidget : public Widget
+class DimensionSwapperWidget : public Widget
 {
 public:
-	ColorChangerWidget(int32 x, int32 y, int32 w, int32 h)
+	DimensionSwapperWidget(int32 x, int32 y, int32 w, int32 h)
 		: Widget(x, y, w, h)
 	{
 
@@ -33,8 +33,8 @@ public:
 		if (down)
 		{
 			this->Focus();
-			SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
-			std::cout << "clicked in a ColorChangerWidget" << std::endl;
+			SetSize(GetHeight(),GetWidth());
+			std::cout << "clicked in a DimensionSwapperWidget" << std::endl;
 		}
 	}
 
@@ -43,19 +43,19 @@ public:
 	    // TODO
 	    // NOT SAFE, position and size could drift due to
 	    // floating point precision
-	    mTime += dt;
+//	    mTime += dt;
+//
+//	    if (mTime >= 1)
+//	    {
+//	        mTime -= 1;
+//	        mDir *= -1;
+//	    }
 
-	    if (mTime >= 1)
-	    {
-	        mTime -= 1;
-	        mDir *= -1;
-	    }
-
-	    SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
+	    //SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
 	}
 
 private:
-	float64 mR = 0, mG = 0, mB = .5;
+	float64 mR = 0, mG = .5, mB = .5;
 	float64 mTime = 0;
 	int32 mDir = 1;
 };

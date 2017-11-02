@@ -29,17 +29,11 @@ public:
 	{
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
-			if(GetChild(i)->MouseButton(x+mX,y+mY,button,down))
-			{
-				std::cout << "Child " << i << " Clicked, ";
+			if(GetChild(i)->MouseButton(x-mX,y-mY,button,down))
 				return true;
-			}
-			else
-				std::cout << "Child " << i << " Not Clicked, ";
 		}
 		bool bounds = InBounds(x,y);
 		if (bounds) OnMouseButton(x, y, button, down);
-		std::cout << "in OnMouseButton: " << bounds << std::endl << std::endl;
 		return bounds;
 	}
 
@@ -51,7 +45,7 @@ public:
 
 	    for(uint32 i = 0; i < GetChildCount(); i++)
         {
-            GetChild(i)->OnUpdate(dt);
+            GetChild(i)->Update(dt);
         }
 	}
 
@@ -146,6 +140,16 @@ public:
 	Widget* GetParent() { return mParent; }
 	Widget* GetChild(uint32 i) { return mChildren[i]; }
 	uint32 GetChildCount() { return mChildren.size(); }
+
+	uint32 GetDescendantCount()
+	{
+		uint32 count = GetChildCount();
+		for(uint32 i = 0; i < GetChildCount(); i++)
+		{
+			count += GetChild(i)->GetDescendantCount();
+		}
+		return count;
+	}
 };
 
 

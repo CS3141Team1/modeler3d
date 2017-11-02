@@ -189,15 +189,15 @@ void Modeler3D::OnInit()
 //            { {-s,  s, -s}, {-1, 0, 0} },
 //    };
 
-    GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(20,20,80,40);
-    GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(20,200,150,350);
-    GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(500,150,200,300);
+    GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(60,40,80,40);
+    GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(60,200,150,350);
+    GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(625,150,100,300);
     mEnv->SetGraphics(Graphics);
     mEnv->AddWidget(bottomLeft);
     mEnv->AddWidget(topLeft);
     mEnv->AddWidget(topRight);
-    GUInterface::ColorChangerWidget* child = new GUInterface::ColorChangerWidget(10,10,30,40);
-    GUInterface::ColorChangerWidget* child2 = new GUInterface::ColorChangerWidget(50,50,50,50);
+    GUInterface::ColorChangerWidget* child = new GUInterface::ColorChangerWidget(10,10,80,50);
+    GUInterface::DimensionSwapperWidget* child2 = new GUInterface::DimensionSwapperWidget(50,50,70,200);
     mEnv->GetWidget(2)->AddChild(child);
     mEnv->GetWidget(1)->AddChild(child2);
 
@@ -234,9 +234,9 @@ void Modeler3D::OnRender()
     Graphics->SetGeometry(geom);
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
+    mEnv->Draw(Gui);
 //    Gui->Translate(10, 0);
 //    Gui->SetColor(0.5, 0.5, 0.5);
-    mEnv->Draw(Gui);
 //    Gui->FillRect(20, 20, 300, 500);
 //    Gui->SetColor(0.8, 0.7, 0.5);
 //    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);

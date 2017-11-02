@@ -28,7 +28,7 @@ public:
 
 	int GetWidgetCount()
 	{
-		return mRoot->GetChildCount();
+		return mRoot->GetDescendantCount();
 	}
 
 	void SetRoot(Widget* widget)
@@ -65,7 +65,7 @@ public:
 
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetChildCount() << " children" << std::endl;
+		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetDescendantCount() << " descendants" << std::endl;
 
 		mRoot->MouseButton(x, y, button, down);
 		std::cout << std::endl;
