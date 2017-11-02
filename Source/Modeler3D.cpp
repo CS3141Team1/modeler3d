@@ -1,9 +1,11 @@
 #include "Modeler3D.h"
 
+#include <iostream>
+
 #include <boost/filesystem.hpp>
 #include <GL/glew.h>
-#include <GUI/AllWidgets.h>
-#include <iostream>
+
+#include "GUI/AllWidgets.h"
 #include "Math/VectorMath.h"
 
 #include "FileIO.h"
