@@ -58,6 +58,11 @@ public:
 		mRoot->Draw(mGraphics, g);
 	}
 
+	void Update(float64 dt)
+	{
+	    mRoot->Update(dt);
+	}
+
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
 		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetChildCount() << " children" << std::endl;

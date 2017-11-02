@@ -14,7 +14,7 @@ namespace GUInterface
 class Widget
 {
 private:
-	int32 mX, mY, mWidth, mHeight;
+    float32 mX, mY, mWidth, mHeight;
 	Widget* mParent;
 	std::vector<Widget*> mChildren;
 
@@ -45,6 +45,18 @@ public:
 
 	virtual void OnMouseButton(int32 x, int32 y, int32 button, bool down) {}
 
+	void Update(float64 dt)
+	{
+	    OnUpdate(dt);
+
+	    for(uint32 i = 0; i < GetChildCount(); i++)
+        {
+            GetChild(i)->OnUpdate(dt);
+        }
+	}
+
+	virtual void OnUpdate(float64 dt) {}
+
 	void Draw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
 	{
 		OnDraw(graphics, g);
@@ -57,11 +69,7 @@ public:
 		g->Translate(-mX, -mY);
 	}
 
-	virtual void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
-	{
-		g->SetColor(mR, mG, mB);
-		g->FillRect(mX, mY, mWidth - 1, mHeight - 1);
-	}
+	virtual void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g) {}
 
 	void Focus() {
 		Widget* w = this;
@@ -100,32 +108,25 @@ public:
 		mParent = parent;
 	}
 
-	void SetSize(int32 w, int32 h)
+	void SetSize(float32 w, float32 h)
 	{
 		mWidth = w;
 		mHeight = h;
 	}
 
-	void SetPosition(int32 x, int32 y)
+	void SetPosition(float32 x, float32 y)
 	{
 		mX = x;
 		mY = y;
 	}
 
-	void SetBounds(int32 x, int32 y, int32 w, int32 h)
+	void SetBounds(float32 x, float32 y, float32 w, float32 h)
 	{
 		SetPosition(x, y);
 		SetSize(w, h);
 	}
 
-	void SetColor(float64 r, float64 g, float64 b)
-	{
-		mR = r;
-		mG = g;
-		mB = b;
-	}
-
-	bool InBounds(int32 x, int32 y)
+	bool InBounds(float32 x, float32 y)
 	{
 		x = x - GetX();
 		y = y - GetY();
@@ -138,18 +139,13 @@ public:
 		return true;
 	}
 
-	int GetX() { return mX; }
-	int GetY() { return mY; }
-	int GetWidth() { return mWidth; }
-	int GetHeight() { return mHeight; }
+	float32 GetX() { return mX; }
+	float32 GetY() { return mY; }
+	float32 GetWidth() { return mWidth; }
+	float32 GetHeight() { return mHeight; }
 	Widget* GetParent() { return mParent; }
 	Widget* GetChild(uint32 i) { return mChildren[i]; }
 	uint32 GetChildCount() { return mChildren.size(); }
-
-	virtual void OnUpdate(float dt) {}
-
-private:
-	float64 mR = 0, mG = 0, mB = .5;
 };
 
 

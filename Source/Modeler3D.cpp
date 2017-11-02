@@ -206,6 +206,8 @@ void Modeler3D::OnInit()
 void Modeler3D::OnUpdate(float64 dt)
 {
     Angle += 1.0 * dt;
+
+    mEnv->Update(dt);
 }
 
 void Modeler3D::OnRender()

@@ -35,17 +35,15 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
 
     mContext = SDL_GL_CreateContext(mWindow);
 
-    GUInterface::RootWidget* root = new GUInterface::RootWidget(0,0,0,0);//GetWidth(),GetHeight());
+    GUInterface::Widget* root = new GUInterface::Widget(0,0,0,0);//GetWidth(),GetHeight());
     mEnv = new GUInterface::Environment(root);
     mMouse = new SdlMouse();
 
     const char* version = (const char*)glGetString(GL_VERSION);
-//    std::cout << version << std::endl;
-//    delete[] version;
+    std::cout << version << std::endl;
 
     version = (const char*)glGetString(GL_RENDERER);
-//    std::cout << version << std::endl;
-//    delete[] version;
+    std::cout << version << std::endl;
 }
 
 Sdl2Window::~Sdl2Window()
