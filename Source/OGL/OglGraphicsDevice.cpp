@@ -8,11 +8,10 @@
 
 #include <GL/glew.h>
 #include <GL/glu.h>
+#include <SDL2/Sdl2Window.h>
 
 #include "Math/ModelerMath.h"
 #include "Math/Matrix4.h"
-
-#include "SDL2/Sdl2Window.h"
 
 #include "OGL/OglGeometry.h"
 #include "OGL/OglIndexBuffer.h"

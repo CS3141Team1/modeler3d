@@ -1,5 +1,4 @@
-#include "SDL2/Sdl2Backend.h"
-
+#include <SDL2/Sdl2Backend.h>
 #include <SDL2/SDL.h>
 
 namespace Core
