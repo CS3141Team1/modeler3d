@@ -1,12 +1,9 @@
 #include "Modeler3D.h"
 
-#include <iostream>
-
 #include <boost/filesystem.hpp>
-
 #include <GL/glew.h>
 #include <GUI/AllWidgets.h>
-
+#include <iostream>
 #include "Math/VectorMath.h"
 
 #include "FileIO.h"
@@ -140,8 +137,6 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[1]);
         vertices.push_back(verts[2]);
     }
-
-
 
 //    VertexPosition3fNormal3f vertices[] =
 //    {

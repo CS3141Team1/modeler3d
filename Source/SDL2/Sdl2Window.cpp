@@ -3,10 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <SDL2/Sdl2Window.h>
-#include <SDL2/SdlMouse.h>
 
 #include "GUI/AllWidgets.h"
+#include "SDL2/Sdl2Window.h"
 #include "SDL2/SdlMouse.h"
 
 using namespace std;
@@ -104,7 +103,6 @@ void Sdl2Window::PollEvents()
         	mMouse->SetRelativePosition(xRel,yRel);
         }
     }
-
 }
 
 void Sdl2Window::SwapBuffers()
@@ -113,7 +111,6 @@ void Sdl2Window::SwapBuffers()
     int width, height;
     SDL_GetWindowSize(mWindow, &width, &height);
     glViewport(0, 0, width, height);
-
 }
 
 void Sdl2Window::SetVisible(bool visible)

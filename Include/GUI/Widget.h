@@ -1,8 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <cstdlib>
 #include <vector>
-#include <algorithm>
 
 #include "Environment.h"
 #include "GuiRenderer.h"
@@ -13,11 +13,6 @@ namespace GUInterface
 
 class Widget
 {
-private:
-    float32 mX, mY, mWidth, mHeight;
-	Widget* mParent;
-	std::vector<Widget*> mChildren;
-
 public:
 	virtual ~Widget() {}
 
@@ -150,6 +145,11 @@ public:
 		}
 		return count;
 	}
+
+private:
+    float32 mX, mY, mWidth, mHeight;
+	Widget* mParent;
+	std::vector<Widget*> mChildren;
 };
 
 
