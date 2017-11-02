@@ -1,3 +1,5 @@
+#include <SDL2/Sdl2Backend.h>
+#include <SDL2/Sdl2Window.h>
 #include <iostream>
 #include <cmath>
 
@@ -8,8 +10,6 @@
 #include "Types.h"
 
 #include "Math/ModelerMath.h"
-#include "SDL2/Sdl2Window.h"
-#include "SDL2/Sdl2Backend.h"
 
 using namespace Core;
 using namespace std;

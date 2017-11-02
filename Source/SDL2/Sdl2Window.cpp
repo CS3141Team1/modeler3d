@@ -1,10 +1,10 @@
-#include "SDL2/Sdl2Window.h"
-
 #include <iostream>
 #include <string>
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
+#include <SDL2/Sdl2Window.h>
+#include <SDL2/SdlMouse.h>
 
 #include "GUI/AllWidgets.h"
 #include "SDL2/SdlMouse.h"
