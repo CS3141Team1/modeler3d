@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 
 #include "GUI/AllWidgets.h"
-#include "Sdl2/SdlMouse.h"
+#include "SDL2/SdlMouse.h"
 
 using namespace std;
 

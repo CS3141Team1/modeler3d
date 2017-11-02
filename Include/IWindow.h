@@ -3,7 +3,7 @@
 #include <string>
 
 #include "GUI/Environment.h"
-#include "Sdl2/SdlMouse.h"
+#include "SDL2/SdlMouse.h"
 
 namespace Video
 {
