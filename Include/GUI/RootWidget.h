@@ -17,15 +17,13 @@ public:
 
 	void OnDraw(Video::GuiRenderer* g) { }
 
-	bool OnMouseButton(int32 x, int32 y, int32 button, bool down)
+	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-		if (down && InBounds(x, y))
+		if (down)
 		{
 //			this->Focus();
 			std::cout << "in RootWidget\n";
-			return true;
 		}
-		return false;
 	}
 
 	void OnUpdate(float dt)

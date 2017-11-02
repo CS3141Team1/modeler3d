@@ -62,7 +62,7 @@ public:
 	{
 		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetChildCount() << " children" << std::endl;
 
-		mRoot->OnMouseClick(x, y, button, down);
+		mRoot->MouseButton(x, y, button, down);
 		std::cout << std::endl;
 	}
 };

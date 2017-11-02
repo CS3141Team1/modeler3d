@@ -21,16 +21,14 @@ public:
 		g->FillRect(GetParent()->GetX() + GetX(), GetParent()->GetY() + GetY(), GetWidth(), GetHeight());
 	}
 
-	bool OnMouseButton(int32 x, int32 y, int32 button, bool down)
+	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-		if (down && InBounds(x, y))
+		if (down)
 		{
 			this->Focus();
 			SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
 			std::cout << "in a SampleWidget" << std::endl;
-			return true;
 		}
-		return false;
 	}
 
 	void OnUpdate(float dt)

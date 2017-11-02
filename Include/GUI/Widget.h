@@ -25,11 +25,11 @@ public:
 	Widget(int32 x, int32 y, int32 width, int32 height) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
 	Widget(int32 x, int32 y, int32 width, int32 height, Widget* parent) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(parent),mChildren(std::vector<Widget*>()) {}
 
-	virtual bool OnMouseClick(int32 x, int32 y, int32 button, bool down)
+	bool MouseButton(int32 x, int32 y, int32 button, bool down)
 	{
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
-			if(GetChild(i)->OnMouseClick(x+mX,y+mY,button,down))
+			if(GetChild(i)->MouseButton(x+mX,y+mY,button,down))
 			{
 				std::cout << "Child " << i << " Clicked, ";
 				return true;
@@ -37,9 +37,13 @@ public:
 			else
 				std::cout << "Child " << i << " Not Clicked, ";
 		}
-		std::cout << "in OnMouseButton: " << InBounds(x,y) << std::endl << std::endl;
-		return InBounds(x,y);
+		bool bounds = InBounds(x,y);
+		if (bounds) OnMouseButton(x, y, button, down);
+		std::cout << "in OnMouseButton: " << bounds << std::endl << std::endl;
+		return bounds;
 	}
+
+	virtual void OnMouseButton(int32 x, int32 y, int32 button, bool down) {}
 
 	void Draw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
 	{
