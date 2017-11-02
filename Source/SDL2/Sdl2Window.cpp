@@ -41,11 +41,11 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
 
     const char* version = (const char*)glGetString(GL_VERSION);
 //    std::cout << version << std::endl;
-    delete[] version;
+//    delete[] version;
 
     version = (const char*)glGetString(GL_RENDERER);
 //    std::cout << version << std::endl;
-    delete[] version;
+//    delete[] version;
 }
 
 Sdl2Window::~Sdl2Window()
