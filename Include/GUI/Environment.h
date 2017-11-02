@@ -11,6 +11,7 @@ class Environment
 {
 private:
 	Widget* mRoot;
+	Video::IGraphicsDevice* mGraphics = nullptr;
 
 public:
 	Environment(Widget* root) { mRoot = root; }
@@ -35,6 +36,13 @@ public:
 		mRoot = widget;
 	}
 
+	void SetGraphics(Video::IGraphicsDevice* g) { mGraphics = g; }
+
+	void OnUpdate()
+	{
+		mRoot->OnUpdate(1.0/60);
+	}
+
 	Widget* GetRoot()
 	{
 		return mRoot;
@@ -47,7 +55,7 @@ public:
 
 	void Draw(Video::GuiRenderer* g)
 	{
-		mRoot->Draw(g);
+		mRoot->Draw(mGraphics, g);
 	}
 
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)

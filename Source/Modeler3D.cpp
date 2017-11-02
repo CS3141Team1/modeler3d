@@ -191,6 +191,14 @@ void Modeler3D::OnInit()
 //            { {-s,  s, -s}, {-1, 0, 0} },
 //    };
 
+    GUInterface::SampleWidget* bottomLeft = new GUInterface::SampleWidget(20,20,80,40);
+    GUInterface::SampleWidget* topLeft = new GUInterface::SampleWidget(20,200,150,350);
+    GUInterface::SampleWidget* topRight = new GUInterface::SampleWidget(575,250,200,300);
+    mEnv->SetGraphics(Graphics);
+//    mEnv->AddWidget(bottomLeft);
+//    mEnv->AddWidget(topLeft);
+//    mEnv->AddWidget(topRight);
+
     vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
     geom = Graphics->CreateGeometry();
     vbo->SetData(reinterpret_cast<float*>(&vertices[0]), 0, vertices.size());
@@ -223,6 +231,11 @@ void Modeler3D::OnRender()
 
     Gui->SetColor(0.5, 0.5, 0.5);
     mEnv->Draw(Gui);
+    Gui->FillRect(20, 20, 300, 500);
+    Gui->SetColor(0.8, 0.7, 0.5);
+    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
+    Gui->SetColor(0.5, 0.7, 0.8);
+    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
 }
 
 void Modeler3D::OnDestroy()

@@ -87,6 +87,11 @@ public:
     virtual IGeometry* CreateGeometry() = 0;
 
     /**
+     * @return texture created by the device
+     */
+//    virtual ITexture2D* CreateTexture2D(uint width, uint height) = 0;
+
+    /**
      * Sets the color that the screen should be when being cleared.
      * values should be between 0 and 1.
      */
@@ -118,6 +123,16 @@ public:
     virtual IShader* GetShader() = 0;
 
     /**
+     * @return Current texture at index
+     */
+//    virtual ITexture2D* GetTexture(uint index) const = 0;
+
+    /**
+     * @return Current texture at index
+     */
+//    virtual ITexture2D* GetTexture(uint index) = 0;
+
+    /**
      * Set the current geometry
      */
     virtual void SetGeometry(IGeometry* geom) = 0;
@@ -126,6 +141,11 @@ public:
      * Set the current shader
      */
     virtual void SetShader(IShader* shader) = 0;
+
+    /**
+     * Set texture at index
+     */
+//    virtual void SetTexture(uint index, ITexture2D* tex) = 0;
 
     /**
      * Draw the current geometry with the set shader

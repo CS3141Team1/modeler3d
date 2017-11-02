@@ -18,7 +18,7 @@ public:
 	void OnDraw(Video::GuiRenderer* g)
 	{
 		g->SetColor(mR, mG, mB);
-		g->FillRect(GetX(), GetY(), GetWidth(), GetHeight());
+		g->FillRect(GetParent()->GetX() + GetX(), GetParent()->GetY() + GetY(), GetWidth(), GetHeight());
 	}
 
 	bool OnMouseButton(int32 x, int32 y, int32 button, bool down)
@@ -31,6 +31,16 @@ public:
 		}
 		return false;
 	}
+
+	void OnUpdate(float dt)
+	{
+		for(uint32 i = 0; i < GetChildCount(); i++)
+		{
+			GetChild(i)->OnUpdate();
+		}
+
+	}
+
 private:
 	float64 mR = 0, mG = 0, mB = .5;
 };

@@ -32,29 +32,43 @@ public:
 			std::cout << "Child " << i << " OnMouseButton\n";
 			if(GetChild(i)->OnMouseClick(x+mX,y+mY,button,down))
 			{
+				std::cout << "Child " << i << " Clicked\n";
+				GetChild(i)->SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
 				return true;
 			}
 		}
-		std::cout << "Root OnMouseButton: " << InBounds(x,y) << "\n";
+		std::cout << "OnMouseButton: " << InBounds(x,y) << "\n";
 		return InBounds(x,y);
 	}
 
-	void Draw(Video::GuiRenderer* g)
+	void Draw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
 	{
-		OnDraw(g);
+		OnDraw(graphics, g);
 
 		//g->Translate(mX, mY);
 		for (uint32 i = 0; i < GetChildCount(); i++)
 		{
-			GetChild(GetChildCount() - i - 1)->Draw(g);
+			GetChild(GetChildCount() - i - 1)->Draw(graphics, g);
 		}
 		//g->Translate(-mX, -mY);
 	}
 
-	void OnDraw(Video::GuiRenderer* g)
+	void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
 	{
+		int32 x, y;
+		Widget* p = GetParent();
+		if(p != nullptr)
+		{
+			x = graphics->GetWidth() - GetX() + p->GetX();
+			y = graphics->GetHeight() - GetY() + p->GetY();
+		}
+		else
+		{
+			x = mX;
+			y = mY;
+		}
 		g->SetColor(mR, mG, mB);
-		g->FillRect(mX, mY, mWidth - 1, mHeight - 1);
+		g->FillRect(x, y, mWidth - 1, mHeight - 1);
 	}
 
 	void Focus() {
@@ -124,19 +138,37 @@ public:
 		x = x - GetX();
 		y = y - GetY();
 
+		std::cout << "X: " << x << ", Y: " << y << std::endl;
+
 		if (x < 0 || x >= GetWidth()) return false;
 		if (y < 0 || y >= GetHeight()) return false;
 
 		return true;
 	}
 
-	int GetX() { return mX; }
-	int GetY() { return mY; }
+	int GetX()
+	{
+		Widget* p = GetParent();
+		if(p == nullptr)
+			return mX;
+		else
+			return p->GetX() + mX;
+	}
+	int GetY()
+	{
+		Widget* p = GetParent();
+		if(p == nullptr)
+			return mY;
+		else
+			return p->GetY() + mY;
+	}
 	int GetWidth() { return mWidth; }
 	int GetHeight() { return mHeight; }
 	Widget* GetParent() { return mParent; }
 	Widget* GetChild(uint32 i) { return mChildren[i]; }
-	int GetChildCount() { return mChildren.size(); }
+	uint32 GetChildCount() { return mChildren.size(); }
+
+	virtual void OnUpdate(float dt) {}
 
 private:
 	float64 mR = 0, mG = 0, mB = .5;

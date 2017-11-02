@@ -9,18 +9,23 @@ namespace Video
 {
 
 static const VertexFormat Format = VertexFormat()
-        .AddElement(Attribute::Position, 2);
+        .AddElement(Attribute::Position, 2)
+        .AddElement(Attribute::Color, 4);
 
 static const string VertexSource = ""
         "#version 120 \n"
         "attribute vec2 aPosition; \n"
+        "attribute vec4 aColor; \n"
+        "varying vec4 vColor; \n"
         "void main() { \n"
+        "   vColor = aColor; \n"
         "   gl_Position = vec4(aPosition, 0.0, 1.0); \n"
         "} \n";
 static const string FragmentSource = ""
         "#version 120 \n"
+        "varying vec4 vColor; \n"
         "void main() { \n"
-        "   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); \n"
+        "   gl_FragColor = vColor; \n"
         "} \n";
 
 GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
@@ -63,7 +68,7 @@ void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
 
 void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
 {
-    const uint size = 2;
+    const uint size = 6;
     float32 verts[size * 4];
 
     float32 width = mGraphics->GetWidth();
@@ -81,6 +86,10 @@ void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
         {
             verts[index++] = x + i * w;
             verts[index++] = y + j * h;
+            verts[index++] = mColor.R;
+            verts[index++] = mColor.G;
+            verts[index++] = mColor.B;
+            verts[index++] = mColor.A;
         }
     }
 
