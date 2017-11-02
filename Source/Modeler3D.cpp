@@ -196,6 +196,10 @@ void Modeler3D::OnInit()
     mEnv->AddWidget(bottomLeft);
     mEnv->AddWidget(topLeft);
     mEnv->AddWidget(topRight);
+    GUInterface::ColorChangerWidget* child = new GUInterface::ColorChangerWidget(10,10,30,40);
+    GUInterface::ColorChangerWidget* child2 = new GUInterface::ColorChangerWidget(50,50,50,50);
+    mEnv->GetWidget(2)->AddChild(child);
+    mEnv->GetWidget(1)->AddChild(child2);
 
     vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
     geom = Graphics->CreateGeometry();
