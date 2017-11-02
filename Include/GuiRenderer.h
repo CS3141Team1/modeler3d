@@ -22,8 +22,18 @@ public:
     void Release();
 
     /**
+     * Call at beginning of frame
+     */
+    void Reset()
+    {
+        SetColor(0, 0, 0);
+        mTranslate = 0;
+    }
+
+    /**
      * Set an offset to render from
      */
+    void Translate(float32 x, float32 y) { mTranslate += Core::Math::Vector2f(x, y); }
 
     /**
      * Set the tint that will be used for the renderer.
@@ -44,6 +54,7 @@ private:
     IIndexBuffer* mIndices;
     IVertexBuffer* mVertices;
     Core::Math::Vector4f mColor;
+    Core::Math::Vector2f mTranslate;
 };
 
 }

@@ -33,7 +33,8 @@ GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
       mShader(nullptr),
       mGeometry(nullptr),
       mVertices(nullptr),
-      mColor(0)
+      mColor(0),
+      mTranslate(0)
 {
     mVertices = mGraphics->CreateVertexBuffer(Format, 4, BufferHint::Stream);
     mIndices = mGraphics->CreateIndexBuffer(6, BufferHint::Static);
@@ -74,8 +75,8 @@ void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
     float32 width = mGraphics->GetWidth();
     float32 height = mGraphics->GetHeight();
 
-    x = x * 2.0 / width - 1.0;
-    y = y * 2.0 / height - 1.0;
+    x = (mTranslate.X + x) * 2.0 / width - 1.0;
+    y = (mTranslate.Y + y) * 2.0 / height - 1.0;
     w = w * 2.0 / width;
     h = h * 2.0 / height;
 
