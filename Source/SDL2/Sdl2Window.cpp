@@ -1,3 +1,5 @@
+#include "SDL2/Sdl2Window.h"
+
 #include <iostream>
 #include <string>
 
@@ -5,7 +7,6 @@
 #include <GL/glew.h>
 
 #include "GUI/AllWidgets.h"
-#include "SDL2/Sdl2Window.h"
 #include "SDL2/SdlMouse.h"
 
 using namespace std;
