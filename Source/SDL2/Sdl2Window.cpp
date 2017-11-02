@@ -6,9 +6,8 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 
-#include "GUI/Environment.h"
+#include "GUI/AllWidgets.h"
 #include "Sdl2/SdlMouse.h"
-#include "GUI/SampleWidget.h"
 
 using namespace std;
 
@@ -36,7 +35,7 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
 
     mContext = SDL_GL_CreateContext(mWindow);
 
-    GUInterface::SampleWidget* root = new GUInterface::SampleWidget(0,0,0,0);
+    GUInterface::RootWidget* root = new GUInterface::RootWidget(0,0,0,0);//GetWidth(),GetHeight());
     mEnv = new GUInterface::Environment(root);
     mMouse = new SdlMouse();
 
@@ -81,12 +80,13 @@ void Sdl2Window::PollEvents()
         }
         else if(e.type == SDL_MOUSEBUTTONUP)
         {
+        	std::cout << "\n*********Click*********\n";
         	int32 button = (int)e.button.button;
         	int32 x = e.button.x;
         	int32 y = GetHeight() - e.button.y - 1;
         	int32 clicks = (int)e.button.clicks;
 
-        	std::cout << "X: " << x << ", Y: " << y << std::endl;
+        	//std::cout << "X: " << x << ", Y: " << y << std::endl;
         	mMouse->SetPosition(x,y);
 
         	if(button == 1) mMouse->SetLeftClicks(clicks);

@@ -5,9 +5,7 @@
 #include <boost/filesystem.hpp>
 
 #include <GL/glew.h>
-#include <GUI/Environment.h>
-#include <GUI/SampleWidget.h>
-#include <GUI/Widget.h>
+#include <GUI/AllWidgets.h>
 
 #include "Math/VectorMath.h"
 
@@ -193,11 +191,11 @@ void Modeler3D::OnInit()
 
     GUInterface::SampleWidget* bottomLeft = new GUInterface::SampleWidget(20,20,80,40);
     GUInterface::SampleWidget* topLeft = new GUInterface::SampleWidget(20,200,150,350);
-    GUInterface::SampleWidget* topRight = new GUInterface::SampleWidget(575,250,200,300);
+    GUInterface::SampleWidget* topRight = new GUInterface::SampleWidget(60,150,200,300);
     mEnv->SetGraphics(Graphics);
-//    mEnv->AddWidget(bottomLeft);
-//    mEnv->AddWidget(topLeft);
-//    mEnv->AddWidget(topRight);
+    mEnv->AddWidget(bottomLeft);
+    mEnv->AddWidget(topLeft);
+    mEnv->AddWidget(topRight);
 
     vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
     geom = Graphics->CreateGeometry();
@@ -230,15 +228,15 @@ void Modeler3D::OnRender()
     Graphics->SetGeometry(geom);
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
-    Gui->Translate(10, 0);
-    Gui->SetColor(0.5, 0.5, 0.5);
+//    Gui->Translate(10, 0);
+//    Gui->SetColor(0.5, 0.5, 0.5);
     mEnv->Draw(Gui);
-    Gui->FillRect(20, 20, 300, 500);
-    Gui->SetColor(0.8, 0.7, 0.5);
-    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
-    Gui->SetColor(0.5, 0.7, 0.8);
-    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
-    Gui->Translate(-10, 0);
+//    Gui->FillRect(20, 20, 300, 500);
+//    Gui->SetColor(0.8, 0.7, 0.5);
+//    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
+//    Gui->SetColor(0.5, 0.7, 0.8);
+//    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
+//    Gui->Translate(-10, 0);
 }
 
 void Modeler3D::OnDestroy()

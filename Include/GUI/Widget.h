@@ -25,19 +25,19 @@ public:
 	Widget(int32 x, int32 y, int32 width, int32 height) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
 	Widget(int32 x, int32 y, int32 width, int32 height, Widget* parent) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(parent),mChildren(std::vector<Widget*>()) {}
 
-	bool OnMouseClick(int32 x, int32 y, int32 button, bool down)
+	virtual bool OnMouseClick(int32 x, int32 y, int32 button, bool down)
 	{
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
-			std::cout << "Child " << i << " OnMouseButton\n";
 			if(GetChild(i)->OnMouseClick(x+mX,y+mY,button,down))
 			{
-				std::cout << "Child " << i << " Clicked\n";
-				GetChild(i)->SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
+				std::cout << "Child " << i << " Clicked, ";
 				return true;
 			}
+			else
+				std::cout << "Child " << i << " Not Clicked, ";
 		}
-		std::cout << "OnMouseButton: " << InBounds(x,y) << "\n";
+		std::cout << "in OnMouseButton: " << InBounds(x,y) << std::endl << std::endl;
 		return InBounds(x,y);
 	}
 
@@ -45,30 +45,18 @@ public:
 	{
 		OnDraw(graphics, g);
 
-		//g->Translate(mX, mY);
+		g->Translate(mX, mY);
 		for (uint32 i = 0; i < GetChildCount(); i++)
 		{
 			GetChild(GetChildCount() - i - 1)->Draw(graphics, g);
 		}
-		//g->Translate(-mX, -mY);
+		g->Translate(-mX, -mY);
 	}
 
-	void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
+	virtual void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
 	{
-		int32 x, y;
-		Widget* p = GetParent();
-		if(p != nullptr)
-		{
-			x = graphics->GetWidth() - GetX() + p->GetX();
-			y = graphics->GetHeight() - GetY() + p->GetY();
-		}
-		else
-		{
-			x = mX;
-			y = mY;
-		}
 		g->SetColor(mR, mG, mB);
-		g->FillRect(x, y, mWidth - 1, mHeight - 1);
+		g->FillRect(mX, mY, mWidth - 1, mHeight - 1);
 	}
 
 	void Focus() {
@@ -138,7 +126,7 @@ public:
 		x = x - GetX();
 		y = y - GetY();
 
-		std::cout << "X: " << x << ", Y: " << y << std::endl;
+		//std::cout << "X: " << x << ", Y: " << y << std::endl;
 
 		if (x < 0 || x >= GetWidth()) return false;
 		if (y < 0 || y >= GetHeight()) return false;
@@ -146,22 +134,8 @@ public:
 		return true;
 	}
 
-	int GetX()
-	{
-		Widget* p = GetParent();
-		if(p == nullptr)
-			return mX;
-		else
-			return p->GetX() + mX;
-	}
-	int GetY()
-	{
-		Widget* p = GetParent();
-		if(p == nullptr)
-			return mY;
-		else
-			return p->GetY() + mY;
-	}
+	int GetX() { return mX; }
+	int GetY() { return mY; }
 	int GetWidth() { return mWidth; }
 	int GetHeight() { return mHeight; }
 	Widget* GetParent() { return mParent; }

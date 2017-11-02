@@ -60,12 +60,10 @@ public:
 
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-		std::cout << "Environment OnMouseButton, " << mRoot->GetChildCount() << " children\n";
+		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetChildCount() << " children" << std::endl;
 
-		if(mRoot->OnMouseClick(x, y, button, down))
-		{
-			mRoot->SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
-		}
+		mRoot->OnMouseClick(x, y, button, down);
+		std::cout << std::endl;
 	}
 };
 

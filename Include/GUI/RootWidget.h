@@ -6,28 +6,23 @@
 namespace GUInterface
 {
 
-class SampleWidget : public Widget
+class RootWidget : public Widget
 {
 public:
-	SampleWidget(int32 x, int32 y, int32 w, int32 h)
+	RootWidget(int32 x, int32 y, int32 w, int32 h)
 		: Widget(x, y, w, h)
 	{
 
 	}
 
-	void OnDraw(Video::GuiRenderer* g)
-	{
-		g->SetColor(mR, mG, mB);
-		g->FillRect(GetParent()->GetX() + GetX(), GetParent()->GetY() + GetY(), GetWidth(), GetHeight());
-	}
+	void OnDraw(Video::GuiRenderer* g) { }
 
 	bool OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
 		if (down && InBounds(x, y))
 		{
-			this->Focus();
-			SetColor((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
-			std::cout << "in a SampleWidget" << std::endl;
+//			this->Focus();
+			std::cout << "in RootWidget\n";
 			return true;
 		}
 		return false;
