@@ -59,6 +59,7 @@ OglGraphicsDevice::~OglGraphicsDevice()
 void OglGraphicsDevice::Init()
 {
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
 }
 
 void OglGraphicsDevice::SetClearColor(float32 r, float32 g, float32 b, float32 a)

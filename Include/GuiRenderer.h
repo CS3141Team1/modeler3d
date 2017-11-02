@@ -22,6 +22,10 @@ public:
     void Release();
 
     /**
+     * Set an offset to render from
+     */
+
+    /**
      * Set the tint that will be used for the renderer.
      * Color components should be normalized.
      */
