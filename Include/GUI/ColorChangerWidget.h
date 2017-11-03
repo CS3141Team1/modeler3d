@@ -10,7 +10,7 @@ class ColorChangerWidget : public Widget
 {
 public:
 	ColorChangerWidget(int32 x, int32 y, int32 w, int32 h)
-		: Widget(x, y, w, h)
+		: Widget(x, y, w, h, 1.0, 1.0)
 	{
 
 	}
@@ -51,7 +51,7 @@ public:
 	        mDir *= -1;
 	    }
 
-	    //SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
+	    SetBounds(GetX() /*- 50 * dt * mDir*/, GetY() /*- 25 * dt * mDir*/, GetWidth() /*+ 100 * dt * mDir*/, GetHeight() + 100 * dt * mDir);
 	}
 
 private:
