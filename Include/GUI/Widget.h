@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include "Environment.h"
 #include "GuiRenderer.h"
 #include "Types.h"
 

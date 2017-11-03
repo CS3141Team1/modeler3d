@@ -35,7 +35,7 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
 
     mContext = SDL_GL_CreateContext(mWindow);
 
-    GUInterface::Widget* root = new GUInterface::Widget(0,0,0,0);//GetWidth(),GetHeight());
+    GUInterface::Widget* root = new GUInterface::Widget(0,0,GetWidth(),GetHeight());
     mEnv = new GUInterface::Environment(root);
     mMouse = new SdlMouse();
 

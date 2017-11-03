@@ -2,7 +2,7 @@
 
 #include "GuiRenderer.h"
 #include "Types.h"
-#include "Widget.h"
+#include "GUI/Widget.h"
 
 namespace GUInterface
 {

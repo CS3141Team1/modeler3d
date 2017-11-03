@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Environment.h"
-#include "Widget.h"
+#include "GUI/Environment.h"
+#include "GUI/Widget.h"
 
 namespace GUInterface
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Environment.h"
-#include "Widget.h"
+#include "GUI/Environment.h"
+#include "GUI/Widget.h"
 
 namespace GUInterface
 {
@@ -51,7 +51,7 @@ public:
 	        mDir *= -1;
 	    }
 
-	    SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
+	    //SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
 	}
 
 private:

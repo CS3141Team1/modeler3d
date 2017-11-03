@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ColorChangerWidget.h"
-#include "DimensionSwapperWidget.h"
-#include "Environment.h"
-#include "Widget.h"
+#include "GUI/ColorChangerWidget.h"
+#include "GUI/DimensionSwapperWidget.h"
+#include "GUI/Environment.h"
+#include "GUI/Widget.h"
