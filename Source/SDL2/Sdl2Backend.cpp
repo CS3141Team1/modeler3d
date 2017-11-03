@@ -1,5 +1,4 @@
-#include "SDL2/Sdl2Backend.h"
-
+#include <SDL2/Sdl2Backend.h>
 #include <SDL2/SDL.h>
 
 namespace Core
@@ -8,7 +7,8 @@ namespace Core
 bool Sdl2Backend::mSdl2Init = false;
 
 Sdl2Backend::Sdl2Backend()
-    : mWindow("Modeler3D", 800, 600)
+    : mWindow("Modeler3D", 800, 600),
+      mGraphics(&mWindow)
 {
     // TODO Auto-generated constructor stub
 
