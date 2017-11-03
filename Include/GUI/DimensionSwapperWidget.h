@@ -38,21 +38,7 @@ public:
 		}
 	}
 
-	void OnUpdate(float64 dt)
-	{
-	    // TODO
-	    // NOT SAFE, position and size could drift due to
-	    // floating point precision
-//	    mTime += dt;
-//
-//	    if (mTime >= 1)
-//	    {
-//	        mTime -= 1;
-//	        mDir *= -1;
-//	    }
-
-	    //SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
-	}
+	void OnUpdate(float64 dt) {}
 
 private:
 	float64 mR = 0, mG = .5, mB = .5;

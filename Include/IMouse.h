@@ -3,6 +3,11 @@
 namespace Core
 {
 
+/**
+ * Interface for a Mouse object implementation.
+ *
+ * @author Michael Conard
+ */
 class IMouse
 {
 public:

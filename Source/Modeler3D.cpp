@@ -108,8 +108,6 @@ void Modeler3D::OnInit()
     Shader = Graphics->CreateShader(VertSource, FragSource);
     Gui = new GuiRenderer(Graphics);
 
-//    float32 s = 0.5f;
-
     boost::filesystem::path obj("Assets/bunny.obj");
 
     FileIO objFile;
@@ -140,56 +138,10 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[2]);
     }
 
-//    VertexPosition3fNormal3f vertices[] =
-//    {
-//            // front
-//            { {-s, -s, -s}, {0, 0, -1} },
-//            { { s, -s, -s}, {0, 0, -1} },
-//            { { s,  s, -s}, {0, 0, -1} },
-//            { {-s, -s, -s}, {0, 0, -1} },
-//            { { s,  s, -s}, {0, 0, -1} },
-//            { {-s,  s, -s}, {0, 0, -1} },
-//            // back
-//            { {-s, -s,  s}, {0, 0, 1} },
-//            { { s, -s,  s}, {0, 0, 1} },
-//            { { s,  s,  s}, {0, 0, 1} },
-//            { {-s, -s,  s}, {0, 0, 1} },
-//            { { s,  s,  s}, {0, 0, 1} },
-//            { {-s,  s,  s}, {0, 0, 1} },
-//            // top
-//            { {-s,  s, -s}, {0, 1, 0} },
-//            { { s,  s, -s}, {0, 1, 0} },
-//            { { s,  s,  s}, {0, 1, 0} },
-//            { {-s,  s, -s}, {0, 1, 0} },
-//            { { s,  s,  s}, {0, 1, 0} },
-//            { {-s,  s,  s}, {0, 1, 0} },
-//            // bottom
-//            { {-s, -s, -s}, {0,-1, 0} },
-//            { { s, -s, -s}, {0,-1, 0} },
-//            { { s, -s,  s}, {0,-1, 0} },
-//            { {-s, -s, -s}, {0,-1, 0} },
-//            { { s, -s,  s}, {0,-1, 0} },
-//            { {-s, -s,  s}, {0,-1, 0} },
-//            // right
-//            { { s, -s, -s}, {1, 0, 0} },
-//            { { s, -s,  s}, {1, 0, 0} },
-//            { { s,  s,  s}, {1, 0, 0} },
-//            { { s, -s, -s}, {1, 0, 0} },
-//            { { s,  s,  s}, {1, 0, 0} },
-//            { { s,  s, -s}, {1, 0, 0} },
-//            // left
-//            { {-s, -s, -s}, {-1, 0, 0} },
-//            { {-s, -s,  s}, {-1, 0, 0} },
-//            { {-s,  s,  s}, {-1, 0, 0} },
-//            { {-s, -s, -s}, {-1, 0, 0} },
-//            { {-s,  s,  s}, {-1, 0, 0} },
-//            { {-s,  s, -s}, {-1, 0, 0} },
-//    };
-
     GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(60,40,80,40);
     GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(60,200,150,350);
     GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(625,150,100,300);
-    mEnv->SetGraphics(Graphics);
+
     mEnv->AddWidget(bottomLeft);
     mEnv->AddWidget(topLeft);
     mEnv->AddWidget(topRight);
