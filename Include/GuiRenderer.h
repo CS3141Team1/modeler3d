@@ -41,6 +41,9 @@ public:
      */
     void SetColor(float32 r, float32 g, float32 b, float32 a = 1.0f);
 
+    void SetColor(const Core::Math::Vector3f& r) { SetColor(r.R, r.G, r.B); }
+    void SetColor(const Core::Math::Vector4f& r) { SetColor(r.R, r.G, r.B, r.A); }
+
     /**
      * Draws a rectangle to the screen.
      * Parameters are in pixels.

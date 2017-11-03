@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 
 #include "GUI/AllWidgets.h"
+#include "GUI/IAction.h"
 #include "Math/VectorMath.h"
 
 #include "FileIO.h"
@@ -70,8 +71,22 @@ std::string FragSource = ""
         "   gl_FragColor = vec4(color * (diffuse * 0.4 + 0.4 + specular * 0.4), 1.0); \n"
         "} \n";
 
+class LoadAction : public Gui::IAction
+{
+public:
+    LoadAction(Modeler3D* modeler, std::string file) : mModeler(modeler), mFile(file) {}
+    ~LoadAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+        cout << mFile << endl;
+    }
+private:
+    Modeler3D* mModeler;
+    std::string mFile;
+};
+
 Video::IShader* Shader = nullptr;
-Video::GuiRenderer* Gui = nullptr;
 
 float Angle = 0.0f;
 
@@ -91,10 +106,10 @@ struct VertexPosition3fNormal3f
 };
 
 Modeler3D::Modeler3D(IBackend* backend)
-    : Application(backend)
+    : Application(backend),
+      mEnv(nullptr),
+      mGuiRenderer(nullptr)
 {
-    GUInterface::ColorChangerWidget widget(50,50,100,100);
-    mEnv = backend->GetWindow()->GetEnvironment();
 }
 
 Modeler3D::~Modeler3D()
@@ -105,8 +120,9 @@ void Modeler3D::OnInit()
 {
     cout << "Initializing Modeler3D" << endl;
 
+    mEnv = Backend->GetWindow()->GetEnvironment();
+    mGuiRenderer = new GuiRenderer(Graphics);
     Shader = Graphics->CreateShader(VertSource, FragSource);
-    Gui = new GuiRenderer(Graphics);
 
     boost::filesystem::path obj("Assets/bunny.obj");
 
@@ -138,17 +154,19 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[2]);
     }
 
-    GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(60,40,80,40);
-    GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(60,200,150,350);
-    GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(625,150,100,300);
+    Gui::Button* elem1 = new Gui::Button(10,10,80,40,new LoadAction(this, "Assets/bunny.obj"));
+    elem1->SetAlignment(0, 1);
+    Gui::Button* elem2 = new Gui::Button(10,60,80,40,new LoadAction(this, "Assets/cube.obj"));
+    elem2->SetAlignment(0, 1);
+    Gui::Button* elem3 = new Gui::Button(10,110,80,40,new LoadAction(this, "Assets/dragon.obj"));
+    elem3->SetAlignment(0, 1);
+    Gui::Button* elem4 = new Gui::Button(10,160,80,40,new LoadAction(this, "Assets/pencil.obj"));
+    elem4->SetAlignment(0, 1);
 
-    mEnv->AddWidget(bottomLeft);
-    mEnv->AddWidget(topLeft);
-    mEnv->AddWidget(topRight);
-    GUInterface::ColorChangerWidget* child = new GUInterface::ColorChangerWidget(10,10,80,50);
-    GUInterface::DimensionSwapperWidget* child2 = new GUInterface::DimensionSwapperWidget(50,50,70,200);
-    mEnv->GetWidget(2)->AddChild(child);
-    mEnv->GetWidget(1)->AddChild(child2);
+    mEnv->AddWidget(elem1);
+    mEnv->AddWidget(elem2);
+    mEnv->AddWidget(elem3);
+    mEnv->AddWidget(elem4);
 
     vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
     geom = Graphics->CreateGeometry();
@@ -160,12 +178,12 @@ void Modeler3D::OnUpdate(float64 dt)
 {
     Angle += 1.0 * dt;
 
+    mEnv->SetSize(Window->GetWidth(), Window->GetHeight());
     mEnv->Update(dt);
 }
 
 void Modeler3D::OnRender()
 {
-    Gui->Reset();
     Graphics->SetClearColor(0.3, 0.3, 0.3);
     Graphics->Clear();
 
@@ -183,21 +201,14 @@ void Modeler3D::OnRender()
     Graphics->SetGeometry(geom);
     Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
 
-    mEnv->Draw(Gui);
-//    Gui->Translate(10, 0);
-//    Gui->SetColor(0.5, 0.5, 0.5);
-//    Gui->FillRect(20, 20, 300, 500);
-//    Gui->SetColor(0.8, 0.7, 0.5);
-//    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
-//    Gui->SetColor(0.5, 0.7, 0.8);
-//    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
-//    Gui->Translate(-10, 0);
+    mGuiRenderer->Reset();
+    mEnv->Draw(mGuiRenderer);
 }
 
 void Modeler3D::OnDestroy()
 {
     cout << "Destroying Modeler3D" << endl;
-    Gui->Release();
+    mGuiRenderer->Release();
     Shader->Release();
 }
 

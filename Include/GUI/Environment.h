@@ -1,10 +1,11 @@
 #pragma once
 
+#include "IWindow.h"
 #include "GuiRenderer.h"
 #include "Types.h"
-#include "Widget.h"
+#include "GUI/Widget.h"
 
-namespace GUInterface
+namespace Gui
 {
 
 /**
@@ -16,11 +17,20 @@ namespace GUInterface
 class Environment
 {
 private:
+    float32 mWidth;
+    float32 mHeight;
 	Widget* mRoot;
-	Video::IGraphicsDevice* mGraphics = nullptr;
 
 public:
-	Environment(Widget* root) { mRoot = root; }
+	Environment(float32 w, float32 h) : mWidth(w), mHeight(h) { mRoot = new Widget(0, 0, w, h); }
+	~Environment() { delete mRoot; }
+
+	void SetSize(float32 w, float32 h)
+	{
+	    mWidth = w;
+	    mHeight = h;
+	    mRoot->SetBounds(0, 0, w, h);
+	}
 
 	/**
 	 * Called when mouse is clicked, propagates MouseButton down descendants
@@ -32,10 +42,10 @@ public:
 	 */
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetDescendantCount() << " descendants" << std::endl;
+//		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetDescendantCount() << " descendants" << std::endl;
 
 		mRoot->MouseButton(x, y, button, down);
-		std::cout << std::endl;
+//		std::cout << std::endl;
 	}
 
 	/**
@@ -45,7 +55,7 @@ public:
 	 */
 	void Draw(Video::GuiRenderer* g)
 	{
-		mRoot->Draw(mGraphics, g);
+		mRoot->Draw(g);
 	}
 
 	/**
@@ -65,23 +75,6 @@ public:
 	{
 		mRoot->OnUpdate(1.0/60);
 	}
-
-	/**
-	 * Changes the root widget of the environment.
-	 *
-	 * @param widget A Widget* that is the new root
-	 */
-	void SetRoot(Widget* widget)
-	{
-		mRoot = widget;
-	}
-
-	/**
-	 * Sets the Video::IGraphicsDevice for the environment.
-	 *
-	 * @param g The Video::IGraphicsDevice*
-	 */
-	void SetGraphics(Video::IGraphicsDevice* g) { mGraphics = g; }
 
 	/**
 	 * Adds a widget to the end of root's children list.
@@ -114,16 +107,6 @@ public:
 	}
 
 	/**
-	 * Returns the root widget of the environment.
-	 *
-	 * @return Widget* the root widget
-	 */
-	Widget* GetRoot()
-	{
-		return mRoot;
-	}
-
-	/**
 	 * Returns a child widget from root.
 	 *
 	 * @param index a uint32 index that is the position in the child list to get
@@ -134,6 +117,7 @@ public:
 	{
 		return mRoot->GetChild(index);
 	}
+
 };
 
 }

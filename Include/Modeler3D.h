@@ -1,9 +1,17 @@
 #pragma once
 
 #include "Application.h"
+#include "Types.h"
+
 #include "GUI/Environment.h"
 #include "SDL2/SdlMouse.h"
-#include "Types.h"
+
+namespace Video
+{
+
+class GuiRenderer;
+
+}
 
 namespace Core
 {
@@ -23,7 +31,8 @@ public:
     virtual void OnDestroy();
 
 private:
-    GUInterface::Environment* mEnv;
+    Gui::Environment* mEnv;
+    Video::GuiRenderer* mGuiRenderer;
 };
 
 }

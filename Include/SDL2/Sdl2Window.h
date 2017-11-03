@@ -7,8 +7,12 @@
 #include "IWindow.h"
 #include "Types.h"
 
-#include "GUI/Environment.h"
+namespace Gui
+{
 
+class Environment;
+
+}
 
 namespace Core
 {
@@ -41,7 +45,7 @@ public:
         return (float32) width / height;
     }
 
-    virtual GUInterface::Environment* GetEnvironment();
+    virtual Gui::Environment* GetEnvironment();
     virtual SdlMouse* GetMouse();
 private:
     void InitGlew();
@@ -53,7 +57,7 @@ private:
     SDL_Window* mWindow;
     SDL_GLContext mContext;
     SdlMouse* mMouse;
-    GUInterface::Environment* mEnv;
+    Gui::Environment* mEnv;
 };
 
 }

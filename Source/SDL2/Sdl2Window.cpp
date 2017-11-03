@@ -35,8 +35,7 @@ Sdl2Window::Sdl2Window(const string& title, uint width, uint height)
 
     mContext = SDL_GL_CreateContext(mWindow);
 
-    GUInterface::Widget* root = new GUInterface::Widget(0,0,0,0);//GetWidth(),GetHeight());
-    mEnv = new GUInterface::Environment(root);
+    mEnv = new Gui::Environment(width, height);
     mMouse = new SdlMouse();
 
     const char* version = (const char*)glGetString(GL_VERSION);
@@ -65,10 +64,10 @@ void Sdl2Window::SetSize(uint width, uint height)
 
 void Sdl2Window::PollEvents()
 {
-	SDL_Event e;
+    SDL_Event e;
 
-	mMouse->SetClicks(0,0,0);
-	mMouse->SetRelativePosition(0,0);
+    mMouse->SetClicks(0,0,0);
+    mMouse->SetRelativePosition(0,0);
 
     while (SDL_PollEvent(&e))
     {
@@ -76,32 +75,47 @@ void Sdl2Window::PollEvents()
         {
             SetVisible(false);
         }
+        else if(e.type == SDL_MOUSEBUTTONDOWN)
+        {
+//            std::cout << "\n*********Click*********\n";
+            int32 button = (int)e.button.button;
+            int32 x = e.button.x;
+            int32 y = GetHeight() - e.button.y - 1;
+
+            //std::cout << "X: " << x << ", Y: " << y << std::endl;
+            mMouse->SetPosition(x,y);
+
+            if(button == 1) mMouse->SetLeftClicks(1);
+            else if(button == 2) mMouse->SetMiddleClicks(1);
+            else mMouse->SetRightClicks(1);
+
+            if (mEnv) mEnv->OnMouseButton(x,y,button,true);
+        }
         else if(e.type == SDL_MOUSEBUTTONUP)
         {
-        	std::cout << "\n*********Click*********\n";
-        	int32 button = (int)e.button.button;
-        	int32 x = e.button.x;
-        	int32 y = GetHeight() - e.button.y - 1;
-        	int32 clicks = (int)e.button.clicks;
+//          std::cout << "\n*********Click*********\n";
+            int32 button = (int)e.button.button;
+            int32 x = e.button.x;
+            int32 y = GetHeight() - e.button.y - 1;
 
-        	//std::cout << "X: " << x << ", Y: " << y << std::endl;
-        	mMouse->SetPosition(x,y);
+            //std::cout << "X: " << x << ", Y: " << y << std::endl;
+            mMouse->SetPosition(x,y);
 
-        	if(button == 1) mMouse->SetLeftClicks(clicks);
-        	else if(button == 2) mMouse->SetMiddleClicks(clicks);
-        	else mMouse->SetRightClicks(clicks);
+            if(button == 1) mMouse->SetLeftClicks(0);
+            else if(button == 2) mMouse->SetMiddleClicks(0);
+            else mMouse->SetRightClicks(0);
 
-        	mEnv->OnMouseButton(x,y,button,true);
+            if (mEnv) mEnv->OnMouseButton(x,y,button,false);
         }
         else if(e.type == SDL_MOUSEMOTION)
         {
-        	int32 x = e.motion.x;
-        	int32 y = GetHeight() - e.motion.y - 1;
-        	int32 xRel = e.motion.xrel;
-        	int32 yRel = e.motion.yrel;
+            int32 x = e.motion.x;
+            int32 y = GetHeight() - e.motion.y - 1;
+            int32 xRel = e.motion.xrel;
+            int32 yRel = e.motion.yrel;
 
-        	mMouse->SetPosition(x,y);
-        	mMouse->SetRelativePosition(xRel,yRel);
+            mMouse->SetPosition(x,y);
+            mMouse->SetRelativePosition(xRel,yRel);
         }
     }
 }
@@ -142,12 +156,12 @@ void Sdl2Window::InitGlew()
 
 SdlMouse* Sdl2Window::GetMouse()
 {
-	return mMouse;
+    return mMouse;
 }
 
-GUInterface::Environment* Sdl2Window::GetEnvironment()
+Gui::Environment* Sdl2Window::GetEnvironment()
 {
-	return mEnv;
+    return mEnv;
 }
 
 }
