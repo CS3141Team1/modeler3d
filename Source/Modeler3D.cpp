@@ -173,6 +173,9 @@ void Modeler3D::OnInit()
     Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
     Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
 
+    Gui::Widget* elem5 = new Gui::ColorChangerWidget(10,10,100,200);
+    Gui::Widget* elem6 = new Gui::DimensionSwapperWidget(10,10,100,200);
+
     elem1->SetAlignment(0, 1);
     elem2->SetAlignment(0, 1);
     elem3->SetAlignment(0, 1);
@@ -182,6 +185,9 @@ void Modeler3D::OnInit()
     mEnv->AddWidget(elem2);
     mEnv->AddWidget(elem3);
     mEnv->AddWidget(elem4);
+
+    mEnv->AddWidget(elem5);
+    mEnv->AddWidget(elem6);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
