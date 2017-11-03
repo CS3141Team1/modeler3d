@@ -7,22 +7,33 @@
 #include "GuiRenderer.h"
 #include "Types.h"
 
-namespace GUInterface
+namespace Gui
 {
 
 /**
  * Object holding all of the logic for a widget.
  *
- * @author Michael Conard
+ * @author Michael Conard, Nicholas Hamilton
  */
 class Widget
 {
 public:
+    static const float64 LeftAlign;
+    static const float64 RightAlign;
+    static const float64 TopAlign;
+    static const float64 BottomAlign;
+
 	virtual ~Widget() {}
 
-	Widget() : mX(0),mY(0),mWidth(0),mHeight(0),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
-	Widget(int32 x, int32 y, int32 width, int32 height) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(nullptr),mChildren(std::vector<Widget*>()) {}
-	Widget(int32 x, int32 y, int32 width, int32 height, Widget* parent) : mX(x),mY(y),mWidth(width),mHeight(height),mParent(parent),mChildren(std::vector<Widget*>()) {}
+	Widget(float32 x = 0, float32 y = 0, float32 width = 0, float32 height = 0, float64 hAlign = LeftAlign, float64 vAlign = TopAlign)
+	: mX(x),
+	  mY(y),
+	  mWidth(width),
+	  mHeight(height),
+	  mHAlign(hAlign),
+	  mVAlign(vAlign),
+	  mParent(nullptr),
+	  mChildren() {}
 
 	/**
 	 * Called when the mouse is clicked. Checks if a child consumed the click and then if it gets the click.
@@ -34,11 +45,13 @@ public:
 	 *
 	 * @return bool if the click was consumed
 	 */
-	bool MouseButton(int32 x, int32 y, int32 button, bool down)
+	bool MouseButton(float32 x, float32 y, int32 button, bool down)
 	{
+	    float32 px, py;
 		for(uint32 i = 0; i < mChildren.size(); i++)
 		{
-			if(GetChild(i)->MouseButton(x-mX,y-mY,button,down))
+		    GetChild(i)->ComputePosition(px, py);
+			if(GetChild(i)->MouseButton(x-px,y-py,button,down))
 				return true;
 		}
 		bool bounds = InBounds(x,y);
@@ -54,7 +67,7 @@ public:
 	 * @param button an in representing which button was clicked, 1 = left, 2 = middle, 3 = right
 	 * @param down a bool representing if the button was down (why do we have this?)
 	 */
-	virtual void OnMouseButton(int32 x, int32 y, int32 button, bool down) {}
+	virtual void OnMouseButton(float32 x, float32 y, int32 button, bool down) {}
 
 	/**
 	 * Propagates the update event down the children.
@@ -82,20 +95,24 @@ public:
 	 * @param graphics The Video::IgraphicsDevice*
 	 * @param g The Video::GuiRenderer
 	 */
-	void Draw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
+	void Draw(Video::GuiRenderer* g)
 	{
 		//Actually draws this widget
-		OnDraw(graphics, g);
+		OnDraw(g);
 
 		//Moves the origin because children have position relative to this parent
-		g->Translate(mX, mY);
+
+		float32 x, y;
 		for (uint32 i = 0; i < GetChildCount(); i++)
 		{
+		    GetChild(GetChildCount() - i - 1)->ComputePosition(x, y);
+
+		    g->Translate(x, y);
 			//Draws the children
-			GetChild(GetChildCount() - i - 1)->Draw(graphics, g);
+			GetChild(GetChildCount() - i - 1)->Draw(g);
+			//Translates the origin back
+			g->Translate(-x, -y);
 		}
-		//Translates the origin back
-		g->Translate(-mX, -mY);
 	}
 
 	/**
@@ -104,7 +121,7 @@ public:
 	 * @param graphics The Video::IgraphicsDevice*
 	 * @param g The Video::GuiRenderer
 	 */
-	virtual void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g) {}
+	virtual void OnDraw(Video::GuiRenderer* g) {}
 
 	/**
 	 * Focuses this widget to the front of the screen.
@@ -154,17 +171,9 @@ public:
 	 */
 	void RemoveChild(Widget* w)
 	{
+	    if (w->mParent != this) return;
+	    w->mParent = nullptr;
 		mChildren.erase(std::remove(mChildren.begin(), mChildren.end(), w), mChildren.end());
-	}
-
-	/**
-	 * Changes the parent of this widget
-	 *
-	 * @param parent the Widget* that is the new parent
-	 */
-	void SetParent(Widget* parent)
-	{
-		mParent = parent;
 	}
 
 	/**
@@ -177,6 +186,12 @@ public:
 	{
 		mWidth = w;
 		mHeight = h;
+	}
+
+	void SetAlignment(float32 h, float32 v)
+	{
+	    mHAlign = h;
+	    mVAlign = v;
 	}
 
 	/**
@@ -226,6 +241,8 @@ public:
 		return true;
 	}
 
+	float32 GetHAlign() { return mHAlign; }
+	float32 GetVAlign() { return mVAlign; }
 	float32 GetX() { return mX; }
 	float32 GetY() { return mY; }
 	float32 GetWidth() { return mWidth; }
@@ -250,7 +267,36 @@ public:
 	}
 
 private:
+    /**
+     * Changes the parent of this widget
+     *
+     * @param parent the Widget* that is the new parent
+     */
+    void SetParent(Widget* parent)
+    {
+        mParent = parent;
+    }
+
+	void ComputePosition(float32& x, float32& y)
+	{
+	    // TODO might be wrong
+	    if (!mParent) return;
+
+	    float32 x1 = mParent->mX + mHAlign * (mParent->mWidth - mParent->mX);
+	    float32 y1 = mParent->mY + mVAlign * (mParent->mHeight - mParent->mY);
+
+	    int amtX = mHAlign <= 0.5 ? 0 : 1;
+	    int amtY = mVAlign <= 0.5 ? 0 : 1;
+
+	    float32 x2 = amtX * (mWidth + mX * 2);
+	    float32 y2 = amtY * (mHeight + mY * 2);
+
+	    x = x1 - x2;
+	    y = y1 - y2;
+	}
+
     float32 mX, mY, mWidth, mHeight;
+    float32 mHAlign, mVAlign;
 	Widget* mParent;
 	std::vector<Widget*> mChildren;
 };

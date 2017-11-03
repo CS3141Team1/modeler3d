@@ -1,9 +1,17 @@
 #pragma once
 
 #include "Application.h"
+#include "Types.h"
+
 #include "GUI/Environment.h"
 #include "SDL2/SdlMouse.h"
-#include "Types.h"
+
+namespace Video
+{
+
+class GuiRenderer;
+
+}
 
 namespace Core
 {
@@ -22,8 +30,15 @@ public:
     virtual void OnRender();
     virtual void OnDestroy();
 
+    void LoadObj(const std::string& file);
+
 private:
-    GUInterface::Environment* mEnv;
+    Gui::Environment* mEnv;
+    Video::GuiRenderer* mGuiRenderer;
+    Video::IShader* mShader;
+    Video::IGeometry* mGeometry;
+    Video::IVertexBuffer* mVbo;
+    float32 mAngle;
 };
 
 }

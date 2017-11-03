@@ -3,7 +3,7 @@
 #include "GUI/Environment.h"
 #include "GUI/Widget.h"
 
-namespace GUInterface
+namespace Gui
 {
 
 class ColorChangerWidget : public Widget
@@ -15,7 +15,7 @@ public:
 
 	}
 
-	void OnDraw(Video::IGraphicsDevice* graphics, Video::GuiRenderer* g)
+	void OnDraw(Video::GuiRenderer* g)
 	{
 		g->SetColor(mR, mG, mB);
 		g->FillRect(GetX(), GetY(), GetWidth() - 1, GetHeight() - 1);
@@ -28,7 +28,7 @@ public:
 	    mB = b;
 	}
 
-	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
+	void OnMouseButton(float32 x, float32 y, int32 button, bool down)
 	{
 		if (down)
 		{

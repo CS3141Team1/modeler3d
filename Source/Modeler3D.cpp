@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 
 #include "GUI/AllWidgets.h"
+#include "GUI/IAction.h"
 #include "Math/VectorMath.h"
 
 #include "FileIO.h"
@@ -70,10 +71,21 @@ std::string FragSource = ""
         "   gl_FragColor = vec4(color * (diffuse * 0.4 + 0.4 + specular * 0.4), 1.0); \n"
         "} \n";
 
-Video::IShader* Shader = nullptr;
-Video::GuiRenderer* Gui = nullptr;
+class LoadAction : public Gui::IAction
+{
+public:
+    LoadAction(Modeler3D* modeler, std::string file) : mModeler(modeler), mFile(file) {}
+    ~LoadAction() {}
 
-float Angle = 0.0f;
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+        cout << mFile << endl;
+        mModeler->LoadObj(mFile);
+    }
+private:
+    Modeler3D* mModeler;
+    std::string mFile;
+};
 
 namespace Core
 {
@@ -81,45 +93,48 @@ namespace Core
 Video::VertexFormat vboFormat = Video::VertexFormat()
         .AddElement(Video::Attribute::Position, 3)
         .AddElement(Video::Attribute::Normal, 3);
-Video::IVertexBuffer* vbo = nullptr;
-Video::IGeometry* geom = nullptr;
 
-struct VertexPosition3fNormal3f
+struct VertexPosition3Normal3
 {
     Vector3f Position;
     Vector3f Normal;
 };
 
 Modeler3D::Modeler3D(IBackend* backend)
-    : Application(backend)
+    : Application(backend),
+      mEnv(nullptr),
+      mGuiRenderer(nullptr),
+      mShader(nullptr),
+      mGeometry(nullptr),
+      mVbo(nullptr),
+      mAngle(0)
 {
-    GUInterface::ColorChangerWidget widget(50,50,100,100);
-    mEnv = backend->GetWindow()->GetEnvironment();
 }
 
 Modeler3D::~Modeler3D()
 {
 }
 
-void Modeler3D::OnInit()
+void Modeler3D::LoadObj(const string& file)
 {
-    cout << "Initializing Modeler3D" << endl;
+    if (mVbo)
+    {
+        mGeometry->SetVertexBuffer(nullptr);
+        mVbo->Release();
+        delete mVbo;
+    }
 
-    Shader = Graphics->CreateShader(VertSource, FragSource);
-    Gui = new GuiRenderer(Graphics);
-
-    boost::filesystem::path obj("Assets/bunny.obj");
-
+    boost::filesystem::path obj(file);
     FileIO objFile;
     objFile.LoadObj(obj);
 
-    vector<VertexPosition3fNormal3f> vertices;
+    vector<VertexPosition3Normal3> vertices;
     vector<vector<double>> positions = objFile.getGeometricVertices();
     vector<vector<vector<int>>> faces = objFile.getFaceElements();
 
     for (uint i = 0; i < faces.size(); i++)
     {
-        VertexPosition3fNormal3f verts[3];
+        VertexPosition3Normal3 verts[3];
         for (uint j = 0; j < 3; j++)
         {
             vector<double> pos = positions[faces[i][0][j] - 1];
@@ -138,67 +153,79 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[2]);
     }
 
-    GUInterface::ColorChangerWidget* bottomLeft = new GUInterface::ColorChangerWidget(60,40,80,40);
-    GUInterface::ColorChangerWidget* topLeft = new GUInterface::ColorChangerWidget(60,200,150,350);
-    GUInterface::ColorChangerWidget* topRight = new GUInterface::ColorChangerWidget(625,150,100,300);
+    mVbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
+    mVbo->SetData((float32*)(&vertices[0]), 0, vertices.size());
+    mGeometry->SetVertexBuffer(mVbo);
+}
 
-    mEnv->AddWidget(bottomLeft);
-    mEnv->AddWidget(topLeft);
-    mEnv->AddWidget(topRight);
-    GUInterface::ColorChangerWidget* child = new GUInterface::ColorChangerWidget(10,10,80,50);
-    GUInterface::DimensionSwapperWidget* child2 = new GUInterface::DimensionSwapperWidget(50,50,70,200);
-    mEnv->GetWidget(2)->AddChild(child);
-    mEnv->GetWidget(1)->AddChild(child2);
+void Modeler3D::OnInit()
+{
+    cout << "Initializing Modeler3D" << endl;
 
-    vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
-    geom = Graphics->CreateGeometry();
-    vbo->SetData(reinterpret_cast<float*>(&vertices[0]), 0, vertices.size());
-    geom->SetVertexBuffer(vbo);
+    mGeometry = Graphics->CreateGeometry();
+
+    mEnv = Backend->GetWindow()->GetEnvironment();
+    mGuiRenderer = new GuiRenderer(Graphics);
+    mShader = Graphics->CreateShader(VertSource, FragSource);
+
+    Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
+    Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
+    Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
+
+    elem1->SetAlignment(0, 1);
+    elem2->SetAlignment(0, 1);
+    elem3->SetAlignment(0, 1);
+    elem4->SetAlignment(0, 1);
+
+    mEnv->AddWidget(elem1);
+    mEnv->AddWidget(elem2);
+    mEnv->AddWidget(elem3);
+    mEnv->AddWidget(elem4);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
 {
-    Angle += 1.0 * dt;
+    mAngle += 1.0 * dt;
 
+    mEnv->SetSize(Window->GetWidth(), Window->GetHeight());
     mEnv->Update(dt);
 }
 
 void Modeler3D::OnRender()
 {
-    Gui->Reset();
     Graphics->SetClearColor(0.3, 0.3, 0.3);
     Graphics->Clear();
 
-    Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 1000.0f);
-    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
-    Matrix4f model = Matrix4f::ToYaw(Angle) * Matrix4f::ToPitch(Angle * 1.3) * Matrix4f::ToRoll(Angle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
-    Matrix3f normalMat(Inverse(Transpose(model)));
+    if (mVbo)
+    {
+        Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 1000.0f);
+        Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
+        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+        Matrix3f normalMat(Inverse(Transpose(model)));
 
-    Shader->SetMatrix4f("Projection", projection);
-    Shader->SetMatrix4f("View", view);
-    Shader->SetMatrix4f("Model", model);
-    Shader->SetMatrix3f("NormalMat", normalMat);
+        mShader->SetMatrix4f("Projection", projection);
+        mShader->SetMatrix4f("View", view);
+        mShader->SetMatrix4f("Model", model);
+        mShader->SetMatrix3f("NormalMat", normalMat);
 
-    Graphics->SetShader(Shader);
-    Graphics->SetGeometry(geom);
-    Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
+        Graphics->SetShader(mShader);
+        Graphics->SetGeometry(mGeometry);
+        Graphics->Draw(Video::Primitive::TriangleList, 0, mVbo->GetLength() / 3);
+    }
 
-    mEnv->Draw(Gui);
-//    Gui->Translate(10, 0);
-//    Gui->SetColor(0.5, 0.5, 0.5);
-//    Gui->FillRect(20, 20, 300, 500);
-//    Gui->SetColor(0.8, 0.7, 0.5);
-//    Gui->FillRect(Graphics->GetWidth() - 220, Graphics->GetHeight() - 320, 200, 300);
-//    Gui->SetColor(0.5, 0.7, 0.8);
-//    Gui->FillRect(Graphics->GetWidth() - 220, 50, 200, 100);
-//    Gui->Translate(-10, 0);
+    mGuiRenderer->Reset();
+    mEnv->Draw(mGuiRenderer);
 }
 
 void Modeler3D::OnDestroy()
 {
     cout << "Destroying Modeler3D" << endl;
-    Gui->Release();
-    Shader->Release();
+    mGuiRenderer->Release();
+    mShader->Release();
+    mGeometry->SetVertexBuffer(nullptr);
+    mGeometry->Release();
+    mVbo->Release();
 }
 
 }
