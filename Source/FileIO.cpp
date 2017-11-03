@@ -35,7 +35,7 @@ void FileIO::LoadObj(boost::filesystem::path p)
 		std::string fileLine;
 		while(std::getline(file, fileLine))
 		{
-			std::cout<<fileLine<<"\n";
+			//std::cout<<fileLine<<"\n";
 
 			if(fileLine.size() > 2){
 				if(fileLine.at(0) == 'v' && fileLine.at(1) == ' '){
