@@ -91,28 +91,73 @@ void FileIO::mParseNormalVertex( std::string str, std::vector< std::vector< doub
 {
 	int v1, v2, v3;
 	std::stringstream ss( str );
+	uint FirstIndexOfLine = 0;
+	if(refFaceElements.size() > 0)
+	{
+		FirstIndexOfLine = refFaceElements.size() - 1;
+	}
+	uint index = 0;
 	char temp;
 	ss >> temp;
-
-	for( uint i = 0; i < 3; i++ )
+	while( ss.tellg() != -1 )
 	{
-		ss >> v1;
+		if(index > 2 || index == 0)
+		{
+			std::vector< int > vertexSet1;
+			std::vector< int > vertexSet2;
+			std::vector< int > vertexSet3;
 
-		if( ss.peek( ) == '/' )
-			ss >> temp;
+			std::vector< std::vector< int > > faceVertices;
 
-		if( ss.peek( ) != '/' || ss.peek( ) != ' ' )
-			ss >> v2;
+			faceVertices.push_back( vertexSet1 );
+			faceVertices.push_back( vertexSet2 );
+			faceVertices.push_back( vertexSet3 );
 
-		if( ss.peek( ) == '/' )
-			ss >> temp;
+			refFaceElements.push_back( faceVertices );
+		}
+			ss >> v1;
 
-		if( ss.peek( ) != '/' || ss.peek( ) != ' ' )
-			ss >> v3;
+			if( ss.peek( ) == '/' )
+				ss >> temp;
 
-		refFaceElements[ refFaceElements.size( ) - 1 ][ i ].push_back( v1 );
-		refFaceElements[ refFaceElements.size( ) - 1 ][ i ].push_back( v2 );
-		refFaceElements[ refFaceElements.size( ) - 1 ][ i ].push_back( v3 );
+			if( ss.peek( ) != '/' && ss.peek( ) != ' ' )
+				ss >> v2;
+			else
+				v2 = 0;
+
+			if( ss.peek( ) == '/' )
+				ss >> temp;
+
+			if( ss.peek( ) != '/' && ss.peek( ) != ' ' )
+				ss >> v3;
+			else
+				v3 = 0;
+
+			if(index > 2)
+			{
+				refFaceElements[refFaceElements.size( ) - 1][0].push_back(refFaceElements[FirstIndexOfLine][0].at(0));
+				refFaceElements[refFaceElements.size( ) - 1][0].push_back(refFaceElements[FirstIndexOfLine][0].at(1));
+				refFaceElements[refFaceElements.size( ) - 1][0].push_back(refFaceElements[FirstIndexOfLine][0].at(2));
+
+				refFaceElements[refFaceElements.size( ) - 1][1].push_back(refFaceElements[refFaceElements.size( ) - 2][2].at(0));
+				refFaceElements[refFaceElements.size( ) - 1][1].push_back(refFaceElements[refFaceElements.size( ) - 2][2].at(1));
+				refFaceElements[refFaceElements.size( ) - 1][1].push_back(refFaceElements[refFaceElements.size( ) - 2][2].at(2));
+
+				refFaceElements[ refFaceElements.size( ) - 1 ][ 2 ].push_back( v1 );
+				refFaceElements[ refFaceElements.size( ) - 1 ][ 2 ].push_back( v2 );
+				refFaceElements[ refFaceElements.size( ) - 1 ][ 2 ].push_back( v3 );
+
+				index = index + 1;
+			}
+			else
+			{
+				refFaceElements[ refFaceElements.size( ) - 1 ][ index ].push_back( v1 );
+				refFaceElements[ refFaceElements.size( ) - 1 ][ index ].push_back( v2 );
+				refFaceElements[ refFaceElements.size( ) - 1 ][ index ].push_back( v3 );
+
+				index = index + 1;
+			}
+
 	}
 }
  
