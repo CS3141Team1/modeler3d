@@ -14,12 +14,13 @@ class SdlMouse
 {
 private:
 	int32 mX, mY, mRelX, mRelY;
+	int32 mWheelScroll;
 	int32 mClicks[3];
 
 public:
 	SdlMouse()
 	{
-		mX = mY = mRelX = mRelY = 0;
+		mX = mY = mRelX = mRelY = mWheelScroll = 0;
 		mClicks[0] = mClicks[1] = mClicks[2] = 0;
 	}
 
@@ -47,6 +48,8 @@ public:
 		mClicks[1] = middle;
 		mClicks[2] = right;
 	}
+
+	void SetWheelScroll(int32 amount) { mWheelScroll = amount; }
 
 	/**
 	 * Sets the click count for the left mouse button,
@@ -84,6 +87,9 @@ public:
 	int32 GetLeftClicks() { return mClicks[0]; }
 	int32 GetMiddleClicks() { return mClicks[1]; }
 	int32 GetRightClicks() { return mClicks[2]; }
+
+	//Getter for wheel scroll
+	int32 GetWheelScroll() { return mWheelScroll; }
 };
 
 }

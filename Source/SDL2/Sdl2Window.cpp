@@ -68,6 +68,7 @@ void Sdl2Window::PollEvents()
 
     mMouse->SetClicks(0,0,0);
     mMouse->SetRelativePosition(0,0);
+    mMouse->SetWheelScroll(0);
 
     while (SDL_PollEvent(&e))
     {
@@ -116,6 +117,14 @@ void Sdl2Window::PollEvents()
 
             mMouse->SetPosition(x,y);
             mMouse->SetRelativePosition(xRel,yRel);
+        }
+        else if(e.type == SDL_MOUSEWHEEL)
+        {
+        	int32 amount = e.wheel.y;
+
+        	std::cout << "Scroll: " << amount << std::endl;
+
+        	mMouse->SetWheelScroll(amount);
         }
     }
 }
