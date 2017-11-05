@@ -246,6 +246,7 @@ void FileIO::LoadObj(boost::filesystem::path p)
 	//loops through entire .obj file
 	while(std::getline(File, FileLine))
 	{
+		//std::cout<<FileLine<<"\n";
 		if(FileLine.size() > 2){
 			
 			//checks for Geometric vertex coordinates
@@ -538,4 +539,3 @@ void FileIO::SetFaceElements(std::vector<std::vector<std::vector<int>>> newFaceE
 {
 
 }
-

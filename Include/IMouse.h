@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.h"
+
 namespace Core
 {
 
@@ -26,6 +28,8 @@ public:
 	virtual void SetMiddleClicks(int32 middle) = 0;
 	virtual void SetRightClicks(int32 right) = 0;
 
+	virtual void SetWheelScroll(int32 amount) = 0;
+
 	virtual int32 GetX() const = 0;
 	virtual int32 GetY() const = 0;
 	virtual int32 GetRelX() const = 0;
@@ -33,6 +37,7 @@ public:
 	virtual int32 GetLeftClicks() const = 0;
 	virtual int32 GetMiddleClicks() const = 0;
 	virtual int32 GetRightClicks() const = 0;
+	virtual int32 GetWheelScroll() const = 0;
 };
 
 }
