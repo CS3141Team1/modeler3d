@@ -1,5 +1,6 @@
 #include "Modeler3D.h"
 
+#include <cmath>
 #include <iostream>
 
 #include <boost/filesystem.hpp>
@@ -79,13 +80,29 @@ public:
 
     void OnActionPerformed(Gui::Widget* widget)
     {
-        cout << mFile << endl;
+        cout << "Loading file: " << mFile << endl;
+        mModeler->LoadObj(mFile);\
     }
 private:
     Modeler3D* mModeler;
     std::string mFile;
 };
 
+class ZoomAction : public Gui::IAction
+{
+public:
+	ZoomAction(Modeler3D* modeler, int32 zoom) : mModeler(modeler), mZoom(zoom) {}
+    ~ZoomAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+        cout << "Zoom set to: " << mZoom << endl;
+        mModeler->SetZoom(mZoom);
+    }
+private:
+    Modeler3D* mModeler;
+    int32 mZoom;
+};
 Video::IShader* Shader = nullptr;
 
 float Angle = 0.0f;
@@ -96,10 +113,8 @@ namespace Core
 Video::VertexFormat vboFormat = Video::VertexFormat()
         .AddElement(Video::Attribute::Position, 3)
         .AddElement(Video::Attribute::Normal, 3);
-Video::IVertexBuffer* vbo = nullptr;
-Video::IGeometry* geom = nullptr;
 
-struct VertexPosition3fNormal3f
+struct VertexPosition3Normal3
 {
     Vector3f Position;
     Vector3f Normal;
@@ -108,7 +123,13 @@ struct VertexPosition3fNormal3f
 Modeler3D::Modeler3D(IBackend* backend)
     : Application(backend),
       mEnv(nullptr),
-      mGuiRenderer(nullptr)
+      mGuiRenderer(nullptr),
+      mShader(nullptr),
+      mGeometry(nullptr),
+      mVbo(nullptr),
+      mAngle(0),
+	  mMouse(backend->GetWindow()->GetMouse()),
+	  mZoom(2)
 {
 }
 
@@ -116,34 +137,35 @@ Modeler3D::~Modeler3D()
 {
 }
 
-void Modeler3D::OnInit()
+void Modeler3D::LoadObj(const string& file)
 {
-    cout << "Initializing Modeler3D" << endl;
+	boost::filesystem::path obj(file);
 
-    mEnv = Backend->GetWindow()->GetEnvironment();
-    mGuiRenderer = new GuiRenderer(Graphics);
-    Shader = Graphics->CreateShader(VertSource, FragSource);
+	FileIO objFile;
 
-    boost::filesystem::path obj("Assets/bunny.obj");
+	vector<VertexPosition3Normal3> vertices;
+	std::vector<std::vector<double>> positions;
+	std::vector<std::vector<double>> textures;
+	std::vector<std::vector<double>> normals;
+	std::vector<std::vector<std::vector<int>>> faces;
 
-    FileIO objFile;
-    objFile.LoadObj(obj);
+	objFile.LoadObj2(obj , positions, textures, normals, faces);
 
-    vector<VertexPosition3fNormal3f> vertices;
-    vector<vector<double>> positions = objFile.getGeometricVertices();
-    vector<vector<vector<int>>> faces = objFile.getFaceElements();
 
     for (uint i = 0; i < faces.size(); i++)
     {
-        VertexPosition3fNormal3f verts[3];
+        VertexPosition3Normal3 verts[3];
         for (uint j = 0; j < 3; j++)
         {
-            vector<double> pos = positions[faces[i][0][j] - 1];
+            vector<double> pos = positions[faces[i][j][0] - 1];
+
             for (uint k = 0; k < 3; k++)
             {
-                verts[j].Position[k] = pos[k] * 10;
+                verts[j].Position[k] = pos[k] * 1.5;
             }
+
         }
+
         Vector3f normal = Cross(Normalize( verts[1].Position -  verts[0].Position), Normalize( verts[2].Position -  verts[0].Position));
         verts[0].Normal = normal;
         verts[1].Normal = normal;
@@ -154,29 +176,55 @@ void Modeler3D::OnInit()
         vertices.push_back(verts[2]);
     }
 
-    Gui::Button* elem1 = new Gui::Button(10,10,80,40,new LoadAction(this, "Assets/bunny.obj"));
+    mVbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
+    mVbo->SetData((float32*)(&vertices[0]), 0, vertices.size());
+    mGeometry->SetVertexBuffer(mVbo);
+}
+
+void Modeler3D::OnInit()
+{
+    cout << "Initializing Modeler3D" << endl;
+
+    mGeometry = Graphics->CreateGeometry();
+
+    mEnv = Backend->GetWindow()->GetEnvironment();
+    mGuiRenderer = new GuiRenderer(Graphics);
+    mShader = Graphics->CreateShader(VertSource, FragSource);
+
+    Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
+    Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
+    Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
+
+    Gui::Widget* elem5 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, 1));
+    Gui::Widget* elem6 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, 100));
+    Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, 1000));
+    Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, 2500));
+
     elem1->SetAlignment(0, 1);
-    Gui::Button* elem2 = new Gui::Button(10,60,80,40,new LoadAction(this, "Assets/cube.obj"));
     elem2->SetAlignment(0, 1);
-    Gui::Button* elem3 = new Gui::Button(10,110,80,40,new LoadAction(this, "Assets/dragon.obj"));
     elem3->SetAlignment(0, 1);
-    Gui::Button* elem4 = new Gui::Button(10,160,80,40,new LoadAction(this, "Assets/pencil.obj"));
     elem4->SetAlignment(0, 1);
+
+    elem5->SetAlignment(1, 1);
+    elem6->SetAlignment(1, 1);
+    elem7->SetAlignment(1, 1);
+    elem8->SetAlignment(1, 1);
 
     mEnv->AddWidget(elem1);
     mEnv->AddWidget(elem2);
     mEnv->AddWidget(elem3);
     mEnv->AddWidget(elem4);
 
-    vbo = Graphics->CreateVertexBuffer(vboFormat, vertices.size(), Video::BufferHint::Static);
-    geom = Graphics->CreateGeometry();
-    vbo->SetData(reinterpret_cast<float*>(&vertices[0]), 0, vertices.size());
-    geom->SetVertexBuffer(vbo);
+    mEnv->AddWidget(elem5);
+    mEnv->AddWidget(elem6);
+    mEnv->AddWidget(elem7);
+    mEnv->AddWidget(elem8);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
 {
-    Angle += 1.0 * dt;
+    mAngle += 1.0 * dt;
 
     mEnv->SetSize(Window->GetWidth(), Window->GetHeight());
     mEnv->Update(dt);
@@ -187,29 +235,55 @@ void Modeler3D::OnRender()
     Graphics->SetClearColor(0.3, 0.3, 0.3);
     Graphics->Clear();
 
-    Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 1000.0f);
-    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
-    Matrix4f model = Matrix4f::ToYaw(Angle) * Matrix4f::ToPitch(Angle * 1.3) * Matrix4f::ToRoll(Angle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
-    Matrix3f normalMat(Inverse(Transpose(model)));
+    if (mVbo)
+    {
+    	int32 amt = mMouse->GetWheelScroll();
+    	if(amt != 0)
+    	{
+        	amt = (amt > 4 ? 4 : amt);
+        	amt = (amt < -4 ? -4 : amt);
+        	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
+    		if(amt > 0)
+    		{
+    			mZoom -= pow(factor,amt);
+    		}
+    		else
+    		{
+    			mZoom += pow(factor,abs(amt));
+    		}
 
-    Shader->SetMatrix4f("Projection", projection);
-    Shader->SetMatrix4f("View", view);
-    Shader->SetMatrix4f("Model", model);
-    Shader->SetMatrix3f("NormalMat", normalMat);
+    		if(mZoom < 1) mZoom = 1;
+    	}
 
-    Graphics->SetShader(Shader);
-    Graphics->SetGeometry(geom);
-    Graphics->Draw(Video::Primitive::TriangleList, 0, vbo->GetLength());
+        Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
+        Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
+        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+        Matrix3f normalMat(Inverse(Transpose(model)));
+
+        mShader->SetMatrix4f("Projection", projection);
+        mShader->SetMatrix4f("View", view);
+        mShader->SetMatrix4f("Model", model);
+        mShader->SetMatrix3f("NormalMat", normalMat);
+
+        Graphics->SetShader(mShader);
+        Graphics->SetGeometry(mGeometry);
+        Graphics->Draw(Video::Primitive::TriangleList, 0, mVbo->GetLength() / 3);
+    }
 
     mGuiRenderer->Reset();
     mEnv->Draw(mGuiRenderer);
 }
 
+void Modeler3D::SetZoom(int32 zoom) { mZoom = zoom; }
+
 void Modeler3D::OnDestroy()
 {
     cout << "Destroying Modeler3D" << endl;
     mGuiRenderer->Release();
-    Shader->Release();
+    mShader->Release();
+    mGeometry->SetVertexBuffer(nullptr);
+    mGeometry->Release();
+    mVbo->Release();
 }
 
 }

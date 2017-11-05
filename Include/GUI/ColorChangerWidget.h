@@ -51,7 +51,7 @@ public:
 	        mDir *= -1;
 	    }
 
-	    SetBounds(GetX() - 50 * dt * mDir, GetY() - 25 * dt * mDir, GetWidth() + 100 * dt * mDir, GetHeight() + 50 * dt * mDir);
+	    SetBounds(GetX() /*- 50 * dt * mDir*/, GetY() /*- 25 * dt * mDir*/, GetWidth() /*+ 100 * dt * mDir*/, GetHeight() + 100 * dt * mDir);
 	}
 
 private:
