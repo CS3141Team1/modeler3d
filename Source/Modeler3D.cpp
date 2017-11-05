@@ -80,7 +80,7 @@ public:
 
     void OnActionPerformed(Gui::Widget* widget)
     {
-        cout << mFile << endl;
+        cout << "Loading file: " << mFile << endl;
         mModeler->LoadObj(mFile);
     }
 private:
@@ -148,8 +148,8 @@ void Modeler3D::LoadObj(const string& file)
     objFile.LoadObj(obj);
 
     vector<VertexPosition3Normal3> vertices;
-    vector<vector<double>> positions = objFile.getGeometricVertices();
-    vector<vector<vector<int>>> faces = objFile.getFaceElements();
+    vector<vector<double>> positions = objFile.GetGeometricVertices();
+    vector<vector<vector<int>>> faces = objFile.GetFaceElements();
 
     for (uint i = 0; i < faces.size(); i++)
     {
