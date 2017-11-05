@@ -242,9 +242,11 @@ void Modeler3D::OnRender()
     if (mVbo)
     {
     	int32 amt = mMouse->GetWheelScroll();
-    	int32 factor = (mZoom <= 50 ? 2 : (mZoom <= 200 ? 3 : (mZoom <= 1000 ? 4 : 5)));
     	if(amt != 0)
     	{
+        	amt = (amt > 4 ? 4 : amt);
+        	amt = (amt < -4 ? -4 : amt);
+        	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
     		if(amt > 0)
     		{
     			mZoom -= pow(factor,amt);
@@ -255,8 +257,6 @@ void Modeler3D::OnRender()
     		}
 
     		if(mZoom < 1) mZoom = 1;
-
-    		std::cout << mZoom << std::endl;
     	}
 
         Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
