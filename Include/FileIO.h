@@ -26,7 +26,7 @@ class FileIO{
 	public:
 	
 		//Save methods for .obj files
-		void SaveObj( std::string filename );
+		void SaveObj(std::string filename);
 
 		
 		//load method for .onj files
