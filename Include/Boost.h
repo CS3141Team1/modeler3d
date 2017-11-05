@@ -8,7 +8,10 @@
 using namespace boost::filesystem;
 using namespace std;
 
+/**
+ * Class header file for reading directories using boost library.
+ *
+ * @author Chris Blatt
+ */
+
 vector<string> ListDir(path p);
-vector<string> ListVert(string inFile);
-vector<string> ListTexture(string inFile);
-vector<string> ListNorm(string inFile);
