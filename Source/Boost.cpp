@@ -7,12 +7,6 @@
 using namespace boost::filesystem;
 using namespace std;
 
-/**
- * Reads in a path to return a vector containing contents of directory.
- *
- * @param p - path to display contents of
- * @return direct - vector of strings containing contents of p
- */
 vector<string> ListDir(path p) {
 	vector<string> direct;
 
@@ -26,7 +20,7 @@ vector<string> ListDir(path p) {
 		cout << p << " Hey, that does not exist!";
 	}
 
-	for (size_t i = 0; i < direct.size(); i++) {
+	for (int i = 0; i < direct.size(); i++) {
 		cout << direct[i] << '\n';
 	}
 

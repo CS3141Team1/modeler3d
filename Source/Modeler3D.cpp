@@ -81,7 +81,7 @@ public:
     void OnActionPerformed(Gui::Widget* widget)
     {
         cout << "Loading file: " << mFile << endl;
-        mModeler->LoadObj(mFile);
+        mModeler->LoadObj(mFile);\
     }
 private:
     Modeler3D* mModeler;
@@ -103,6 +103,9 @@ private:
     Modeler3D* mModeler;
     int32 mZoom;
 };
+Video::IShader* Shader = nullptr;
+
+float Angle = 0.0f;
 
 namespace Core
 {
@@ -136,40 +139,33 @@ Modeler3D::~Modeler3D()
 
 void Modeler3D::LoadObj(const string& file)
 {
-    if (mVbo)
-    {
-        mGeometry->SetVertexBuffer(nullptr);
-        mVbo->Release();
-        delete mVbo;
-    }
+	boost::filesystem::path obj(file);
 
-    boost::filesystem::path obj(file);
-    FileIO objFile;
-    objFile.LoadObj(obj);
+	FileIO objFile;
 
-//    boost::filesystem::path obj(file);
-//    FileIO objFile;
-//    vector<vector<double>> positionss;
-//    vector<vector<double>> textureVertices;
-//    vector<vector<double>> normalVertices;
-//    vector<vector<vector<int>>> faces;
-//    objFile.LoadObj2(obj, positionss, textureVertices, normalVertices, faces);
+	vector<VertexPosition3Normal3> vertices;
+	std::vector<std::vector<double>> positions;
+	std::vector<std::vector<double>> textures;
+	std::vector<std::vector<double>> normals;
+	std::vector<std::vector<std::vector<int>>> faces;
 
-    vector<VertexPosition3Normal3> vertices;
-    vector<vector<double>> positions = objFile.GetGeometricVertices();
-    vector<vector<vector<int>>> faces = objFile.GetFaceElements();
+	objFile.LoadObj2(obj , positions, textures, normals, faces);
+
 
     for (uint i = 0; i < faces.size(); i++)
     {
         VertexPosition3Normal3 verts[3];
         for (uint j = 0; j < 3; j++)
         {
-            vector<double> pos = positions[faces[i][0][j] - 1];
+            vector<double> pos = positions[faces[i][j][0] - 1];
+
             for (uint k = 0; k < 3; k++)
             {
-                verts[j].Position[k] = pos[k] * 10;
+                verts[j].Position[k] = pos[k] * 1.5;
             }
+
         }
+
         Vector3f normal = Cross(Normalize( verts[1].Position -  verts[0].Position), Normalize( verts[2].Position -  verts[0].Position));
         verts[0].Normal = normal;
         verts[1].Normal = normal;
