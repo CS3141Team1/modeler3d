@@ -123,30 +123,20 @@ void Modeler3D::OnInit()
     mEnv = Backend->GetWindow()->GetEnvironment();
     mGuiRenderer = new GuiRenderer(Graphics);
     Shader = Graphics->CreateShader(VertSource, FragSource);
-/*
-    boost::filesystem::path obj("Assets/bunny.obj");
+
+    boost::filesystem::path obj("Assets/pencil.obj");
 
     FileIO objFile;
     objFile.LoadObj(obj);
 
     vector<VertexPosition3fNormal3f> vertices;
-    vector<vector<double>> positions = objFile.GetGeometricVertices();
-    vector<vector<vector<int>>> faces = objFile.GetFaceElements();
-*/
 
-    boost::filesystem::path obj("Assets/pencil.obj");
+    std::vector<std::vector<double>> positions;
+    std::vector<std::vector<double>> textures;
+    std::vector<std::vector<double>> normals;
+    std::vector<std::vector<std::vector<int>>> faces;
 
-        FileIO objFile;
-        objFile.LoadObj(obj);
-
-        vector<VertexPosition3fNormal3f> vertices;
-
-    	std::vector<std::vector<double>> positions;
-        std::vector<std::vector<double>> textures;
-        std::vector<std::vector<double>> normals;
-        std::vector<std::vector<std::vector<int>>> faces;
-
-        objFile.LoadObj2(obj , positions, textures, normals, faces);
+    objFile.LoadObj2(obj , positions, textures, normals, faces);
 
 
     for (uint i = 0; i < faces.size(); i++)
