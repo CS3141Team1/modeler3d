@@ -2,6 +2,9 @@
 
 #include <string.h>
 
+#include "IVertexBuffer.h"
+#include "Types.h"
+
 namespace Video
 {
 
@@ -31,14 +34,14 @@ void OglVertexBuffer::Release()
     mId = 0;
 }
 
-void OglVertexBuffer::GetData(void* out, uint start, uint count) const
+void OglVertexBuffer::GetData(float32* out, uint start, uint count) const
 {
     uint index = start * mFormat.GetSizeInBytes();
     uint size = count * mFormat.GetSizeInBytes();
     memcpy(out, &mData[index], size);
 }
 
-void OglVertexBuffer::SetData(void* in, uint start, uint count)
+void OglVertexBuffer::SetData(const float32* in, uint start, uint count)
 {
     uint index = start * mFormat.GetSizeInBytes();
     uint size = count * mFormat.GetSizeInBytes();

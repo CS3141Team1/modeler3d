@@ -3,6 +3,16 @@
 #include "Application.h"
 #include "Types.h"
 
+#include "GUI/Environment.h"
+#include "SDL2/SdlMouse.h"
+
+namespace Video
+{
+
+class GuiRenderer;
+
+}
+
 namespace Core
 {
 
@@ -19,6 +29,10 @@ public:
     virtual void OnUpdate(float64 dt);
     virtual void OnRender();
     virtual void OnDestroy();
+
+private:
+    Gui::Environment* mEnv;
+    Video::GuiRenderer* mGuiRenderer;
 };
 
 }
