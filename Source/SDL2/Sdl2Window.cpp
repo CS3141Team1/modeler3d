@@ -122,7 +122,7 @@ void Sdl2Window::PollEvents()
         {
         	int32 amount = e.wheel.y;
 
-        	std::cout << "Scroll: " << amount << std::endl;
+//        	std::cout << "Scroll: " << amount << std::endl;
 
         	mMouse->SetWheelScroll(amount);
         }
