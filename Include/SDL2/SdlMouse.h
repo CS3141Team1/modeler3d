@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IMouse.h"
+#include "Types.h"
 
 namespace Core
 {
@@ -18,21 +19,17 @@ private:
 	int32 mClicks[3];
 
 public:
-	SdlMouse()
-	{
-		mX = mY = mRelX = mRelY = mWheelScroll = 0;
-		mClicks[0] = mClicks[1] = mClicks[2] = 0;
-	}
+	SdlMouse();
 
 	//Absolute position setters
-	void SetX(int32 x) { mX = x; }
-	void SetY(int32 y) { mY = y; }
-	void SetPosition(int32 x, int32 y) { mX = x; mY = y; }
+	void SetX(int32 x);
+	void SetY(int32 y);
+	void SetPosition(int32 x, int32 y);
 
 	//Relative position setters
-	void SetRelX(int32 relx) { mRelX = relx; }
-	void SetRelY(int32 rely) { mRelY = rely; }
-	void SetRelativePosition(int32 relx, int32 rely) { mRelX = relx; mRelY = rely; }
+	void SetRelX(int32 relx);
+	void SetRelY(int32 rely);
+	void SetRelativePosition(int32 relx, int32 rely);
 
 	/**
 	 * Sets the click count for each mouse button,
@@ -42,14 +39,9 @@ public:
 	 * @param middle int representing middle button click count
 	 * @param right int representing right button click count
 	 */
-	void SetClicks(int32 left, int32 middle, int32 right)
-	{
-		mClicks[0] = left;
-		mClicks[1] = middle;
-		mClicks[2] = right;
-	}
+	void SetClicks(int32 left, int32 middle, int32 right);
 
-	void SetWheelScroll(int32 amount) { mWheelScroll = amount; }
+	void SetWheelScroll(int32 amount);
 
 	/**
 	 * Sets the click count for the left mouse button,
@@ -57,7 +49,7 @@ public:
 	 *
 	 * @param left int representing left button click count
 	 */
-	void SetLeftClicks(int32 left) { mClicks[0] = left; }
+	void SetLeftClicks(int32 left);
 
 	/**
 	 * Sets the click count for the middle mouse button,
@@ -65,7 +57,7 @@ public:
 	 *
 	 * @param middle int representing middle button click count
 	 */
-	void SetMiddleClicks(int32 middle) { mClicks[1] = middle; }
+	void SetMiddleClicks(int32 middle);
 
 	/**
 	 * Sets the click count for the right mouse button,
@@ -73,23 +65,23 @@ public:
 	 *
 	 * @param right int representing right button click count
 	 */
-	void SetRightClicks(int32 right) { mClicks[2] = right; }
+	void SetRightClicks(int32 right);
 
 	//Getters for absolute position
-	int32 GetX() { return mX; }
-	int32 GetY() { return mY; }
+	int32 GetX();
+	int32 GetY();
 
 	//Getters for relative position
-	int32 GetRelX() { return mRelX; }
-	int32 GetRelY() { return mRelY; }
+	int32 GetRelX();
+	int32 GetRelY();
 
 	//Getters for click status
-	int32 GetLeftClicks() { return mClicks[0]; }
-	int32 GetMiddleClicks() { return mClicks[1]; }
-	int32 GetRightClicks() { return mClicks[2]; }
+	int32 GetLeftClicks();
+	int32 GetMiddleClicks();
+	int32 GetRightClicks();
 
 	//Getter for wheel scroll
-	int32 GetWheelScroll() { return mWheelScroll; }
+	int32 GetWheelScroll();
 };
 
 }
