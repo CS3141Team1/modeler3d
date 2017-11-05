@@ -81,7 +81,9 @@ public:
     void OnActionPerformed(Gui::Widget* widget)
     {
         cout << "Loading file: " << mFile << endl;
-        mModeler->LoadObj(mFile);\
+        if(mFile == "Assets/dragon.obj")
+        	cout << "Note, dragon.obj is very large and can take up to 30sec to load" << endl;
+        mModeler->LoadObj(mFile);
     }
 private:
     Modeler3D* mModeler;
@@ -257,7 +259,7 @@ void Modeler3D::OnRender()
 
         Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
         Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
-        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7);// * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
         Matrix3f normalMat(Inverse(Transpose(model)));
 
         mShader->SetMatrix4f("Projection", projection);
