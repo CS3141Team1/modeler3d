@@ -30,9 +30,19 @@ public:
     virtual void OnRender();
     virtual void OnDestroy();
 
+    virtual void SetZoom(int32 zoom);
+
+    void LoadObj(const std::string& file);
+
 private:
     Gui::Environment* mEnv;
     Video::GuiRenderer* mGuiRenderer;
+    Video::IShader* mShader;
+    Video::IGeometry* mGeometry;
+    Video::IVertexBuffer* mVbo;
+    float32 mAngle;
+    SdlMouse* mMouse;
+    int32 mZoom;
 };
 
 }

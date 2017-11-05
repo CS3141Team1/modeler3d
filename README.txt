@@ -8,10 +8,13 @@ MUST HAVE GLEW compiled and linked.
 
 Primary support is for MinGW but it may work on Cygwin or VisualC++.
 
-Right now, it is not usable for a typical person because there is no interface yet. You can follow these steps to display your .obj model.
+We now have support for buttons! When you run Modeler3D.exe you will see 
+four buttons at the top left and four buttons at the top right.
 
-1. Place a .obj model file in the "Assets" folder
+Top Left, going down: Loads bunny.obj, loads cube.obj, loads dragon.obj, loads pencil.obj
 
-2. In Modeler3d.cpp, in the init method change the file path to be your .obj.
+Top right, going down: Quick zoom to Z = 1, Z = 100, Z = 1000, Z = 2500 (useful for massive models)
 
-3. Compile and run.
+You can also use the scroll wheel to zoom.
+
+Soon it will have support for loading your own .obj files!
