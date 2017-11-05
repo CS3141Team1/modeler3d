@@ -1,5 +1,6 @@
 #include "Modeler3D.h"
 
+#include <cmath>
 #include <iostream>
 
 #include <boost/filesystem.hpp>
@@ -87,6 +88,22 @@ private:
     std::string mFile;
 };
 
+class ZoomAction : public Gui::IAction
+{
+public:
+	ZoomAction(Modeler3D* modeler, int32 zoom) : mModeler(modeler), mZoom(zoom) {}
+    ~ZoomAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+        cout << "Zoom set to: " << mZoom << endl;
+        mModeler->SetZoom(mZoom);
+    }
+private:
+    Modeler3D* mModeler;
+    int32 mZoom;
+};
+
 namespace Core
 {
 
@@ -107,7 +124,9 @@ Modeler3D::Modeler3D(IBackend* backend)
       mShader(nullptr),
       mGeometry(nullptr),
       mVbo(nullptr),
-      mAngle(0)
+      mAngle(0),
+	  mMouse(backend->GetWindow()->GetMouse()),
+	  mZoom(2)
 {
 }
 
@@ -173,13 +192,20 @@ void Modeler3D::OnInit()
     Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
     Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
 
-    Gui::Widget* elem5 = new Gui::ColorChangerWidget(10,10,100,200);
-    Gui::Widget* elem6 = new Gui::DimensionSwapperWidget(10,10,100,200);
+    Gui::Widget* elem5 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, 1));
+    Gui::Widget* elem6 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, 100));
+    Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, 1000));
+    Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, 2500));
 
     elem1->SetAlignment(0, 1);
     elem2->SetAlignment(0, 1);
     elem3->SetAlignment(0, 1);
     elem4->SetAlignment(0, 1);
+
+    elem5->SetAlignment(1, 1);
+    elem6->SetAlignment(1, 1);
+    elem7->SetAlignment(1, 1);
+    elem8->SetAlignment(1, 1);
 
     mEnv->AddWidget(elem1);
     mEnv->AddWidget(elem2);
@@ -188,6 +214,8 @@ void Modeler3D::OnInit()
 
     mEnv->AddWidget(elem5);
     mEnv->AddWidget(elem6);
+    mEnv->AddWidget(elem7);
+    mEnv->AddWidget(elem8);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
@@ -205,8 +233,23 @@ void Modeler3D::OnRender()
 
     if (mVbo)
     {
-        Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 1000.0f);
-        Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
+    	int32 amt = mMouse->GetWheelScroll();
+    	if(amt != 0)
+    	{
+    		if(amt > 0)
+    		{
+    			mZoom -= pow(2,amt);
+    		}
+    		else
+    		{
+    			mZoom += pow(2,abs(amt));
+    		}
+
+    		if(mZoom < 1) mZoom = 1;
+    	}
+
+        Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
+        Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
         Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
         Matrix3f normalMat(Inverse(Transpose(model)));
 
@@ -223,6 +266,8 @@ void Modeler3D::OnRender()
     mGuiRenderer->Reset();
     mEnv->Draw(mGuiRenderer);
 }
+
+void Modeler3D::SetZoom(int32 zoom) { mZoom = zoom; }
 
 void Modeler3D::OnDestroy()
 {
