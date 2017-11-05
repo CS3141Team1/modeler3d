@@ -147,6 +147,14 @@ void Modeler3D::LoadObj(const string& file)
     FileIO objFile;
     objFile.LoadObj(obj);
 
+//    boost::filesystem::path obj(file);
+//    FileIO objFile;
+//    vector<vector<double>> positionss;
+//    vector<vector<double>> textureVertices;
+//    vector<vector<double>> normalVertices;
+//    vector<vector<vector<int>>> faces;
+//    objFile.LoadObj2(obj, positionss, textureVertices, normalVertices, faces);
+
     vector<VertexPosition3Normal3> vertices;
     vector<vector<double>> positions = objFile.GetGeometricVertices();
     vector<vector<vector<int>>> faces = objFile.GetFaceElements();
@@ -234,18 +242,21 @@ void Modeler3D::OnRender()
     if (mVbo)
     {
     	int32 amt = mMouse->GetWheelScroll();
+    	int32 factor = (mZoom <= 50 ? 2 : (mZoom <= 200 ? 3 : (mZoom <= 1000 ? 4 : 5)));
     	if(amt != 0)
     	{
     		if(amt > 0)
     		{
-    			mZoom -= pow(2,amt);
+    			mZoom -= pow(factor,amt);
     		}
     		else
     		{
-    			mZoom += pow(2,abs(amt));
+    			mZoom += pow(factor,abs(amt));
     		}
 
     		if(mZoom < 1) mZoom = 1;
+
+    		std::cout << mZoom << std::endl;
     	}
 
         Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
