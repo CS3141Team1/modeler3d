@@ -273,7 +273,7 @@ struct Matrix4
      * @param t top coord
      * @param b bottom coord
      *
-     * @return Matrix4<Type> the perspective matrix
+     * @return Matrix4<Type> the orthographic matrix
      */
     static Matrix4<Type> ToOrthographic(Type n, Type f, Type r, Type l, Type t, Type b)
     {
