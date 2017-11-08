@@ -59,16 +59,25 @@ public:
     {
     	std::cout << "Rotated ~10 degrees" << std::endl;
     	float32 angle = mDirection * 3.1415926535897/20.0;
-    	if(axis == 2) mCamera->UpdateYaw(angle);
-    	else if(axis == 1) mCamera-UpdatePitch(angle);
+		Math::Quaternionf q;
+		if (mAxis == 2)
+		{
+			mCamera->UpdateYaw(angle);
+			q = Math::Quaternionf::AxisAngle(Math::Vector3f(0, 1, 0), angle);
 
-    	mCamera->SetRotation;
+		} else if (mAxis == 1)
+		{
+			mCamera->UpdatePitch(angle);
+			q = Math::Quaternionf::AxisAngle(Math::Vector3f(1, 0, 0), angle);
+		}
+
+    	mCamera->SetRotation();
         mCamera->Rotate(q);
     }
 private:
     Modeler3D* mModeler;
     Camera* mCamera;
-    Math::Vector3f mAxis;
+    int32 mAxis;
     int32 mDirection;
 };
 
