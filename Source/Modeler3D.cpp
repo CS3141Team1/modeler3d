@@ -172,10 +172,10 @@ void Modeler3D::OnInit()
     Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, mCamera, 300));
     Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, mCamera, 1000));
 
-    Gui::Widget* elem9 = new Gui::Button(10 + 90 * 0, 10 + 50 * 0,80,40, new RotateAction(this, mCamera, Math::Vector3f(0,1,0), -1));
-    Gui::Widget* elem10 = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,Math::Vector3f(0,1,0), 1));
-    Gui::Widget* elem11 = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, Math::Vector3f(1,0,0), -1));
-    Gui::Widget* elem12 = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,Math::Vector3f(1,0,0), 1));
+    Gui::Widget* elem9 = new Gui::Button(10 + 90 * 0, 10 + 50 * 0,80,40, new RotateAction(this, mCamera, 1, -1));
+    Gui::Widget* elem10 = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,1, 1));
+    Gui::Widget* elem11 = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, 2, -1));
+    Gui::Widget* elem12 = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,2, 1));
 
     elem1->SetAlignment(0, 1);
     elem2->SetAlignment(0, 1);
