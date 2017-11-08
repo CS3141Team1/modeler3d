@@ -35,6 +35,8 @@ public:
 
     void LoadObj(const std::string& file);
 
+    float32 GetZoom() const { return mZoom; }
+
 private:
     Gui::Environment* mEnv;
     Video::GuiRenderer* mGuiRenderer;

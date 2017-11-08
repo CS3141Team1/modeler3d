@@ -52,33 +52,45 @@ private:
 class RotateAction : public Gui::IAction
 {
 public:
-	RotateAction(Modeler3D* modeler, Camera* camera, int32 axis, int32 direction) : mModeler(modeler), mCamera(camera), mAxis(axis), mDirection(direction) {}
+	RotateAction(Modeler3D* modeler, Camera* camera, int32 axis, int32 direction) : mModeler(modeler), mCamera(camera), mAxis(axis), mDirection(direction)
+	{
+		mAngle = mDirection * Math::ToRadians(20.0f);
+		if (axis == 2)
+		{
+			mQ = Math::Quaternionf::AxisAngle(Math::Vector3f(0, 1, 0), mAngle);
+
+		}
+		else if (axis == 1)
+		{
+			mQ = Math::Quaternionf::AxisAngle(Math::Vector3f(1, 0, 0), mAngle);
+		}
+	}
     ~RotateAction() {}
 
     void OnActionPerformed(Gui::Widget* widget)
     {
-    	std::cout << "Rotated ~10 degrees" << std::endl;
-    	float32 angle = mDirection * 3.1415926535897/20.0;
-		Math::Quaternionf q;
+    	std::cout << "Rotated 20 degrees" << std::endl;
+
 		if (mAxis == 2)
 		{
-			mCamera->UpdateYaw(angle);
-			q = Math::Quaternionf::AxisAngle(Math::Vector3f(0, 1, 0), angle);
-
-		} else if (mAxis == 1)
-		{
-			mCamera->UpdatePitch(angle);
-			q = Math::Quaternionf::AxisAngle(Math::Vector3f(1, 0, 0), angle);
+			mCamera->UpdateYaw(mAngle);
+			mCamera->SetRotation();
+			mCamera->SetPosition(Math::Rotate(Core::Math::Vector3f(0, 0, mModeler->GetZoom()), mCamera->GetRotation()));
 		}
-
-    	mCamera->SetRotation();
-        mCamera->Rotate(q);
+		else if (mAxis == 1)
+		{
+			mCamera->UpdatePitch(mAngle);
+			mCamera->SetRotation();
+			mCamera->SetPosition(Math::Rotate(Core::Math::Vector3f(0, 0, mModeler->GetZoom()), mCamera->GetRotation()));
+		}
     }
 private:
     Modeler3D* mModeler;
     Camera* mCamera;
     int32 mAxis;
     int32 mDirection;
+    Math::Quaternionf mQ;
+    float32 mAngle;
 };
 
 }
