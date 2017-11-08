@@ -41,7 +41,6 @@ public:
     {
     	std::cout << "Zoom set to: " << mZoom << std::endl;
     	mModeler->SetZoom(mZoom);
-        mCamera->SetPosition(Math::Vector3f(0,0,mZoom));
     }
 private:
     Modeler3D* mModeler;
