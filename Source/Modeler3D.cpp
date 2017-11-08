@@ -162,6 +162,8 @@ void Modeler3D::OnInit()
     mGuiRenderer = new GuiRenderer(Graphics);
     mShader = Graphics->CreateShader(VertSource, FragSource);
 
+    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/test.png");
+
     Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
     Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
     Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));

@@ -10,11 +10,14 @@
 #include <GL/glu.h>
 #include <SDL2/Sdl2Window.h>
 
+#include "lodepng.h"
+
 #include "Math/ModelerMath.h"
 #include "Math/Matrix4.h"
 
 #include "OGL/OglGeometry.h"
 #include "OGL/OglIndexBuffer.h"
+#include "OGL/OglTexture2D.h"
 #include "OGL/OglVertexBuffer.h"
 
 using namespace std;
@@ -194,6 +197,26 @@ float32 OglGraphicsDevice::GetHeight() const
 float32 OglGraphicsDevice::GetAspectRatio() const
 {
     return mWindow->GetAspectRatio();
+}
+
+ITexture2D* OglGraphicsDevice::CreateTexture2D(const std::string& filename)
+{
+    vector<uint8> pixels;
+    uint width, height;
+
+    uint error = lodepng::decode(pixels, width, height, filename);
+
+    if (error)
+    {
+        cout << "Error reading image: " << filename << endl;
+        return nullptr;
+    }
+    else
+    {
+        OglTexture2D* tex = new OglTexture2D(width, height);
+        tex->SetData(&pixels[0], 0, 0, width, height);
+        return tex;
+    }
 }
 
 void OglGraphicsDevice::DrawIndices(Primitive prim, uint start, uint primCount)
