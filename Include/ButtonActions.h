@@ -34,17 +34,42 @@ private:
 class ZoomAction : public Gui::IAction
 {
 public:
-	ZoomAction(Camera* camera, int32 zoom) : mCamera(camera), mZoom(zoom) {}
+	ZoomAction(Modeler3D* modeler, Camera* camera, int32 zoom) : mModeler(modeler), mCamera(camera), mZoom(zoom) {}
     ~ZoomAction() {}
 
     void OnActionPerformed(Gui::Widget* widget)
     {
     	std::cout << "Zoom set to: " << mZoom << std::endl;
-        mCamera->SetPosition(Math::Vector3f(0,2,mZoom));
+    	mModeler->SetZoom(mZoom);
+        mCamera->SetPosition(Math::Vector3f(0,0,mZoom));
     }
 private:
+    Modeler3D* mModeler;
     Camera* mCamera;
     int32 mZoom;
+};
+
+class RotateAction : public Gui::IAction
+{
+public:
+	RotateAction(Modeler3D* modeler, Camera* camera, int32 axis, int32 direction) : mModeler(modeler), mCamera(camera), mAxis(axis), mDirection(direction) {}
+    ~RotateAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+    	std::cout << "Rotated ~10 degrees" << std::endl;
+    	float32 angle = mDirection * 3.1415926535897/20.0;
+    	if(axis == 2) mCamera->UpdateYaw(angle);
+    	else if(axis == 1) mCamera-UpdatePitch(angle);
+
+    	mCamera->SetRotation;
+        mCamera->Rotate(q);
+    }
+private:
+    Modeler3D* mModeler;
+    Camera* mCamera;
+    Math::Vector3f mAxis;
+    int32 mDirection;
 };
 
 }

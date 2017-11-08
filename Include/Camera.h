@@ -9,12 +9,13 @@ namespace Core
 class Camera
 {
 public:
-	enum PROJECTION {ORTHOGRAPHIC = 1, PERSPECTIVE = 2};
+	enum Projection {ORTHOGRAPHIC = 1, PERSPECTIVE = 2};
 
 	Camera(int32 width, int32 height)
 	{
 		mWidth = width;
 		mHeight = height;
+		mYaw = mPitch = 0;
 	}
 
 	Camera(int32 width, int32 height, Math::Vector3f position, Math::Quaternionf rotation)
@@ -24,6 +25,8 @@ public:
 
 		mPosition = position;
 		mRotation = rotation;
+
+		mYaw = mPitch = 0;
 	}
 
 	void SetSize(int32 width, int32 height)
@@ -32,11 +35,18 @@ public:
 		mHeight = height;
 	}
 
+	void Rotate(Math::Quaternionf q)
+	{
+		mIsViewDirty = true;
+
+		mRotation = Normalize(q * mRotation);
+	}
+
 	void SetRotation(Math::Quaternionf q)
 	{
 		mIsViewDirty = true;
 
-		mRotation = q;
+		mRotation = Normalize(q);
 	}
 
 	void SetRotation(float32 yaw, float32 pitch)
@@ -45,6 +55,14 @@ public:
 
 		mRotation = Math::Quaternionf::AxisAngle(Math::Vector3f::Up, yaw);
 		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, pitch);
+	}
+
+	void SetRotation()
+	{
+		mIsViewDirty = true;
+
+		mRotation = Math::Quaternionf::AxisAngle(Math::Vector3f::Up, mYaw);
+		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, mPitch);
 	}
 
 	void SetPosition(Math::Vector3f v)
@@ -88,15 +106,26 @@ public:
 	Math::Vector3f GetPosition() { return mPosition; }
 	int32 GetWidth() { return mWidth; }
 	int32 GetHeight() { return mHeight; }
-	PROJECTION GetProjectionType() { return mProjection; }
+	Projection GetProjectionType() { return mProjection; }
+
+	void UpdateYaw(float32 yaw)
+	{
+		mYaw += yaw;
+	}
+
+	void UpdatePitch(float32 pitch)
+	{
+		mPitch += pitch;
+	}
 
 private:
 	int32 mWidth, mHeight;
 	Math::Vector3f mPosition;
 	Math::Quaternionf mRotation;
 	Math::Matrix4f mViewMatrix;
+	float32 mYaw, mPitch;
 	bool mIsViewDirty = true;
-	PROJECTION mProjection = PERSPECTIVE;
+	Projection mProjection = PERSPECTIVE;
 
 };
 
