@@ -8,10 +8,11 @@
 
 #include "GUI/AllWidgets.h"
 #include "GUI/IAction.h"
-#include "Math/VectorMath.h"
+#include "Math/ModelerMath.h"
 
 #include "FileIO.h"
 #include "GuiRenderer.h"
+#include "ButtonActions.h"
 
 using namespace std;
 using namespace Core;
@@ -72,37 +73,6 @@ std::string FragSource = ""
         "   gl_FragColor = vec4(color * (diffuse * 0.4 + 0.4 + specular * 0.4), 1.0); \n"
         "} \n";
 
-class LoadAction : public Gui::IAction
-{
-public:
-    LoadAction(Modeler3D* modeler, std::string file) : mModeler(modeler), mFile(file) {}
-    ~LoadAction() {}
-
-    void OnActionPerformed(Gui::Widget* widget)
-    {
-        cout << "Loading file: " << mFile << endl;
-        mModeler->LoadObj(mFile);\
-    }
-private:
-    Modeler3D* mModeler;
-    std::string mFile;
-};
-
-class ZoomAction : public Gui::IAction
-{
-public:
-	ZoomAction(Modeler3D* modeler, int32 zoom) : mModeler(modeler), mZoom(zoom) {}
-    ~ZoomAction() {}
-
-    void OnActionPerformed(Gui::Widget* widget)
-    {
-        cout << "Zoom set to: " << mZoom << endl;
-        mModeler->SetZoom(mZoom);
-    }
-private:
-    Modeler3D* mModeler;
-    int32 mZoom;
-};
 Video::IShader* Shader = nullptr;
 
 float Angle = 0.0f;
@@ -131,6 +101,7 @@ Modeler3D::Modeler3D(IBackend* backend)
 	  mMouse(backend->GetWindow()->GetMouse()),
 	  mZoom(2)
 {
+	mCamera = new Camera(backend->GetWindow()->GetWidth(),backend->GetWindow()->GetHeight(), Math::Vector3f(0,1,1), Math::Quaternionf());
 }
 
 Modeler3D::~Modeler3D()
@@ -193,13 +164,13 @@ void Modeler3D::OnInit()
 
     Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
     Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
-    Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon2.obj"));
     Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
 
-    Gui::Widget* elem5 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, 1));
-    Gui::Widget* elem6 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, 100));
-    Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, 1000));
-    Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, 2500));
+    Gui::Widget* elem5 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(mCamera, 1));
+    Gui::Widget* elem6 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(mCamera, 100));
+    Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(mCamera, 1000));
+    Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(mCamera, 2500));
 
     elem1->SetAlignment(0, 1);
     elem2->SetAlignment(0, 1);
@@ -226,6 +197,26 @@ void Modeler3D::OnUpdate(float64 dt)
 {
     mAngle += 1.0 * dt;
 
+	int32 amt = mMouse->GetWheelScroll();
+	if(amt != 0)
+	{
+    	amt = (amt > 4 ? 4 : amt);
+    	amt = (amt < -4 ? -4 : amt);
+    	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
+		if(amt > 0)
+		{
+			mZoom -= pow(factor,amt);
+		}
+		else
+		{
+			mZoom += pow(factor,abs(amt));
+		}
+
+		if(mZoom < 1) mZoom = 1;
+
+		mCamera->SetPosition(Vector3f(0,1,mZoom));
+	}
+
     mEnv->SetSize(Window->GetWidth(), Window->GetHeight());
     mEnv->Update(dt);
 }
@@ -237,27 +228,14 @@ void Modeler3D::OnRender()
 
     if (mVbo)
     {
-    	int32 amt = mMouse->GetWheelScroll();
-    	if(amt != 0)
-    	{
-        	amt = (amt > 4 ? 4 : amt);
-        	amt = (amt < -4 ? -4 : amt);
-        	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
-    		if(amt > 0)
-    		{
-    			mZoom -= pow(factor,amt);
-    		}
-    		else
-    		{
-    			mZoom += pow(factor,abs(amt));
-    		}
+    	Camera::PROJECTION proj = mCamera->GetProjectionType();
+    	Matrix4f projection;
+    	if(proj == Camera::PROJECTION::PERSPECTIVE) projection = mCamera->GetProjection(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
+    	else projection = mCamera->GetProjection(0.1f, 3000.0f, 0, 0, 0, 0);
 
-    		if(mZoom < 1) mZoom = 1;
-    	}
+        Matrix4f view = mCamera->GetView();//Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
 
-        Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
-        Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
-        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7);// * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
         Matrix3f normalMat(Inverse(Transpose(model)));
 
         mShader->SetMatrix4f("Projection", projection);

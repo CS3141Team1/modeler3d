@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Application.h"
+#include "Camera.h"
 #include "Types.h"
 
 #include "GUI/Environment.h"
@@ -42,6 +43,7 @@ private:
     Video::IVertexBuffer* mVbo;
     float32 mAngle;
     SdlMouse* mMouse;
+    Camera* mCamera;
     int32 mZoom;
 };
 

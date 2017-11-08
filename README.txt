@@ -1,6 +1,6 @@
 How To Use Modeler3d
 
-Pre-requisites:
+Prerequisites:
 
 MUST HAVE Boost libraries compiled and linked.
 MUST HAVE SDL2 compiled and linked.
