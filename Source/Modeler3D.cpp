@@ -228,9 +228,9 @@ void Modeler3D::OnUpdate(float64 dt)
 		}
 
 		if(mZoom < 1) mZoom = 1;
-
-		mCamera->SetPosition(Normalize(mCamera->GetPosition()) * mZoom);
 	}
+
+	mCamera->SetPosition(Normalize(mCamera->GetPosition()) * mZoom);
 
     mEnv->SetSize(Window->GetWidth(), Window->GetHeight());
     mEnv->Update(dt);
