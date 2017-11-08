@@ -3,6 +3,7 @@
 #include "IGeometry.h"
 #include "IIndexBuffer.h"
 #include "IShader.h"
+#include "ITexture2D.h"
 #include "IVertexBuffer.h"
 #include "Types.h"
 
@@ -89,7 +90,7 @@ public:
     /**
      * @return texture created by the device
      */
-//    virtual ITexture2D* CreateTexture2D(uint width, uint height) = 0;
+    virtual ITexture2D* CreateTexture2D(const std::string& filename) = 0;
 
     /**
      * Sets the color that the screen should be when being cleared.

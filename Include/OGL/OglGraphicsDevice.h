@@ -28,7 +28,7 @@ public:
     IIndexBuffer* CreateIndexBuffer(uint count, BufferHint hint = BufferHint::Dynamic);
     IShader* CreateShader(const std::string& vertex, const std::string& fragment);
     IGeometry* CreateGeometry();
-//    ITexture2D* CreateTexture2D(uint width, uint height);
+    ITexture2D* CreateTexture2D(const std::string& filename);
 
     void SetClearColor(float32 r, float32 g, float32 b, float32 a = 1.0);
     void Clear(bool color = true, bool depth = true);

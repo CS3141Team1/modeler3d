@@ -1,11 +1,12 @@
 #pragma once
 
+#include "IGraphicsResource.h"
 #include "Types.h"
 
 namespace Video
 {
 
-class ITexture2D
+class ITexture2D : public IGraphicsResource
 {
 public:
     virtual ~ITexture2D() {}
@@ -13,8 +14,8 @@ public:
     virtual uint GetWidth() const = 0;
     virtual uint GetHeight() const = 0;
 
-    void GetData(uint32* out, uint start, uint count) const = 0;
-    void SetData(const uint32* in, uint start, uint count) = 0;
+    virtual void GetData(uint8* out, uint x, uint y, uint w, uint h) const = 0;
+    virtual void SetData(const uint8* in, uint x, uint y, uint w, uint h) = 0;
 };
 
 }
