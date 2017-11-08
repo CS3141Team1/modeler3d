@@ -38,6 +38,8 @@ public:
 	virtual int32 GetMiddleClicks() const = 0;
 	virtual int32 GetRightClicks() const = 0;
 	virtual int32 GetWheelScroll() const = 0;
+
+	virtual uint32 GetButtonFlags() const = 0;
 };
 
 }
