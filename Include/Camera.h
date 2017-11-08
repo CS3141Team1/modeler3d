@@ -53,16 +53,17 @@ public:
 	{
 		mIsViewDirty = true;
 
+
 		mRotation = Math::Quaternionf::AxisAngle(Math::Vector3f::Up, yaw);
 		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, pitch);
+		mRotation = Normalize(mRotation);
+
+		std::cout << "Yaw: " << yaw << ", Pitch: " << pitch << ", Quat: " << mRotation << std::endl;
 	}
 
 	void SetRotation()
 	{
-		mIsViewDirty = true;
-
-		mRotation = Math::Quaternionf::AxisAngle(Math::Vector3f::Up, mYaw);
-		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, mPitch);
+		SetRotation(mYaw, mPitch);
 	}
 
 	void SetPosition(Math::Vector3f v)
@@ -115,7 +116,16 @@ public:
 
 	void UpdatePitch(float32 pitch)
 	{
-		mPitch += pitch;
+		if(mPitch + pitch > Math::ToRadians(89.999f))
+		{
+			mPitch = Math::ToRadians(89.999f);
+		}
+		else if(mPitch + pitch < Math::ToRadians(-89.999f))
+		{
+			mPitch = Math::ToRadians(-89.999f);
+		}
+		else
+			mPitch += pitch;
 	}
 
 private:
