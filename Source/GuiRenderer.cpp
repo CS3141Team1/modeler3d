@@ -19,7 +19,7 @@ static const string VertexSource = ""
         "varying vec4 vColor; \n"
         "void main() { \n"
         "   vColor = aColor; \n"
-        "   gl_Position = vec4(aPosition, 0.0, 1.0); \n"
+        "   gl_Position = vec4(aPosition, -1.0, 1.0); \n"
         "} \n";
 static const string FragmentSource = ""
         "#version 120 \n"
