@@ -37,7 +37,7 @@ std::string VertSource = ""
         "{ \n"
         "   vNormal = normalize(NormalMat * aNormal); \n"
         "   gl_Position = View * Model * vec4(aPosition, 1.0); \n"
-        "   vViewPosition = gl_Position.xyz / gl_Position.w; \n "
+        "   vViewPosition = gl_Position.xyz; \n "
         "   gl_Position = Projection * gl_Position; \n"
         "} \n";
 
@@ -88,6 +88,26 @@ struct VertexPosition3Normal3
 {
     Vector3f Position;
     Vector3f Normal;
+};
+
+class ScreenMoveAction : public Gui::IMoveAction
+{
+public:
+    ScreenMoveAction(Modeler3D* m) : mModeler(m) {}
+    ~ScreenMoveAction() {}
+
+    void OnActionPerformed(Gui::Widget* caller, int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
+    {
+        if (buttons & 4)
+        {
+            mModeler->GetCamera()->UpdateYaw(-dx * Math::ToRadians(0.2));
+            mModeler->GetCamera()->UpdatePitch(dy * Math::ToRadians(0.2));
+            mModeler->GetCamera()->SetRotation();
+            mModeler->GetCamera()->SetPosition(Math::Rotate(Core::Math::Vector3f(0, 0, mModeler->GetZoom()), mModeler->GetCamera()->GetRotation()));
+        }
+    }
+private:
+    Modeler3D* mModeler;
 };
 
 Modeler3D::Modeler3D(IBackend* backend)
@@ -162,7 +182,7 @@ void Modeler3D::OnInit()
     mGuiRenderer = new GuiRenderer(Graphics);
     mShader = Graphics->CreateShader(VertSource, FragSource);
 
-    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/test.png");
+//    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/test.png");
 
     Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
     Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
@@ -178,6 +198,8 @@ void Modeler3D::OnInit()
     Gui::Widget* elem10 = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,1, 1));
     Gui::Widget* elem11 = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, 2, -1));
     Gui::Widget* elem12 = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,2, 1));
+
+    Gui::Screen* screen = new Gui::Screen(new ScreenMoveAction(this));
 
     elem1->SetAlignment(0, 1);
     elem2->SetAlignment(0, 1);
@@ -208,6 +230,9 @@ void Modeler3D::OnInit()
     mEnv->AddWidget(elem10);
     mEnv->AddWidget(elem11);
     mEnv->AddWidget(elem12);
+
+    cout << screen << endl;
+    mEnv->AddWidget(screen);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
@@ -215,21 +240,30 @@ void Modeler3D::OnUpdate(float64 dt)
     mAngle += 1.0 * dt;
 
 	int32 amt = mMouse->GetWheelScroll();
-	if(amt != 0)
+//	if(amt != 0)
+//	{
+//    	amt = (amt > 4 ? 4 : amt);
+//    	amt = (amt < -4 ? -4 : amt);
+//    	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
+//		if(amt > 0)
+//		{
+//			mZoom -= pow(factor,amt);
+//		}
+//		else
+//		{
+//			mZoom += pow(factor,abs(amt));
+//		}
+//
+//		if(mZoom < 1) mZoom = 1;
+//	}
+	float32 zoom = 1.1;
+	if (amt < 0)
 	{
-    	amt = (amt > 4 ? 4 : amt);
-    	amt = (amt < -4 ? -4 : amt);
-    	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
-		if(amt > 0)
-		{
-			mZoom -= pow(factor,amt);
-		}
-		else
-		{
-			mZoom += pow(factor,abs(amt));
-		}
-
-		if(mZoom < 1) mZoom = 1;
+	    mZoom *= zoom;
+	}
+	else if (amt > 0)
+	{
+	    mZoom /= zoom;
 	}
 
 	mCamera->SetPosition(Normalize(mCamera->GetPosition()) * mZoom);
@@ -269,7 +303,7 @@ void Modeler3D::OnRender()
     mEnv->Draw(mGuiRenderer);
 }
 
-void Modeler3D::SetZoom(int32 zoom) { mZoom = zoom; }
+void Modeler3D::SetZoom(float32 zoom) { mZoom = zoom; }
 
 void Modeler3D::OnDestroy()
 {

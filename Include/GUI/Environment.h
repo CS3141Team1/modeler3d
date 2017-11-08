@@ -48,6 +48,11 @@ public:
 //		std::cout << std::endl;
 	}
 
+	void OnMouseMove(int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
+	{
+	    mRoot->MouseMove(x, y, dx, dy, buttons);
+	}
+
 	/**
 	 * Propagates the draw event down the children.
 	 *

@@ -57,6 +57,10 @@ public:
 	 */
 	virtual void OnMouseButton(float32 x, float32 y, int32 button, bool down) {}
 
+	bool MouseMove(int32 x, int32 y, int32 dx, int32 dy, uint32 buttons);
+
+	virtual void OnMouseMove(int32 x, int32 y, int32 dx, int32 dy, uint32 buttons) {}
+
 	/**
 	 * Propagates the update event down the children.
 	 *

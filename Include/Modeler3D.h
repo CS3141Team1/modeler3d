@@ -31,11 +31,13 @@ public:
     virtual void OnRender();
     virtual void OnDestroy();
 
-    virtual void SetZoom(int32 zoom);
+    virtual void SetZoom(float32 zoom);
 
     void LoadObj(const std::string& file);
 
     float32 GetZoom() const { return mZoom; }
+
+    Camera* GetCamera() { return mCamera; }
 
 private:
     Gui::Environment* mEnv;
@@ -46,7 +48,7 @@ private:
     float32 mAngle;
     SdlMouse* mMouse;
     Camera* mCamera;
-    int32 mZoom;
+    float32 mZoom;
 };
 
 }

@@ -33,6 +33,20 @@ bool Widget::MouseButton(float32 x, float32 y, int32 button, bool down)
 	return bounds;
 }
 
+bool Widget::MouseMove(int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
+{
+    float32 px, py;
+    for (uint32 i = 0; i < mChildren.size(); i++) {
+        GetChild(i)->ComputePosition(px, py);
+        if (GetChild(i)->MouseMove(x - px, y - py, dx, dy, buttons))
+            return true;
+    }
+    bool bounds = InBounds(x, y) || InBounds(x - dx, y - dy);
+    if (bounds)
+        OnMouseMove(x, y, dx, dy, buttons);
+    return bounds;
+}
+
 /**
  * Propagates the update event down the children.
  *
