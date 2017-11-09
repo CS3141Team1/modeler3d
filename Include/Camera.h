@@ -6,6 +6,11 @@
 namespace Core
 {
 
+/**
+ * An object that controls the view and position of the camera.
+ *
+ * @author Michael Conard
+ */
 class Camera
 {
 public:

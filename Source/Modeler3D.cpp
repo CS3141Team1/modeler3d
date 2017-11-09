@@ -125,9 +125,7 @@ Modeler3D::Modeler3D(IBackend* backend)
 	mCamera = new Camera(backend->GetWindow()->GetWidth(),backend->GetWindow()->GetHeight(), Math::Vector3f(0,0,1), Math::Quaternionf());
 }
 
-Modeler3D::~Modeler3D()
-{
-}
+Modeler3D::~Modeler3D() {}
 
 void Modeler3D::LoadObj(const string& file)
 {
@@ -185,55 +183,55 @@ void Modeler3D::OnInit()
 
 //    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/test.png");
 
-    Gui::Button* elem1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
-    Gui::Button* elem2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
-    Gui::Button* elem3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
-    Gui::Button* elem4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/pencil.obj"));
+    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
+    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
+    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/ferrari.obj"));
 
-    Gui::Widget* elem5 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, mCamera, 1));
-    Gui::Widget* elem6 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, mCamera, 50));
-    Gui::Widget* elem7 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, mCamera, 300));
-    Gui::Widget* elem8 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, mCamera, 1000));
+    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, mCamera, 1));
+    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, mCamera, 50));
+    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, mCamera, 300));
+    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, mCamera, 1000));
 
-    Gui::Widget* elem9 = new Gui::Button(10 + 90 * 0, 10 + 50 * 0,80,40, new RotateAction(this, mCamera, 1, -1));
-    Gui::Widget* elem10 = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,1, 1));
-    Gui::Widget* elem11 = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, 2, -1));
-    Gui::Widget* elem12 = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,2, 1));
+    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 90 * 0, 10 + 50 * 0,80,40, new RotateAction(this, mCamera, 1, -1));
+    Gui::Widget* RotatePitchPosButton = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,1, 1));
+    Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, 2, -1));
+    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,2, 1));
 
-    Gui::Screen* screen = new Gui::Screen(new ScreenMoveAction(this));
+    Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 
-    elem1->SetAlignment(0, 1);
-    elem2->SetAlignment(0, 1);
-    elem3->SetAlignment(0, 1);
-    elem4->SetAlignment(0, 1);
+    LoadButton1->SetAlignment(0, 1);
+    LoadButton2->SetAlignment(0, 1);
+    LoadButton3->SetAlignment(0, 1);
+    LoadButton4->SetAlignment(0, 1);
 
-    elem5->SetAlignment(1, 1);
-    elem6->SetAlignment(1, 1);
-    elem7->SetAlignment(1, 1);
-    elem8->SetAlignment(1, 1);
+    ZoomButton1->SetAlignment(1, 1);
+    ZoomButton2->SetAlignment(1, 1);
+    ZoomButton3->SetAlignment(1, 1);
+    ZoomButton4->SetAlignment(1, 1);
 
-    elem9->SetAlignment(0, 0);
-    elem10->SetAlignment(0, 0);
-    elem11->SetAlignment(0, 0);
-    elem12->SetAlignment(0, 0);
+    RotatePitchNegButton->SetAlignment(0, 0);
+    RotatePitchPosButton->SetAlignment(0, 0);
+    RotateYawNegButton->SetAlignment(0, 0);
+    RotateYawPosButton->SetAlignment(0, 0);
 
-    mEnv->AddWidget(elem1);
-    mEnv->AddWidget(elem2);
-    mEnv->AddWidget(elem3);
-    mEnv->AddWidget(elem4);
+    mEnv->AddWidget(LoadButton1);
+    mEnv->AddWidget(LoadButton2);
+    mEnv->AddWidget(LoadButton3);
+    mEnv->AddWidget(LoadButton4);
 
-    mEnv->AddWidget(elem5);
-    mEnv->AddWidget(elem6);
-    mEnv->AddWidget(elem7);
-    mEnv->AddWidget(elem8);
+    mEnv->AddWidget(ZoomButton1);
+    mEnv->AddWidget(ZoomButton2);
+    mEnv->AddWidget(ZoomButton3);
+    mEnv->AddWidget(ZoomButton4);
 
-    mEnv->AddWidget(elem9);
-    mEnv->AddWidget(elem10);
-    mEnv->AddWidget(elem11);
-    mEnv->AddWidget(elem12);
+    mEnv->AddWidget(RotatePitchNegButton);
+    mEnv->AddWidget(RotatePitchPosButton);
+    mEnv->AddWidget(RotateYawNegButton);
+    mEnv->AddWidget(RotateYawPosButton);
 
-    cout << screen << endl;
-    mEnv->AddWidget(screen);
+    cout << Screen << endl;
+    mEnv->AddWidget(Screen);
 }
 
 void Modeler3D::OnUpdate(float64 dt)
@@ -241,22 +239,6 @@ void Modeler3D::OnUpdate(float64 dt)
     mAngle += 1.0 * dt;
 
 	int32 amt = mMouse->GetWheelScroll();
-//	if(amt != 0)
-//	{
-//    	amt = (amt > 4 ? 4 : amt);
-//    	amt = (amt < -4 ? -4 : amt);
-//    	int32 factor = (mZoom <= 50 ? 1 : (mZoom <= 200 ? 2 : (mZoom <= 1000 ? 3 : 4)));
-//		if(amt > 0)
-//		{
-//			mZoom -= pow(factor,amt);
-//		}
-//		else
-//		{
-//			mZoom += pow(factor,abs(amt));
-//		}
-//
-//		if(mZoom < 1) mZoom = 1;
-//	}
 	float32 zoom = 1.1;
 	if (amt < 0)
 	{
@@ -285,9 +267,11 @@ void Modeler3D::OnRender()
     	if(proj == Camera::Projection::PERSPECTIVE) projection = mCamera->GetProjection(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
     	else projection = mCamera->GetProjection(0.1f, 3000.0f, 0, 0, 0, 0);
 
-        Matrix4f view = mCamera->GetView();//Matrix4f::ToLookAt(Vector3f(0, 1, mZoom), Vector3f::Zero, Vector3f::Up);
+        Matrix4f view = mCamera->GetView();
 
-        Matrix4f model = Matrix4f::Identity;//ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7);// * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+        Matrix4f model = Matrix4f::Identity;
+//        Matrix4f model = Matrix4f::ToYaw(mAngle) * Matrix4f::ToPitch(mAngle * 1.3) * Matrix4f::ToRoll(mAngle * 1.7);// * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
+
         Matrix3f normalMat(Inverse(Transpose(model)));
 
         mShader->SetMatrix4f("Projection", projection);
@@ -297,6 +281,7 @@ void Modeler3D::OnRender()
 
         Graphics->SetShader(mShader);
         Graphics->SetGeometry(mGeometry);
+
         Graphics->Draw(Video::Primitive::TriangleList, 0, mVbo->GetLength() / 3);
     }
 
