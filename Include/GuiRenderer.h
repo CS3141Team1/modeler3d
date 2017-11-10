@@ -44,6 +44,8 @@ public:
     void SetColor(const Core::Math::Vector3f& r) { SetColor(r.R, r.G, r.B); }
     void SetColor(const Core::Math::Vector4f& r) { SetColor(r.R, r.G, r.B, r.A); }
 
+    void SetTexture(ITexture2D* texture);
+
     /**
      * Draws a rectangle to the screen.
      * Parameters are in pixels.
@@ -56,6 +58,7 @@ private:
     IGeometry* mGeometry;
     IIndexBuffer* mIndices;
     IVertexBuffer* mVertices;
+    ITexture2D* mTexture;
     Core::Math::Vector4f mColor;
     Core::Math::Vector2f mTranslate;
 };

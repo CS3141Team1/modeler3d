@@ -10,22 +10,34 @@ namespace Video
 
 static const VertexFormat Format = VertexFormat()
         .AddElement(Attribute::Position, 2)
-        .AddElement(Attribute::Color, 4);
+        .AddElement(Attribute::Color, 4)
+        .AddElement(Attribute::TexCoord0, 2);
 
 static const string VertexSource = ""
         "#version 120 \n"
         "attribute vec2 aPosition; \n"
         "attribute vec4 aColor; \n"
+        "attribute vec2 aTexCoord0; \n"
         "varying vec4 vColor; \n"
+        "varying vec2 vTexCoord0; \n"
         "void main() { \n"
         "   vColor = aColor; \n"
+        "   vTexCoord0 = aTexCoord0; \n"
         "   gl_Position = vec4(aPosition, -1.0, 1.0); \n"
         "} \n";
 static const string FragmentSource = ""
         "#version 120 \n"
         "varying vec4 vColor; \n"
+        "varying vec2 vTexCoord0; \n"
+        "uniform sampler2D Texture; "
+        "uniform int HasTexture; "
         "void main() { \n"
-        "   gl_FragColor = vColor; \n"
+        "   if (HasTexture == 1) { \n"
+        "       gl_FragColor = vColor * texture2D(Texture, vTexCoord0); \n"
+        "   } \n"
+        "   else { \n"
+        "       gl_FragColor = vColor; \n"
+        "   } \n"
         "} \n";
 
 GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
@@ -33,6 +45,7 @@ GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
       mShader(nullptr),
       mGeometry(nullptr),
       mVertices(nullptr),
+      mTexture(nullptr),
       mColor(0),
       mTranslate(0)
 {
@@ -69,7 +82,7 @@ void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
 
 void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
 {
-    const uint size = 6;
+    const uint size = 8;
     float32 verts[size * 4];
 
     float32 width = mGraphics->GetWidth();
@@ -91,14 +104,25 @@ void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
             verts[index++] = mColor.G;
             verts[index++] = mColor.B;
             verts[index++] = mColor.A;
+            verts[index++] = i;
+            verts[index++] = 1 - j;
         }
     }
 
     mVertices->SetData(verts, 0, 4);
 
+    mShader->SetInt32("HasTexture", mTexture != nullptr);
+    mShader->SetInt32("Texture", 0);
+    mGraphics->SetTexture(0, mTexture);
+
     mGraphics->SetShader(mShader);
     mGraphics->SetGeometry(mGeometry);
     mGraphics->DrawIndices(Primitive::TriangleList, 0, 2);
+}
+
+void GuiRenderer::SetTexture(ITexture2D* texture)
+{
+    mTexture = texture;
 }
 
 }

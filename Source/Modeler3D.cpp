@@ -181,22 +181,23 @@ void Modeler3D::OnInit()
     mGuiRenderer = new GuiRenderer(Graphics);
     mShader = Graphics->CreateShader(VertSource, FragSource);
 
-//    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/test.png");
+    Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/button.png");
+    mGuiRenderer->SetTexture(tex);
 
-    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"));
-    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"));
-    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon.obj"));
-    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/ferrari.obj"));
+    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"));
+    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"));
+    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"));
 
-    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 50 * 0,80,40, new ZoomAction(this, mCamera, 1));
-    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 50 * 1,80,40, new ZoomAction(this, mCamera, 50));
-    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 50 * 2,80,40, new ZoomAction(this, mCamera, 300));
-    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 50 * 3,80,40, new ZoomAction(this, mCamera, 1000));
+    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1));
+    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 58));
+    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 58 * 2,96,48, new ZoomAction(this, mCamera, 300));
+    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 58 * 3,96,48, new ZoomAction(this, mCamera, 1000));
 
-    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 90 * 0, 10 + 50 * 0,80,40, new RotateAction(this, mCamera, 1, -1));
-    Gui::Widget* RotatePitchPosButton = new Gui::Button(10 + 90 * 1, 10 + 50 * 0,80,40, new RotateAction(this, mCamera,1, 1));
-    Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 90 * 0, 10 + 50 * 1,80,40, new RotateAction(this, mCamera, 2, -1));
-    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 90 * 1, 10 + 50 * 1,80,40, new RotateAction(this, mCamera,2, 1));
+    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 0,96,48, new RotateAction(this, mCamera, 1, -1));
+    Gui::Widget* RotatePitchPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 0,96,48, new RotateAction(this, mCamera,1, 1));
+    Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 1,96,48, new RotateAction(this, mCamera, 2, -1));
+    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1));
 
     Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 

@@ -20,6 +20,8 @@ public:
 
     void GetData(uint8* out, uint x, uint y, uint w, uint h) const;
     void SetData(const uint8* in, uint x, uint y, uint w, uint h);
+
+    GLuint GetId() const { return mId; }
 private:
     GLuint mId;
     uint mWidth, mHeight;

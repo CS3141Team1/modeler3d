@@ -14,7 +14,7 @@
 using namespace Core;
 using namespace std;
 
-int main(int argc, char** asrgv)
+int main(int argc, char** argv)
 {
     cout << "Starting Modeler3D" << endl;
 
@@ -26,8 +26,6 @@ int main(int argc, char** asrgv)
     delete backend;
 
     cout << "Exiting Modeler3D" << endl;
-
-    //ListDir("C:/");
 
     return 0;
 }

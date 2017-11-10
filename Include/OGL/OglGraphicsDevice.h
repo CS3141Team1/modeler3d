@@ -6,6 +6,7 @@
 
 #include "OGL/OglGeometry.h"
 #include "OGL/OglShader.h"
+#include "OGL/OglTexture2D.h"
 
 namespace Core { class Sdl2Window; }
 
@@ -37,12 +38,12 @@ public:
     IGeometry* GetGeometry() { return mGeometry; }
     const IShader* GetShader() const { return mShader; }
     IShader* GetShader() { return mShader; }
-//    const ITexture2D* GetTexture(uint index) const { return mTextures[index]; }
-//    ITexture2D* GetTexture(uint index) { return mTextures[index]; }
+    const ITexture2D* GetTexture(uint index) const { return mTextures[index]; }
+    ITexture2D* GetTexture(uint index) { return mTextures[index]; }
 
     void SetGeometry(IGeometry* geom);
     void SetShader(IShader* shader);
-//    void SetTexture(uint index, ITexture2D* tex);
+    void SetTexture(uint index, ITexture2D* tex);
 
     void Draw(Primitive prim, uint start, uint primCount);
     void DrawIndices(Primitive prim, uint start, uint primCount);
@@ -52,7 +53,7 @@ private:
     Core::Sdl2Window* mWindow = nullptr;
     OglGeometry* mGeometry = nullptr;
     OglShader* mShader = nullptr;
-//    std::vector<OglTexture2D*> mTextures;
+    std::vector<OglTexture2D*> mTextures;
 };
 
 }
