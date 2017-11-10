@@ -92,4 +92,24 @@ private:
     float32 mAngle;
 };
 
+class ScreenMoveAction : public Gui::IMoveAction
+{
+public:
+    ScreenMoveAction(Modeler3D* m) : mModeler(m) {}
+    ~ScreenMoveAction() {}
+
+    void OnActionPerformed(Gui::Widget* caller, int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
+    {
+        if (buttons & 4)
+        {
+            mModeler->GetCamera()->UpdateYaw(-dx * Math::ToRadians(0.2));
+            mModeler->GetCamera()->UpdatePitch(dy * Math::ToRadians(0.2));
+            mModeler->GetCamera()->SetRotation();
+            mModeler->GetCamera()->SetPosition(Math::Rotate(Core::Math::Vector3f(0, 0, mModeler->GetZoom()), mModeler->GetCamera()->GetRotation()));
+        }
+    }
+private:
+    Modeler3D* mModeler;
+};
+
 }

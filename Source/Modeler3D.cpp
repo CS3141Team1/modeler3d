@@ -12,7 +12,7 @@
 
 #include "FileIO.h"
 #include "GuiRenderer.h"
-#include "ButtonActions.h"
+#include "ModelerActions.h"
 
 using namespace std;
 using namespace Core;
@@ -91,26 +91,6 @@ struct VertexPosition3Normal3
     Vector3f Normal;
 };
 
-class ScreenMoveAction : public Gui::IMoveAction
-{
-public:
-    ScreenMoveAction(Modeler3D* m) : mModeler(m) {}
-    ~ScreenMoveAction() {}
-
-    void OnActionPerformed(Gui::Widget* caller, int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
-    {
-        if (buttons & 4)
-        {
-            mModeler->GetCamera()->UpdateYaw(-dx * Math::ToRadians(0.2));
-            mModeler->GetCamera()->UpdatePitch(dy * Math::ToRadians(0.2));
-            mModeler->GetCamera()->SetRotation();
-            mModeler->GetCamera()->SetPosition(Math::Rotate(Core::Math::Vector3f(0, 0, mModeler->GetZoom()), mModeler->GetCamera()->GetRotation()));
-        }
-    }
-private:
-    Modeler3D* mModeler;
-};
-
 Modeler3D::Modeler3D(IBackend* backend)
     : Application(backend),
       mEnv(nullptr),
@@ -140,7 +120,6 @@ void Modeler3D::LoadObj(const string& file)
 	std::vector<std::vector<std::vector<int>>> faces;
 
 	objFile.LoadObj2(obj , positions, textures, normals, faces);
-
 
     for (uint i = 0; i < faces.size(); i++)
     {
@@ -186,7 +165,7 @@ void Modeler3D::OnInit()
 
     Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"));
     Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"));
-    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon.obj"));
+    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon2.obj"));
     Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"));
 
     Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1));
