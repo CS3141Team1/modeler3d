@@ -208,7 +208,22 @@ ITexture2D* OglGraphicsDevice::CreateTexture2D(const std::string& filename)
     else
     {
         OglTexture2D* tex = new OglTexture2D(width, height);
-        cout << (int)pixels[0] << " " << (int)pixels[1] << " " << (int)pixels[2] << " " << (int)pixels[3] << " " << endl;
+
+        for (uint y = 0; y < height / 2; y++)
+        {
+            for (uint x = 0; x < width; x++)
+            {
+                for (uint i = 0; i < 4; i++)
+                {
+                    uint index1 = (x + y * width) * 4 + i;
+                    uint index2 = (x + (height - y - 1) * width) * 4 + i;
+
+                    pixels[index1] ^= pixels[index2];
+                    pixels[index2] ^= pixels[index1];
+                    pixels[index1] ^= pixels[index2];
+                }
+            }
+        }
         tex->SetData(&pixels[0], 0, 0, width, height);
         return tex;
     }
