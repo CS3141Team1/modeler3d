@@ -50,7 +50,7 @@ public:
      * Draws a rectangle to the screen.
      * Parameters are in pixels.
      */
-    void FillRect(float32 x, float32 y, float32 w, float32 h);
+    void FillRect(float32 x, float32 y, float32 w, float32 h, float32 u = 0, float32 v = 0, float32 uWidth = 1, float32 vHeight = 1);
 
 private:
     IGraphicsDevice* mGraphics;
