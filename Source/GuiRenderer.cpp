@@ -80,7 +80,7 @@ void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
     mColor = Vector4f(r, g, b, a);
 }
 
-void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
+void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h, float32 u, float32 v, float32 uWidth, float32 vHeight)
 {
     const uint size = 8;
     float32 verts[size * 4];
@@ -104,8 +104,8 @@ void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h)
             verts[index++] = mColor.G;
             verts[index++] = mColor.B;
             verts[index++] = mColor.A;
-            verts[index++] = i;
-            verts[index++] = 1 - j;
+            verts[index++] = u + i * uWidth;
+            verts[index++] = v + j * vHeight;
         }
     }
 

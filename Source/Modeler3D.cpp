@@ -132,7 +132,6 @@ void Modeler3D::LoadObj(const string& file)
             {
                 verts[j].Position[k] = pos[k] * 1.5;
             }
-
         }
 
         Vector3f normal = Cross(Normalize( verts[1].Position -  verts[0].Position), Normalize( verts[2].Position -  verts[0].Position));
