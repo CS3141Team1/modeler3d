@@ -63,7 +63,7 @@ public:
 		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, pitch);
 		mRotation = Normalize(mRotation);
 
-		std::cout << "Yaw: " << yaw << ", Pitch: " << pitch << ", Quat: " << mRotation << std::endl;
+//		std::cout << "Yaw: " << yaw << ", Pitch: " << pitch << ", Quat: " << mRotation << std::endl;
 	}
 
 	void SetRotation()

@@ -112,4 +112,22 @@ private:
     Modeler3D* mModeler;
 };
 
+class ResetAction : public Gui::IAction
+{
+public:
+	ResetAction(Modeler3D* modeler, Camera* camera) : mModeler(modeler), mCamera(camera) {}
+    ~ResetAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+    	mCamera->SetRotation(0.0,0.0);
+    	mCamera->SetPosition(Math::Vector3f(0,0,1));
+    	mModeler->SetZoom(1);
+    	std::cout << "Reset camera angle" << std::endl;
+    }
+private:
+    Modeler3D* mModeler;
+    Camera* mCamera;
+};
+
 }
