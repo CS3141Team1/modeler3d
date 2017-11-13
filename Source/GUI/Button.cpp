@@ -38,6 +38,8 @@ void Button::OnDraw(GuiRenderer* g)
     }
 
     g->FillRect(GetX(), GetY(), GetWidth(), GetHeight());
+    g->SetColor(0, 0, 0);
+    g->DrawText("Text", GetHeight() / 2, GetWidth() / 2, GetHeight() / 2);
 }
 
 void Button::OnMouseButton(float32 x, float32 y, int32 button, bool down)

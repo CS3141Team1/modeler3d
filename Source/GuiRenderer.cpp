@@ -46,6 +46,7 @@ GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
       mGeometry(nullptr),
       mVertices(nullptr),
       mTexture(nullptr),
+      mFontTex(nullptr),
       mColor(0),
       mTranslate(0)
 {
@@ -53,6 +54,7 @@ GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
     mIndices = mGraphics->CreateIndexBuffer(6, BufferHint::Static);
     mGeometry = mGraphics->CreateGeometry();
     mShader = mGraphics->CreateShader(VertexSource, FragmentSource);
+    mFontTex = mGraphics->CreateTexture2D("Assets/font.png");
 
     mGeometry->SetVertexBuffer(mVertices);
     mGeometry->SetIndexBuffer(mIndices);
@@ -73,6 +75,11 @@ void GuiRenderer::Release()
     mVertices->Release();
     mIndices->Release();
     mShader->Release();
+}
+
+void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, float32 y, float32 xWeight, float32 yWeight)
+{
+    // TODO FINISH
 }
 
 void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
