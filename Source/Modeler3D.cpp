@@ -179,6 +179,8 @@ void Modeler3D::OnInit()
 
     Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 
+    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 58 * 5,96,48, new ResetAction(this, mCamera));
+
     LoadButton1->SetAlignment(0, 1);
     LoadButton2->SetAlignment(0, 1);
     LoadButton3->SetAlignment(0, 1);
@@ -193,6 +195,8 @@ void Modeler3D::OnInit()
     RotatePitchPosButton->SetAlignment(0, 0);
     RotateYawNegButton->SetAlignment(0, 0);
     RotateYawPosButton->SetAlignment(0, 0);
+
+    ResetCameraButton->SetAlignment(1, 1);
 
     mEnv->AddWidget(LoadButton1);
     mEnv->AddWidget(LoadButton2);
@@ -209,7 +213,8 @@ void Modeler3D::OnInit()
     mEnv->AddWidget(RotateYawNegButton);
     mEnv->AddWidget(RotateYawPosButton);
 
-    cout << Screen << endl;
+    mEnv->AddWidget(ResetCameraButton);
+
     mEnv->AddWidget(Screen);
 }
 
