@@ -45,7 +45,7 @@ void Button::OnDraw(GuiRenderer* g)
 
     g->FillRect(GetX(), GetY(), GetWidth(), GetHeight());
     g->SetColor(Vector3f(1, 1, 1) * col);
-    g->DrawText(mText, 14, GetX() + GetWidth() / 2, GetY() + GetHeight() / 2);
+    g->DrawText(mText, 15, GetX() + GetWidth() / 2, GetY() + GetHeight() / 2);
 }
 
 void Button::OnMouseButton(float32 x, float32 y, int32 button, bool down)

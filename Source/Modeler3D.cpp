@@ -169,13 +169,13 @@ void Modeler3D::OnInit()
     Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/button.png");
     mGuiRenderer->SetTexture(tex);
 
-    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny.obj");
-    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube.obj");
-    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon.obj");
-    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari.obj");
+    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny");
+    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube");
+    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon");
+    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
 
     Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1), "Zoom 1x");
-    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 58), "Zoom 58x");
+    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 50), "Zoom 50x");
     Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 58 * 2,96,48, new ZoomAction(this, mCamera, 300), "Zoom 300x");
     Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 58 * 3,96,48, new ZoomAction(this, mCamera, 1000), "Zoom 1000x");
 
@@ -186,7 +186,7 @@ void Modeler3D::OnInit()
 
     Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 
-    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 58 * 5,96,48, new ResetAction(this, mCamera));
+    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10, 144,48, new ResetAction(this, mCamera), "Reset Camera");
 
     LoadButton1->SetAlignment(0, 1);
     LoadButton2->SetAlignment(0, 1);
@@ -203,7 +203,7 @@ void Modeler3D::OnInit()
     RotateYawNegButton->SetAlignment(0, 0);
     RotateYawPosButton->SetAlignment(0, 0);
 
-    ResetCameraButton->SetAlignment(1, 1);
+    ResetCameraButton->SetAlignment(1, 0);
 
     mEnv->AddWidget(LoadButton1);
     mEnv->AddWidget(LoadButton2);

@@ -120,6 +120,8 @@ public:
 
     void OnActionPerformed(Gui::Widget* widget)
     {
+    	mCamera->SetYaw(0.0);
+    	mCamera->SetPitch(0.0);
     	mCamera->SetRotation(0.0,0.0);
     	mCamera->SetPosition(Math::Vector3f(0,0,1));
     	mModeler->SetZoom(1);
