@@ -113,6 +113,20 @@ public:
 	int32 GetWidth() { return mWidth; }
 	int32 GetHeight() { return mHeight; }
 	Projection GetProjectionType() { return mProjection; }
+	Projection ToggleProjectionType()
+	{
+		if(mProjection == ORTHOGRAPHIC)
+		{
+			mProjection = PERSPECTIVE;
+		}
+		else
+		{
+			mProjection = ORTHOGRAPHIC;
+		}
+
+		return mProjection;
+	}
+	void SetProjectionType(Projection proj) { mProjection = proj; }
 
 	void UpdateYaw(float32 yaw)
 	{

@@ -56,6 +56,8 @@ public:
      * Call to render to screen
      */
     virtual void SwapBuffers() = 0;
+
+    virtual float32 GetAspectRatio() = 0;
 };
 
 }

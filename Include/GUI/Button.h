@@ -31,6 +31,8 @@ public:
 
     IAction* GetAction() { return mAction; }
     void SetAction(IAction* action) { mAction = action; }
+
+    void SetText(std::string text) { mText = text; }
 private:
     IAction* mAction;
     bool mDown;
