@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "GUI/Widget.h"
 
 #include "Math/ModelerMath.h"
@@ -21,7 +23,7 @@ public:
     static const Core::Math::Vector3f DownColor;
     static const Core::Math::Vector3f HoverColor;
 
-    Button(float32 x, float32 y, float32 w, float32 h, IAction* action = nullptr);
+    Button(float32 x, float32 y, float32 w, float32 h, IAction* action = nullptr, const std::string& text = "");
     virtual ~Button();
 
     virtual void OnDraw(Video::GuiRenderer* gui);
@@ -33,6 +35,7 @@ private:
     IAction* mAction;
     bool mDown;
     bool mHover;
+    std::string mText;
 };
 
 }
