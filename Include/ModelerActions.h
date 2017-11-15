@@ -132,4 +132,31 @@ private:
     Camera* mCamera;
 };
 
+class ChangeViewAction : public Gui::IAction
+{
+public:
+	ChangeViewAction(Modeler3D* modeler, Camera* camera) : mModeler(modeler), mCamera(camera) {}
+    ~ChangeViewAction() {}
+
+    void OnActionPerformed(Gui::Widget* widget)
+    {
+    	Camera::Projection proj = mCamera->ToggleProjectionType();
+    	if(proj == Camera::Projection::ORTHOGRAPHIC)
+    	{
+    		std::cout << "Switched to orthographic" << std::endl;
+    		((Gui::Button*)widget)->SetText("To Perspective");
+    		mModeler->SetZoom((int32)(mModeler->GetZoom() * 0.1));
+    	}
+    	else
+    	{
+    		std::cout << "Switched to perspective" << std::endl;
+    		((Gui::Button*)widget)->SetText("To Orthographic");
+    		mModeler->SetZoom((int32)(mModeler->GetZoom() * 10));
+    	}
+    }
+private:
+    Modeler3D* mModeler;
+    Camera* mCamera;
+};
+
 }

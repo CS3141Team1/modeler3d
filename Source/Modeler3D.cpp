@@ -165,10 +165,10 @@ void Modeler3D::OnInit()
     Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/button.png");
     mGuiRenderer->SetTexture(tex);
 
-    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny");
-    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube");
-    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon");
-    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
+    Gui::Widget* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny");
+    Gui::Widget* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube");
+    Gui::Widget* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon");
+    Gui::Widget* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
 
     Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1), "Zoom 1x");
     Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 50), "Zoom 50x");
@@ -180,9 +180,10 @@ void Modeler3D::OnInit()
     Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 1,96,48, new RotateAction(this, mCamera, 2, -1), "Left");
     Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1), "Right");
 
-    Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
+    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 58 * 0, 144,48, new ResetAction(this, mCamera), "Reset Camera");
+    Gui::Widget* ToggleProjectionTypeButton = new Gui::Button(10, 10 + 58 * 1, 144,48, new ChangeViewAction(this, mCamera), "To Orthographic");
 
-    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10, 144,48, new ResetAction(this, mCamera), "Reset Camera");
+    Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 
     LoadButton1->SetAlignment(0, 1);
     LoadButton2->SetAlignment(0, 1);
@@ -200,6 +201,7 @@ void Modeler3D::OnInit()
     RotateYawPosButton->SetAlignment(0, 0);
 
     ResetCameraButton->SetAlignment(1, 0);
+    ToggleProjectionTypeButton->SetAlignment(1, 0);
 
     mEnv->AddWidget(LoadButton1);
     mEnv->AddWidget(LoadButton2);
@@ -217,6 +219,7 @@ void Modeler3D::OnInit()
     mEnv->AddWidget(RotateYawPosButton);
 
     mEnv->AddWidget(ResetCameraButton);
+    mEnv->AddWidget(ToggleProjectionTypeButton);
 
     mEnv->AddWidget(Screen);
 }
@@ -252,7 +255,7 @@ void Modeler3D::OnRender()
     	Camera::Projection proj = mCamera->GetProjectionType();
     	Matrix4f projection;
     	if(proj == Camera::Projection::PERSPECTIVE) projection = mCamera->GetProjection(Math::ToRadians(70.0f), Graphics->GetAspectRatio(), 0.1f, 3000.0f);
-    	else projection = mCamera->GetProjection(0.1f, 3000.0f, 0, 0, 0, 0);
+    	else projection = mCamera->GetProjection(-1000.0f * mZoom, 1000.0f * mZoom, 10 * Window->GetAspectRatio() * mZoom, -10 * Window->GetAspectRatio() * mZoom, 10 * mZoom, -10 * mZoom);
 
         Matrix4f view = mCamera->GetView();
 
