@@ -109,17 +109,24 @@ Modeler3D::~Modeler3D() {}
 
 void Modeler3D::LoadObj(const string& file)
 {
-	boost::filesystem::path obj(file);
+    cout << "Initializing Modeler3D" << endl;
+
+    mEnv = Backend->GetWindow()->GetEnvironment();
+    mGuiRenderer = new GuiRenderer(Graphics);
+    Shader = Graphics->CreateShader(VertSource, FragSource);
+
+    boost::filesystem::path obj(file);
 
 	FileIO objFile;
 
 	vector<VertexPosition3Normal3> vertices;
-	std::vector<std::vector<double>> positions;
-	std::vector<std::vector<double>> textures;
-	std::vector<std::vector<double>> normals;
-	std::vector<std::vector<std::vector<int>>> faces;
 
-	objFile.LoadObj2(obj , positions, textures, normals, faces);
+    std::vector<std::vector<double>> positions;
+    std::vector<std::vector<double>> textures;
+    std::vector<std::vector<double>> normals;
+    std::vector<std::vector<std::vector<int>>> faces;
+
+    objFile.LoadObj2(obj , positions, textures, normals, faces);
 
     for (uint i = 0; i < faces.size(); i++)
     {
@@ -162,20 +169,20 @@ void Modeler3D::OnInit()
     Video::ITexture2D* tex = Graphics->CreateTexture2D("Assets/button.png");
     mGuiRenderer->SetTexture(tex);
 
-    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"));
-    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"));
-    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon.obj"));
-    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"));
+    Gui::Button* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny.obj");
+    Gui::Button* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube.obj");
+    Gui::Button* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon.obj");
+    Gui::Button* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari.obj");
 
-    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1));
-    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 58));
-    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 58 * 2,96,48, new ZoomAction(this, mCamera, 300));
-    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 58 * 3,96,48, new ZoomAction(this, mCamera, 1000));
+    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1), "Zoom 1x");
+    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 58), "Zoom 58x");
+    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 58 * 2,96,48, new ZoomAction(this, mCamera, 300), "Zoom 300x");
+    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 58 * 3,96,48, new ZoomAction(this, mCamera, 1000), "Zoom 1000x");
 
-    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 0,96,48, new RotateAction(this, mCamera, 1, -1));
-    Gui::Widget* RotatePitchPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 0,96,48, new RotateAction(this, mCamera,1, 1));
-    Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 1,96,48, new RotateAction(this, mCamera, 2, -1));
-    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1));
+    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 0,96,48, new RotateAction(this, mCamera, 1, -1), "Up");
+    Gui::Widget* RotatePitchPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 0,96,48, new RotateAction(this, mCamera,1, 1), "Down");
+    Gui::Widget* RotateYawNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 1,96,48, new RotateAction(this, mCamera, 2, -1), "Left");
+    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1), "Right");
 
     Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));
 
