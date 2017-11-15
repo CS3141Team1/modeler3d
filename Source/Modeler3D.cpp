@@ -109,11 +109,7 @@ Modeler3D::~Modeler3D() {}
 
 void Modeler3D::LoadObj(const string& file)
 {
-    cout << "Initializing Modeler3D" << endl;
-
-    mEnv = Backend->GetWindow()->GetEnvironment();
-    mGuiRenderer = new GuiRenderer(Graphics);
-    Shader = Graphics->CreateShader(VertSource, FragSource);
+    cout << "Loading Object" << endl;
 
     boost::filesystem::path obj(file);
 
