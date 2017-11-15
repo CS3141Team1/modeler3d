@@ -133,6 +133,9 @@ public:
 			mPitch += pitch;
 	}
 
+	void SetYaw(float32 yaw) { mYaw = yaw; }
+	void SetPitch(float32 pitch) { mPitch = pitch; }
+
 private:
 	int32 mWidth, mHeight;
 	Math::Vector3f mPosition;
