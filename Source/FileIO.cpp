@@ -161,76 +161,76 @@ void FileIO::mParseNormalVertex( std::string str, std::vector< std::vector< doub
   */
  void FileIO::SaveObj(std::string filename)
  {
- 	// Adds the obj file extension to the filename
- 	std::string file = filename + ".obj";
- 	boost::filesystem::ofstream outputFile;
- 	// Opens the output file for writing
- 	outputFile.open(file);
+	 // Adds the obj file extension to the filename
+	  	std::string file = filename + ".obj";
+	  	boost::filesystem::ofstream outputFile;
+	  	// Opens the output file for writing
+	  	outputFile.open(file);
 
- 	// Check to see if any vertices were read in, if not then skips outputing this line
- 	if ( mGeometricVertices.size() > 0 ) {
- 		outputFile << "# Vertices \n";
- 	}
+	  	// Check to see if any vertices were read in, if not then skips outputing this line
+	  	if ( (*mGeometricVertices).size() > 0 ) {
+	  		outputFile << "# Vertices \n";
+	  	}
 
- 	// Vertices written to a .obj file.
- 	for ( uint i = 0; i < mGeometricVertices.size(); i++ ) {
- 		outputFile << "v " << mGeometricVertices[i].at(0) << " " << mGeometricVertices[i].at(1) << " " << mGeometricVertices[i].at(2) << "\n";
- 	}
+	  	// Vertices written to a .obj file.
+	  	for ( uint i = 0; i < (*mGeometricVertices).size(); i++ ) {
+	  		outputFile << "v " << (*mGeometricVertices)[i].at(0) << " " << (*mGeometricVertices)[i].at(1) << " " << (*mGeometricVertices)[i].at(2) << "\n";
+	  	}
 
- 	// Check to see if any textures were read in, if not then skips outputing this line
- 	if ( mTextureCoordinates.size() > 0 ) {
- 		outputFile << "\n";
- 		outputFile << "# Texture Coordinates \n";
- 	}
+	  	// Check to see if any textures were read in, if not then skips outputing this line
+	  	if ( (*mTextureCoordinates).size() > 0 ) {
+	  		outputFile << "\n";
+	  		outputFile << "# Texture Coordinates \n";
+	  	}
 
- 	// Texture Coordinates written to a .obj file.
- 	for ( uint i = 0; i < mTextureCoordinates.size(); i++ ) {
- 		outputFile << "vt " << mTextureCoordinates[i].at(0) << " " << mTextureCoordinates[i].at(1) << "\n";
- 	}
+	  	// Texture Coordinates written to a .obj file.
+	  	for ( uint i = 0; i < (*mTextureCoordinates).size(); i++ ) {
+	  		outputFile << "vt " << (*mTextureCoordinates)[i].at(0) << " " << (*mTextureCoordinates)[i].at(1) << "\n";
+	  	}
 
- 	// Check to see if any normals were read in, if not then skips outputing this line
- 	if ( mNormalVertices.size() > 0 ) {
- 		outputFile << "\n";
- 		outputFile << "# Normals \n";
- 	}
+	  	// Check to see if any normals were read in, if not then skips outputing this line
+	  	if ( (*mNormalVertices).size() > 0 ) {
+	  		outputFile << "\n";
+	  		outputFile << "# Normals \n";
+	  	}
 
- 	// Normal vertices written to a .obj file.
- 	for ( uint i = 0; i < mNormalVertices.size(); i++ ) {
- 		outputFile << "vn " << mNormalVertices[i].at(0) << " " << mNormalVertices[i].at(1) << " " << mNormalVertices[i].at(2) << "\n";
- 	}
+	  	// Normal vertices written to a .obj file.
+	  	for ( uint i = 0; i < (*mNormalVertices).size(); i++ ) {
+	  		outputFile << "vn " << (*mNormalVertices)[i].at(0) << " " << (*mNormalVertices)[i].at(1) << " " << (*mNormalVertices)[i].at(2) << "\n";
+	  	}
 
- 	// Check to see if any faces were read in, if not then skips outputing this line
- 	if ( mFaceElements.size() > 0 ) {
- 		outputFile << "\n";
- 		outputFile << "# Faces (vertex/texcoord/normal) \n";
- 	}
+	  	// Check to see if any faces were read in, if not then skips outputing this line
+	  	if ( (*mFaceElements).size() > 0 ) {
+	  		outputFile << "\n";
+	  		outputFile << "# Faces (vertex/texcoord/normal) \n";
+	  	}
 
- 	// Faces written to a .obj file.
- 	for ( uint i = 0; i < mFaceElements.size(); i++ ) {
- 		// Cycles through each row of faces
- 		outputFile << "f ";
- 		for ( uint j = 0; j < 3; j++ ) {
- 			// Cycles through each elements of a line of faces
- 			// IF statements to check for zeros in face vectors
- 			if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 && j < 2) {
- 				outputFile << mFaceElements[i][j].at(0) << " ";
- 			} else if ( mFaceElements[i][j].at(1) == 0 && mFaceElements[i][j].at(2) == 0 ) {
- 				outputFile << mFaceElements[i][j].at(0);
- 			} else if ( mFaceElements[i][j].at(1) == 0 && j < 2 ) {
- 				outputFile << mFaceElements[i][j].at(0) << "//" << mFaceElements[i][j].at(2) << " ";
- 			} else if ( mFaceElements[i][j].at(1) == 0 ) {
- 				outputFile << mFaceElements[i][j].at(0) << "//" << mFaceElements[i][j].at(2);
- 			} else if ( j < 2 ){ // Prevents extra space at end of line
- 				outputFile << mFaceElements[i][j].at(0) << "/" << mFaceElements[i][j].at(1) << "/" << mFaceElements[i][j].at(2) << " ";
- 			} else {
- 				outputFile << mFaceElements[i][j].at(0) << "/" << mFaceElements[i][j].at(1) << "/" << mFaceElements[i][j].at(2);
- 			}
- 		}
- 			outputFile << "\n";
- 	}
+	  	// Faces written to a .obj file.
+	  	for ( uint i = 0; i < (*mFaceElements).size(); i++ ) {
+	  		// Cycles through each row of faces
+	  		outputFile << "f ";
+	  		for ( uint j = 0; j < 3; j++ ) {
+	  			// Cycles through each elements of a line of faces
+	  			// IF statements to check for zeros in face vectors
+	  			if ( (*mFaceElements)[i][j].at(1) == 0 && (*mFaceElements)[i][j].at(2) == 0 && j < 2) {
+	  				outputFile << (*mFaceElements)[i][j].at(0) << " ";
+	  			} else if ( (*mFaceElements)[i][j].at(1) == 0 && (*mFaceElements)[i][j].at(2) == 0 ) {
+	  				outputFile << (*mFaceElements)[i][j].at(0);
+	  			} else if ( (*mFaceElements)[i][j].at(1) == 0 && j < 2 ) {
+	  				outputFile << (*mFaceElements)[i][j].at(0) << "//" << (*mFaceElements)[i][j].at(2) << " ";
+	  			} else if ( (*mFaceElements)[i][j].at(1) == 0 ) {
+	  				outputFile << (*mFaceElements)[i][j].at(0) << "//" << (*mFaceElements)[i][j].at(2);
+	  			} else if ( j < 2 ){ // Prevents extra space at end of line
+	  				outputFile << (*mFaceElements)[i][j].at(0) << "/" << (*mFaceElements)[i][j].at(1) << "/" << (*mFaceElements)[i][j].at(2) << " ";
+	  			} else {
+	  				outputFile << (*mFaceElements)[i][j].at(0) << "/" << (*mFaceElements)[i][j].at(1) << "/" << (*mFaceElements)[i][j].at(2);
+	  			}
+	  		}
+	  			outputFile << "\n";
+	  	}
 
- 	// Closes the output file buffer
- 	outputFile.close();
+	  	// Closes the output file buffer
+	  	outputFile.close();
  }
 
 /**
@@ -238,6 +238,7 @@ void FileIO::mParseNormalVertex( std::string str, std::vector< std::vector< doub
  *
  * @param p - path of .obj file
  */
+ /*
 void FileIO::LoadObj(boost::filesystem::path p)
 {
 	boost::filesystem::ifstream File(p);
@@ -410,6 +411,7 @@ void FileIO::LoadObj(boost::filesystem::path p)
 		}
 	}
 }
+*/
 
 /**
  * Loads a .obj file and parses the file for the geometric vertices, texture coordinates, normal vertices, and face elements from the .obj file
@@ -461,81 +463,3 @@ void FileIO::LoadObj2( boost::filesystem::path p, std::vector< std::vector< doub
 		}
 }
 
-/**
- * Returns the geometric vertices of a .obj file
- *
- * @return mGeometricVertices - A vector<vector<double>>
- */
-std::vector<std::vector<double>> FileIO::GetGeometricVertices()
-{
-	return mGeometricVertices;
-}
-
-/**
- * Sets mGeometricVertices to new values in order to be saved
- *
- * @param newGeometricVertices - A vector<vector<double>>
- */
-void FileIO::SetGeometricVertices(std::vector<std::vector<double>> newGeometricVertices)
-{
-
-}
-
-/**
- * Returns the texture vertices of a .obj file
- *
- * @return mTextureVertices - A vector<vector<double>>
- */
-std::vector<std::vector<double>> FileIO::GetTextureCoordinates()
-{
-	return mTextureCoordinates;
-}
-
-/**
- * Sets mTextureVertices to new values in order to be saved
- *
- * @param newTextureVertices - A vector<vector<double>>
- */
-void FileIO::SetTextureCoordinates(std::vector<std::vector<double>> newTextureCoordinates)
-{
-
-}
-
-/**
- * Returns the normal vertices of a .obj file
- *
- * @return mNormalVertices - A vector<vector<double>>
- */
-std::vector<std::vector<double>> FileIO::GetNormalVertices()
-{
-	return mNormalVertices;
-}
-
-/**
- * Sets mNormalVertices to new values in order to be saved
- *
- * @param newNormalVertices - A vector<vector<double>>
- */
-void FileIO::SetNoramlVertices(std::vector<std::vector<double>> newNoramlVertices)
-{
-
-}
-/**
- * Returns the face elements of a .obj file
- *
- * @return mFaceElements - A vector<vector<vector<int>>>
- */
-std::vector<std::vector<std::vector<int>>> FileIO::GetFaceElements()
-{
-	return mFaceElements;
-}
-
-/**
- * Sets mFaceElements to new values in order to be saved
- *
- * @param newFaceElements - A vector<vector<vector<int>>>
- */
-void FileIO::SetFaceElements(std::vector<std::vector<std::vector<int>>> newFaceElements)
-{
-
-}
