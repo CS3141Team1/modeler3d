@@ -66,7 +66,7 @@ void Sdl2Window::PollEvents()
 {
     SDL_Event e;
 
-    mMouse->SetClicks(0,0,0);
+//    mMouse->SetClicks(0,0,0);
     mMouse->SetRelativePosition(0,0);
     mMouse->SetWheelScroll(0);
 
@@ -89,6 +89,8 @@ void Sdl2Window::PollEvents()
             if(button == 1) mMouse->SetLeftClicks(1);
             else if(button == 2) mMouse->SetMiddleClicks(1);
             else mMouse->SetRightClicks(1);
+
+            std::cout << mMouse->GetRightClicks() << " " << mMouse->GetButtonFlags() << std::endl;
 
             if (mEnv) mEnv->OnMouseButton(x,y,button,true);
         }
@@ -113,10 +115,12 @@ void Sdl2Window::PollEvents()
             int32 x = e.motion.x;
             int32 y = GetHeight() - e.motion.y - 1;
             int32 xRel = e.motion.xrel;
-            int32 yRel = e.motion.yrel;
+            int32 yRel = -e.motion.yrel;
 
             mMouse->SetPosition(x,y);
             mMouse->SetRelativePosition(xRel,yRel);
+
+            if (mEnv) mEnv->OnMouseMove(x,y,xRel,yRel,mMouse->GetButtonFlags());
         }
         else if(e.type == SDL_MOUSEWHEEL)
         {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Application.h"
+#include "Camera.h"
 #include "Types.h"
 
 #include "GUI/Environment.h"
@@ -30,9 +31,13 @@ public:
     virtual void OnRender();
     virtual void OnDestroy();
 
-    virtual void SetZoom(int32 zoom);
+    virtual void SetZoom(float32 zoom);
 
     void LoadObj(const std::string& file);
+
+    float32 GetZoom() const { return mZoom; }
+
+    Camera* GetCamera() { return mCamera; }
 
 private:
     Gui::Environment* mEnv;
@@ -42,7 +47,8 @@ private:
     Video::IVertexBuffer* mVbo;
     float32 mAngle;
     SdlMouse* mMouse;
-    int32 mZoom;
+    Camera* mCamera;
+    float32 mZoom;
 };
 
 }

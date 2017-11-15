@@ -348,6 +348,13 @@ Quaternion<Type> Normalize(const Quaternion<Type> q)
     }
 }
 
+template <typename Type>
+Vector3<Type> Rotate(Vector3<Type> v, Quaternion<Type> q)
+{
+	Quaternion<Type> res = q * v * Inverse(q);
+	return Vector3<Type>(res.X, res.Y, res.Z);
+}
+
 //To string
 template <typename Type>
 std::ostream& operator<<(std::ostream& out, const Quaternion<Type>& q)

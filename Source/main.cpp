@@ -14,7 +14,7 @@
 using namespace Core;
 using namespace std;
 
-int main(int argc, char** asrgv)
+int main(int argc, char** argv)
 {
     cout << "Starting Modeler3D" << endl;
 
