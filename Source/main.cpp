@@ -27,7 +27,5 @@ int main(int argc, char** asrgv)
 
     cout << "Exiting Modeler3D" << endl;
 
-    //ListDir("C:/");
-
     return 0;
 }
