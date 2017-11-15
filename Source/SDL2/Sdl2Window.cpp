@@ -62,6 +62,9 @@ void Sdl2Window::SetSize(uint width, uint height)
     // TODO
 }
 
+/**
+ * Polls mouse clicks and movements to perform actions.
+ */
 void Sdl2Window::PollEvents()
 {
     SDL_Event e;
