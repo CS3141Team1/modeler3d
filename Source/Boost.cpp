@@ -1,4 +1,5 @@
 #include "../Include/Boost.h"
+#include "Types.h"
 
 #include <boost/filesystem.hpp>
 #include <vector>
@@ -20,7 +21,7 @@ vector<string> ListDir(path p) {
 		cout << p << " Hey, that does not exist!";
 	}
 
-	for (int i = 0; i < direct.size(); i++) {
+	for (uint i = 0; i < direct.size(); i++) {
 		cout << direct[i] << '\n';
 	}
 

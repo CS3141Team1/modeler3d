@@ -109,17 +109,24 @@ Modeler3D::~Modeler3D() {}
 
 void Modeler3D::LoadObj(const string& file)
 {
-	boost::filesystem::path obj(file);
+    cout << "Initializing Modeler3D" << endl;
+
+    mEnv = Backend->GetWindow()->GetEnvironment();
+    mGuiRenderer = new GuiRenderer(Graphics);
+    Shader = Graphics->CreateShader(VertSource, FragSource);
+
+    boost::filesystem::path obj(file);
 
 	FileIO objFile;
 
 	vector<VertexPosition3Normal3> vertices;
-	std::vector<std::vector<double>> positions;
-	std::vector<std::vector<double>> textures;
-	std::vector<std::vector<double>> normals;
-	std::vector<std::vector<std::vector<int>>> faces;
 
-	objFile.LoadObj2(obj , positions, textures, normals, faces);
+    std::vector<std::vector<double>> positions;
+    std::vector<std::vector<double>> textures;
+    std::vector<std::vector<double>> normals;
+    std::vector<std::vector<std::vector<int>>> faces;
+
+    objFile.LoadObj2(obj , positions, textures, normals, faces);
 
     for (uint i = 0; i < faces.size(); i++)
     {
