@@ -74,8 +74,8 @@ void Application::UpdateLoop()
 
         if (Time::Seconds() - time >= 1.0)
         {
-            cout << "Frames: " << fps << ", ";
-            cout << "Updates: " << ups << endl;
+//            cout << "Frames: " << fps << ", ";
+//            cout << "Updates: " << ups << endl;
             mFps = fps;
             mUps = ups;
             fps = ups = 0;

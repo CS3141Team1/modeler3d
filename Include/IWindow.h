@@ -2,10 +2,19 @@
 
 #include <string>
 
+#include "SDL2/SdlMouse.h"
+
 namespace Video
 {
 
 class IGraphicsDevice;
+
+}
+
+namespace Gui
+{
+
+class Environment;
 
 }
 
@@ -35,6 +44,9 @@ public:
     virtual uint GetHeight() const = 0;
     virtual void SetSize(uint width, uint height) = 0;
 
+    virtual Gui::Environment* GetEnvironment() = 0;
+    virtual SdlMouse* GetMouse() = 0;
+
     /**
      * Call to update input events
      */
@@ -44,6 +56,8 @@ public:
      * Call to render to screen
      */
     virtual void SwapBuffers() = 0;
+
+    virtual float32 GetAspectRatio() = 0;
 };
 
 }
