@@ -258,5 +258,4 @@ public:
 
     void OnActionPerformed(Gui::Widget* widget) {}
 };
-
 }

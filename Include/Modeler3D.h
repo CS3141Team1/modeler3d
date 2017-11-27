@@ -36,7 +36,7 @@ public:
     void LoadObj(const std::string& file);
 
     float32 GetZoom() const { return mZoom; }
-
+    
     Math::Vector3f GetColor() const { return mColor; }
     void SetColor(Math::Vector3f color);
 
