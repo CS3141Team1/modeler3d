@@ -2,7 +2,6 @@
 #include <SDL2/Sdl2Window.h>
 #include <iostream>
 #include <cmath>
-#include <direct.h>
 
 #include "../Include/Boost.h"
 #include "Application.h"
