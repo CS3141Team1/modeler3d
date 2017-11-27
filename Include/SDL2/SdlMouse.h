@@ -82,6 +82,8 @@ public:
 
 	//Getter for wheel scroll
 	int32 GetWheelScroll();
+
+	uint32 GetButtonFlags() const;
 };
 
 }

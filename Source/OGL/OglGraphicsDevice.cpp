@@ -10,11 +10,14 @@
 #include <GL/glu.h>
 #include <SDL2/Sdl2Window.h>
 
+#include "lodepng.h"
+
 #include "Math/ModelerMath.h"
 #include "Math/Matrix4.h"
 
 #include "OGL/OglGeometry.h"
 #include "OGL/OglIndexBuffer.h"
+#include "OGL/OglTexture2D.h"
 #include "OGL/OglVertexBuffer.h"
 
 using namespace std;
@@ -47,7 +50,8 @@ static std::string AttributeName(Attribute attrib)
 }
 
 OglGraphicsDevice::OglGraphicsDevice(Sdl2Window* window)
-    : mWindow(window)
+    : mWindow(window),
+      mTextures(16)
 {
 }
 
@@ -59,6 +63,8 @@ void OglGraphicsDevice::Init()
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void OglGraphicsDevice::SetClearColor(float32 r, float32 g, float32 b, float32 a)
@@ -121,21 +127,12 @@ void OglGraphicsDevice::Draw(Primitive prim, uint start, uint primCount)
 
     Angle += Math::ToRadians(0.3);
 
-    // TODO real aspect ratio
-//    Matrix4f projection = Matrix4f::ToPerspective(Math::ToRadians(70.0f), Ratio, 0.1f, 1000.0f);
-//    Matrix4f view = Matrix4f::ToLookAt(Vector3f(0, 1, 2), Vector3f::Zero, Vector3f::Up);
-//    Matrix4f model = Matrix4f::ToYaw(Angle) * Matrix4f::ToPitch(Angle * 1.3) * Matrix4f::ToRoll(Angle * 1.7) * Matrix4f::ToTranslation(Vector3f(0.2, -0.8, 0));
-//    Matrix3f normalMat(Inverse(Transpose(model)));
-
-//    cout << "Matrices" << endl;
-//    cout << projection << endl << endl;
-//    cout << view << endl << endl;
-//    cout << model << endl << endl;
-
-//    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Projection"), 1, GL_FALSE, &projection[0][0]);
-//    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "View"), 1, GL_FALSE, &view[0][0]);
-//    glUniformMatrix4fv(glGetUniformLocation(mShader->GetId(), "Model"), 1, GL_FALSE, &model[0][0]);
-//    glUniformMatrix3fv(glGetUniformLocation(mShader->GetId(), "NormalMat"), 1, GL_FALSE, &normalMat[0][0]);
+    for (uint i = 0; i < 16; i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        OglTexture2D* tex = mTextures[i];
+        glBindTexture(GL_TEXTURE_2D, tex == nullptr ? 0 : tex->GetId());
+    }
 
     unordered_set<int> usedAttribs;
 
@@ -196,6 +193,42 @@ float32 OglGraphicsDevice::GetAspectRatio() const
     return mWindow->GetAspectRatio();
 }
 
+ITexture2D* OglGraphicsDevice::CreateTexture2D(const std::string& filename)
+{
+    vector<uint8> pixels;
+    uint width, height;
+
+    uint error = lodepng::decode(pixels, width, height, filename, LCT_RGBA);
+
+    if (error)
+    {
+        cout << "Error reading image: " << filename << endl;
+        return nullptr;
+    }
+    else
+    {
+        OglTexture2D* tex = new OglTexture2D(width, height);
+
+        for (uint y = 0; y < height / 2; y++)
+        {
+            for (uint x = 0; x < width; x++)
+            {
+                for (uint i = 0; i < 4; i++)
+                {
+                    uint index1 = (x + y * width) * 4 + i;
+                    uint index2 = (x + (height - y - 1) * width) * 4 + i;
+
+                    pixels[index1] ^= pixels[index2];
+                    pixels[index2] ^= pixels[index1];
+                    pixels[index1] ^= pixels[index2];
+                }
+            }
+        }
+        tex->SetData(&pixels[0], 0, 0, width, height);
+        return tex;
+    }
+}
+
 void OglGraphicsDevice::DrawIndices(Primitive prim, uint start, uint primCount)
 {
     if (mGeometry == nullptr) return;
@@ -203,6 +236,13 @@ void OglGraphicsDevice::DrawIndices(Primitive prim, uint start, uint primCount)
 
     // bind current shader
     glUseProgram(mShader->GetId());
+
+    for (uint i = 0; i < 16; i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        OglTexture2D* tex = mTextures[i];
+        glBindTexture(GL_TEXTURE_2D, tex == nullptr ? 0 : tex->GetId());
+    }
 
     unordered_set<int> usedAttribs;
 
@@ -252,4 +292,10 @@ void OglGraphicsDevice::DrawIndices(Primitive prim, uint start, uint primCount)
     }
 }
 
+void OglGraphicsDevice::SetTexture(uint index, ITexture2D* tex)
+{
+    mTextures[index] = dynamic_cast<OglTexture2D*>(tex);
 }
+
+}
+
