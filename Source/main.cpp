@@ -28,18 +28,5 @@ int main(int argc, char** argv)
 
 	cout << "Exiting Modeler3D" << endl;
 
-	std::string newFold = "C:/Temp/01_Modeler3dTest";
-	    	std::string nextFold = "C:/Temp/01_Modeler3dTest/test1";
-
-	    	mkdir(newFold.c_str());
-	    	mkdir(nextFold.c_str());
-
-	    	//ListDir(newFold);
-
-	    	vector<string> temp = ListDir(newFold);
-	    	if (temp[0] == "test1/") {
-	    		cout << "True" << "\n";
-	    	}
-
 	return 0;
 }

@@ -21,9 +21,11 @@ vector<string> ListDir(path p) {
 			}
 		}
 	} else if (is_regular_file(p)) {
-		cout << p << " is a file.";
+		direct.push_back("That path is a file.");
+		//cout << p << " is a file.";
 	} else {
-		cout << p << " Hey, that does not exist!";
+		direct.push_back("That path does not exist!");
+		//cout << p << " does not exist!";
 	}
 
 	/*for (uint i = 0; i < direct.size(); i++) {

@@ -562,11 +562,18 @@
     }
 
     TEST_CASE( "Attempt to list contents of non-existant directory" ) {
+    	std::string newFold = "C:/Tmp1234eer/";
+    	vector<string> temp = ListDir(newFold);
+
+    	CHECK(temp[0] == "That path does not exist!");
 
     }
 
     TEST_CASE( "Attempt to list contents of file" ) {
+    	std::string newFold = "C:/Windows/explorer.exe";
+    	vector<string> temp = ListDir(newFold);
 
+    	CHECK(temp[0] == "That path is a file.");
     }
 
 #endif
