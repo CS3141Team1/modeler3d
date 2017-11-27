@@ -182,17 +182,17 @@ void Modeler3D::OnInit()
 //    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1), "Right");
 
     //Create color changing buttons
-    Gui::Widget* PlusRButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 1,96,48, new ChangeColorAction(this, 0, .05), "Plus Red");
-    Gui::Widget* MinusRButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 0,96,48, new ChangeColorAction(this, 0, -.05), "Minus Red");
-    Gui::Widget* PlusGButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new ChangeColorAction(this, 1, .05), "Plus Green");
-    Gui::Widget* MinusGButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 0,96,48, new ChangeColorAction(this, 1, -.05), "Minus Green");
-    Gui::Widget* PlusBButton = new Gui::Button(10 + 106 * 2, 10 + 58 * 1,96,48, new ChangeColorAction(this, 2, .05), "Plus Blue");
-    Gui::Widget* MinusBButton = new Gui::Button(10 + 106 * 2, 10 + 58 * 0,96,48, new ChangeColorAction(this, 2, -.05), "Minus Blue");
+    Gui::Widget* PlusRButton = new Gui::Button(10 + 50 * 0, 10 + 58 * 1,40,48, new ChangeColorAction(this, 0, .05), "+R");
+    Gui::Widget* MinusRButton = new Gui::Button(10 + 50 * 0, 10 + 58 * 0,40,48, new ChangeColorAction(this, 0, -.05), "-R");
+    Gui::Widget* PlusGButton = new Gui::Button(10 + 50 * 1, 10 + 58 * 1,40,48, new ChangeColorAction(this, 1, .05), "+G");
+    Gui::Widget* MinusGButton = new Gui::Button(10 + 50 * 1, 10 + 58 * 0,40,48, new ChangeColorAction(this, 1, -.05), "-G");
+    Gui::Widget* PlusBButton = new Gui::Button(10 + 50 * 2, 10 + 58 * 1,40,48, new ChangeColorAction(this, 2, .05), "+B");
+    Gui::Widget* MinusBButton = new Gui::Button(10 + 50 * 2, 10 + 58 * 0,40,48, new ChangeColorAction(this, 2, -.05), "-B");
 
     //Create scaling buttons
-    Gui::Widget* DisplayScale = new Gui::Button(10, 20 + 58 * 4, 180, 48, new NoOpAction(), "Current Scale 1x");
-    Gui::Widget* PlusScaleButton = new Gui::Button(10, 20 + 58 * 3, 96, 48, new ScaleAction(this, .1, DisplayScale), "Plus .1x");
-    Gui::Widget* MinusScaleButton = new Gui::Button(10, 20 + 58 * 2, 96, 48, new ScaleAction(this, -.1, DisplayScale), "Minus .1x");
+    Gui::Widget* DisplayScale = new Gui::Button(10, 20 + 58 * 3, 140, 48, new NoOpAction(), "Cur. Scale 1x");
+    Gui::Widget* PlusScaleButton = new Gui::Button(10 + 60, 20 + 58 * 2, 50, 48, new ScaleAction(this, .1, DisplayScale), "+.1x");
+    Gui::Widget* MinusScaleButton = new Gui::Button(10, 20 + 58 * 2,50, 48, new ScaleAction(this, -.1, DisplayScale), "-.1x");
 
     //Create view buttons
     Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 58 * 0, 144,48, new ResetAction(this, mCamera), "Reset Camera");

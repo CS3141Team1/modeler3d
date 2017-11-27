@@ -237,7 +237,7 @@ public:
     	std::stringstream stream;
     	stream << std::fixed << std::setprecision(1) << scale[0];
     	std::string s = stream.str();
-    	std::string text = "Current Scale " + s + "x";
+    	std::string text = "Cur. Scale " + s + "x";
     	((Gui::Button*)mDisplay)->SetText(text);
     	mModeler->SetScale(scale);
     }
