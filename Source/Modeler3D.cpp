@@ -165,10 +165,10 @@ void Modeler3D::OnInit()
     mGuiRenderer->SetTexture(tex);
 
     //Create load buttons
-    Gui::Widget* LoadButton1 = new Gui::Button(10, 10 + 58 * 0, 96, 48, new LoadAction(this, "Assets/bunny.obj"), "bunny");
-    Gui::Widget* LoadButton2 = new Gui::Button(10, 10 + 58 * 1, 96, 48, new LoadAction(this, "Assets/cube.obj"), "cube");
-    Gui::Widget* LoadButton3 = new Gui::Button(10, 10 + 58 * 2, 96, 48, new LoadAction(this, "Assets/dragon-big.obj"), "dragon");
-    Gui::Widget* LoadButton4 = new Gui::Button(10, 10 + 58 * 3, 96, 48, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
+    Gui::Widget* LoadButton1 = new Gui::Button(10, 10 + 50 * 0, 80, 40, new LoadAction(this, "Assets/bunny.obj"), "bunny");
+    Gui::Widget* LoadButton2 = new Gui::Button(10, 10 + 50 * 1, 80, 40, new LoadAction(this, "Assets/cube.obj"), "cube");
+    Gui::Widget* LoadButton3 = new Gui::Button(10, 10 + 50 * 2, 80, 40, new LoadAction(this, "Assets/dragon-big.obj"), "dragon");
+    Gui::Widget* LoadButton4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
 
     //Create zoom buttons
     Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1), "Zoom 1x");
@@ -183,21 +183,21 @@ void Modeler3D::OnInit()
 //    Gui::Widget* RotateYawPosButton = new Gui::Button(10 + 106 * 1, 10 + 58 * 1,96,48, new RotateAction(this, mCamera,2, 1), "Right");
 
     //Create color changing buttons
-    Gui::Widget* PlusRButton = new Gui::Button(10 + 50 * 0, 10 + 58 * 1,40,48, new ChangeColorAction(this, 0, .05), "+R");
-    Gui::Widget* MinusRButton = new Gui::Button(10 + 50 * 0, 10 + 58 * 0,40,48, new ChangeColorAction(this, 0, -.05), "-R");
-    Gui::Widget* PlusGButton = new Gui::Button(10 + 50 * 1, 10 + 58 * 1,40,48, new ChangeColorAction(this, 1, .05), "+G");
-    Gui::Widget* MinusGButton = new Gui::Button(10 + 50 * 1, 10 + 58 * 0,40,48, new ChangeColorAction(this, 1, -.05), "-G");
-    Gui::Widget* PlusBButton = new Gui::Button(10 + 50 * 2, 10 + 58 * 1,40,48, new ChangeColorAction(this, 2, .05), "+B");
-    Gui::Widget* MinusBButton = new Gui::Button(10 + 50 * 2, 10 + 58 * 0,40,48, new ChangeColorAction(this, 2, -.05), "-B");
+    Gui::Widget* PlusRButton = new Gui::Button(10 + 40 * 0, 10 + 50 * 1,30,40, new ChangeColorAction(this, 0, .05), "+R");
+    Gui::Widget* MinusRButton = new Gui::Button(10 + 40 * 0, 10 + 50 * 0,30,40, new ChangeColorAction(this, 0, -.05), "-R");
+    Gui::Widget* PlusGButton = new Gui::Button(10 + 40 * 1, 10 + 50 * 1,30,40, new ChangeColorAction(this, 1, .05), "+G");
+    Gui::Widget* MinusGButton = new Gui::Button(10 + 40 * 1, 10 + 50 * 0,30,40, new ChangeColorAction(this, 1, -.05), "-G");
+    Gui::Widget* PlusBButton = new Gui::Button(10 + 40 * 2, 10 + 50 * 1,30,40, new ChangeColorAction(this, 2, .05), "+B");
+    Gui::Widget* MinusBButton = new Gui::Button(10 + 40 * 2, 10 + 50 * 0,30,40, new ChangeColorAction(this, 2, -.05), "-B");
 
     //Create scaling buttons
-    Gui::Widget* DisplayScale = new Gui::Button(10, 20 + 58 * 3, 140, 48, new NoOpAction(), "Cur. Scale 1x");
-    Gui::Widget* PlusScaleButton = new Gui::Button(10 + 60, 20 + 58 * 2, 50, 48, new ScaleAction(this, .1, DisplayScale), "+.1x");
-    Gui::Widget* MinusScaleButton = new Gui::Button(10, 20 + 58 * 2,50, 48, new ScaleAction(this, -.1, DisplayScale), "-.1x");
+    Gui::Widget* DisplayScale = new Gui::Button(10, 20 + 50 * 3, 160, 40, new NoOpAction(), "Cur. Scale: 1x");
+    Gui::Widget* PlusScaleButton = new Gui::Button(10 + 60, 20 + 50 * 2, 50, 40, new ScaleAction(this, .1, DisplayScale), "+.1x");
+    Gui::Widget* MinusScaleButton = new Gui::Button(10, 20 + 50 * 2,50, 40, new ScaleAction(this, -.1, DisplayScale), "-.1x");
 
     //Create view buttons
-    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 58 * 0, 144,48, new ResetAction(this, mCamera), "Reset Camera");
-    Gui::Widget* ToggleProjectionTypeButton = new Gui::Button(10, 10 + 58 * 1, 144,48, new ChangeViewAction(this, mCamera), "To Orthographic");
+    Gui::Widget* ResetCameraButton = new Gui::Button(10, 10 + 50 * 0, 144,40, new ResetAction(this, mCamera), "Reset Camera");
+    Gui::Widget* ToggleProjectionTypeButton = new Gui::Button(10, 10 + 50 * 1, 144,40, new ChangeViewAction(this, mCamera), "To Orthographic");
 
     //Create screen
     Gui::Screen* Screen = new Gui::Screen(new ScreenMoveAction(this));

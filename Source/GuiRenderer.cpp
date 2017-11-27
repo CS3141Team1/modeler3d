@@ -26,6 +26,7 @@ struct CharPosition
     CharPosition(int32 x, int32 y) : X(x), Y(y) {}
 };
 
+//Maps positions in fontsheet to characters
 static unordered_map<char, CharPosition> CharMap =
 {
         { 'A', { 1, 4 } },
@@ -165,6 +166,16 @@ void GuiRenderer::Release()
     mShader->Release();
 }
 
+/**
+ * Draws text on the screen.
+ *
+ * @param str The text to draw
+ * @param size The font size
+ * @param x The x coordinate
+ * @param y The y coordinate
+ * @param xWeight X centering weight
+ * @param yWeight Y centering weight
+ */
 void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, float32 y, float32 xWeight, float32 yWeight)
 {
     float32 scale = 10.0f / 16.0f;
@@ -178,6 +189,7 @@ void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, floa
     ITexture2D* tmp = mTexture;
     SetTexture(mFontTex);
 
+    //draws text character by character
     for (uint i = 0; i < str.size(); i++)
     {
         char c = str[i];
@@ -189,11 +201,31 @@ void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, floa
     SetTexture(tmp);
 }
 
+/**
+ * Sets the color for the foreground.
+ *
+ * @param r red component
+ * @param g green component
+ * @param b blue component
+ * @param a transparency component
+ */
 void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
 {
     mColor = Vector4f(r, g, b, a);
 }
 
+/**
+ * Fills a rectangle.
+ *
+ * @param x x coord
+ * @param y y coord
+ * @param w width
+ * @param h height
+ * @param u starting x in texture
+ * @param v starting y in texture
+ * @param uWidth weight for texture x
+ * @param vWidth weight for texture y
+ */
 void GuiRenderer::FillRect(float32 x, float32 y, float32 w, float32 h, float32 u, float32 v, float32 uWidth, float32 vHeight)
 {
     const uint size = 8;
