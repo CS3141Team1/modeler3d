@@ -16,5 +16,6 @@
 
 //Unit test files
 #include "MathTests.h"
+#include "FileIOTests.h"
 
 #endif

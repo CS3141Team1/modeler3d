@@ -13,7 +13,12 @@ vector<string> ListDir(path p) {
 
 	if (is_directory(p)) {
 		for (auto && x : directory_iterator(p)) {
-			direct.push_back(x.path().filename().string());
+			if (is_directory(x)) {
+				std::string dir = x.path().filename().string();
+				direct.push_back(dir.append("/"));
+			} else {
+				direct.push_back(x.path().filename().string());
+			}
 		}
 	} else if (is_regular_file(p)) {
 		cout << p << " is a file.";
@@ -21,9 +26,9 @@ vector<string> ListDir(path p) {
 		cout << p << " Hey, that does not exist!";
 	}
 
-	for (uint i = 0; i < direct.size(); i++) {
+	/*for (uint i = 0; i < direct.size(); i++) {
 		cout << direct[i] << '\n';
-	}
+	}*/
 
 	return direct;
 }

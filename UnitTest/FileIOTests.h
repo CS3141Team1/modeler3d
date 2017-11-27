@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <direct.h>
 #include "../Include/Boost.h"
 
 #include <boost/filesystem.hpp>
@@ -528,5 +529,44 @@
         	}
 
         }
+
+    TEST_CASE( "Save .obj file with regular faces" ) {
+    	std::string newFold = "C:/Temp/01_Modeler3dTest";
+
+    	mkdir(newFold.c_str());
+    	rmdir(newFold.c_str());
+
+    }
+
+    TEST_CASE( "Save .obj file with two zeros in faces" ) {
+
+    }
+
+    TEST_CASE( "Save .obj file with one zero in faces" ) {
+
+    }
+
+    TEST_CASE( "List contents of directory" ) {
+    	std::string newFold = "C:/Temp/01_Modeler3dTest";
+    	std::string nextFold = "C:/Temp/01_Modeler3dTest/test1";
+
+    	mkdir(newFold.c_str());
+    	mkdir(nextFold.c_str());
+
+    	vector<string> temp = ListDir(newFold);
+
+    	CHECK(temp[0] == "test1/");
+
+    	rmdir(newFold.c_str());
+    	rmdir(nextFold.c_str());
+    }
+
+    TEST_CASE( "Attempt to list contents of non-existant directory" ) {
+
+    }
+
+    TEST_CASE( "Attempt to list contents of file" ) {
+
+    }
 
 #endif

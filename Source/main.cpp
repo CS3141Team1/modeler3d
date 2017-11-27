@@ -1,8 +1,8 @@
-/*
 #include <SDL2/Sdl2Backend.h>
 #include <SDL2/Sdl2Window.h>
 #include <iostream>
 #include <cmath>
+#include <direct.h>
 
 #include "../Include/Boost.h"
 #include "Application.h"
@@ -17,17 +17,29 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout << "Starting Modeler3D" << endl;
+	cout << "Starting Modeler3D" << endl;
 
-    IBackend* backend = new Sdl2Backend();
+	IBackend* backend = new Sdl2Backend();
 
-    Modeler3D app(backend);
-    app.Start();
+	Modeler3D app(backend);
+	app.Start();
 
-    delete backend;
+	delete backend;
 
-    cout << "Exiting Modeler3D" << endl;
+	cout << "Exiting Modeler3D" << endl;
 
-    return 0;
+	std::string newFold = "C:/Temp/01_Modeler3dTest";
+	    	std::string nextFold = "C:/Temp/01_Modeler3dTest/test1";
+
+	    	mkdir(newFold.c_str());
+	    	mkdir(nextFold.c_str());
+
+	    	//ListDir(newFold);
+
+	    	vector<string> temp = ListDir(newFold);
+	    	if (temp[0] == "test1/") {
+	    		cout << "True" << "\n";
+	    	}
+
+	return 0;
 }
-*/
