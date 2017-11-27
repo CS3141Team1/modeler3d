@@ -62,11 +62,13 @@ void Sdl2Window::SetSize(uint width, uint height)
     // TODO
 }
 
+/**
+ * Polls mouse clicks and movements to perform actions.
+ */
 void Sdl2Window::PollEvents()
 {
     SDL_Event e;
 
-    mMouse->SetClicks(0,0,0);
     mMouse->SetRelativePosition(0,0);
     mMouse->SetWheelScroll(0);
 
@@ -78,12 +80,10 @@ void Sdl2Window::PollEvents()
         }
         else if(e.type == SDL_MOUSEBUTTONDOWN)
         {
-//            std::cout << "\n*********Click*********\n";
             int32 button = (int)e.button.button;
             int32 x = e.button.x;
             int32 y = GetHeight() - e.button.y - 1;
 
-            //std::cout << "X: " << x << ", Y: " << y << std::endl;
             mMouse->SetPosition(x,y);
 
             if(button == 1) mMouse->SetLeftClicks(1);
@@ -94,12 +94,10 @@ void Sdl2Window::PollEvents()
         }
         else if(e.type == SDL_MOUSEBUTTONUP)
         {
-//          std::cout << "\n*********Click*********\n";
             int32 button = (int)e.button.button;
             int32 x = e.button.x;
             int32 y = GetHeight() - e.button.y - 1;
 
-            //std::cout << "X: " << x << ", Y: " << y << std::endl;
             mMouse->SetPosition(x,y);
 
             if(button == 1) mMouse->SetLeftClicks(0);
@@ -113,16 +111,16 @@ void Sdl2Window::PollEvents()
             int32 x = e.motion.x;
             int32 y = GetHeight() - e.motion.y - 1;
             int32 xRel = e.motion.xrel;
-            int32 yRel = e.motion.yrel;
+            int32 yRel = -e.motion.yrel;
 
             mMouse->SetPosition(x,y);
             mMouse->SetRelativePosition(xRel,yRel);
+
+            if (mEnv) mEnv->OnMouseMove(x,y,xRel,yRel,mMouse->GetButtonFlags());
         }
         else if(e.type == SDL_MOUSEWHEEL)
         {
         	int32 amount = e.wheel.y;
-
-//        	std::cout << "Scroll: " << amount << std::endl;
 
         	mMouse->SetWheelScroll(amount);
         }

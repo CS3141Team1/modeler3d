@@ -42,10 +42,12 @@ public:
 	 */
 	void OnMouseButton(int32 x, int32 y, int32 button, bool down)
 	{
-//		std::cout << std::endl << "Environment OnMouseButton, " << mRoot->GetDescendantCount() << " descendants" << std::endl;
-
 		mRoot->MouseButton(x, y, button, down);
-//		std::cout << std::endl;
+	}
+
+	void OnMouseMove(int32 x, int32 y, int32 dx, int32 dy, uint32 buttons)
+	{
+	    mRoot->MouseMove(x, y, dx, dy, buttons);
 	}
 
 	/**

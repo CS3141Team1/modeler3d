@@ -1,5 +1,7 @@
 #include "SDL2/SdlMouse.h"
 
+#include <iostream>
+
 #include "Types.h"
 
 namespace Core
@@ -76,4 +78,20 @@ int32 SdlMouse::GetRightClicks() { return mClicks[2]; }
 
 //Getter for wheel scroll
 int32 SdlMouse::GetWheelScroll() { return mWheelScroll; }
+
+uint32 SdlMouse::GetButtonFlags() const
+{
+    uint32 flags = 0;
+    for (uint i = 0; i < 3; i++)
+    {
+//        std::cout << mClicks[i] << " " << std::endl;
+        if (mClicks[i])
+        {
+            flags |= 1 << i;
+        }
+    }
+
+//    std::cout << flags << std::endl;
+    return flags;
+}
 }
