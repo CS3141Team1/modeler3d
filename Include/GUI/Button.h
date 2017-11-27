@@ -12,9 +12,9 @@ namespace Gui
 class IAction;
 
 /**
- * button for a GUI
+ * Button for a GUI
  *
- * @author Nicholas Hamilton
+ * @author Nicholas Hamilton, Michael Conard
  */
 class Button : public Widget
 {

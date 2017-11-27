@@ -165,6 +165,16 @@ void GuiRenderer::Release()
     mShader->Release();
 }
 
+/**
+ * Draws text on the screen.
+ *
+ * @param str The text to draw
+ * @param size The font size
+ * @param x The x coordinate
+ * @param y The y coordinate
+ * @param xWeight X centering weight
+ * @param yWeight Y centering weight
+ */
 void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, float32 y, float32 xWeight, float32 yWeight)
 {
     float32 scale = 10.0f / 16.0f;
@@ -189,6 +199,14 @@ void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, floa
     SetTexture(tmp);
 }
 
+/**
+ * Sets the color for the foreground.
+ *
+ * @param r red component
+ * @param g green component
+ * @param b blue component
+ * @param a transparency component
+ */
 void GuiRenderer::SetColor(float32 r, float32 g, float32 b, float32 a)
 {
     mColor = Vector4f(r, g, b, a);
