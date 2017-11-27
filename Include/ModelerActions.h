@@ -166,7 +166,7 @@ public:
     void OnActionPerformed(Gui::Widget* widget)
     {
     	Camera::Projection proj = mCamera->ToggleProjectionType();
-    	if(proj == Camera::Projection::ORTHOGRAPHIC) //if changed to ortho
+    	if(proj == Camera::Projection::ORTHOGRAPHIC) //if changed to orthographic
     	{
     		std::cout << "Switched to orthographic" << std::endl;
     		((Gui::Button*)widget)->SetText("To Perspective");
@@ -197,17 +197,17 @@ public:
     void OnActionPerformed(Gui::Widget* widget)
     {
     	Math::Vector3f color = mModeler->GetColor();
-    	if(mRgb == 0)
+    	if(mRgb == 0) //red
     	{
     		color[0] += mAmount;
     		color[0] = (color[0] > 1 ? 1 : (color[0] < 0 ? 0 : color[0]));
     	}
-    	else if(mRgb == 1)
+    	else if(mRgb == 1) //green
     	{
     		color[1] += mAmount;
     		color[1] = (color[1] > 1 ? 1 : (color[1] < 0 ? 0 : color[1]));
     	}
-    	else
+    	else //blue
     	{
     		color[2] += mAmount;
     		color[2] = (color[2] > 1 ? 1 : (color[2] < 0 ? 0 : color[2]));
