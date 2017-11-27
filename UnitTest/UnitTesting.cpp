@@ -1,4 +1,4 @@
-#define DO_UNIT_TESTING    0
+#define DO_UNIT_TESTING    1
 
 #define SHOW_SAMPLE_OUTPUT 0
 
@@ -12,9 +12,10 @@
 //Catch provides a main that takes precedence
 #define CATCH_CONFIG_MAIN
 
-#include <catch.hpp>
+#include "catch.hpp"
 
 //Unit test files
 #include "MathTests.h"
+#include "FileIOTests.h"
 
 #endif

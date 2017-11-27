@@ -2,6 +2,7 @@
 #include <SDL2/Sdl2Window.h>
 #include <iostream>
 #include <cmath>
+#include <direct.h>
 
 #include "../Include/Boost.h"
 #include "Application.h"
@@ -16,16 +17,16 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout << "Starting Modeler3D" << endl;
+	cout << "Starting Modeler3D" << endl;
 
-    IBackend* backend = new Sdl2Backend();
+	IBackend* backend = new Sdl2Backend();
 
-    Modeler3D app(backend);
-    app.Start();
+	Modeler3D app(backend);
+	app.Start();
 
-    delete backend;
+	delete backend;
 
-    cout << "Exiting Modeler3D" << endl;
+	cout << "Exiting Modeler3D" << endl;
 
-    return 0;
+	return 0;
 }
