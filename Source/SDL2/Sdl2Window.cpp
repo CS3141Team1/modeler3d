@@ -72,13 +72,15 @@ void Sdl2Window::PollEvents()
     mMouse->SetRelativePosition(0,0);
     mMouse->SetWheelScroll(0);
 
+    //while there are mouse events left to check
     while (SDL_PollEvent(&e))
     {
+    	//if closed application
         if (e.type == SDL_QUIT)
         {
             SetVisible(false);
         }
-        else if(e.type == SDL_MOUSEBUTTONDOWN)
+        else if(e.type == SDL_MOUSEBUTTONDOWN) //if clicked down
         {
             int32 button = (int)e.button.button;
             int32 x = e.button.x;
@@ -92,7 +94,7 @@ void Sdl2Window::PollEvents()
 
             if (mEnv) mEnv->OnMouseButton(x,y,button,true);
         }
-        else if(e.type == SDL_MOUSEBUTTONUP)
+        else if(e.type == SDL_MOUSEBUTTONUP) //if unclicked
         {
             int32 button = (int)e.button.button;
             int32 x = e.button.x;
@@ -106,7 +108,7 @@ void Sdl2Window::PollEvents()
 
             if (mEnv) mEnv->OnMouseButton(x,y,button,false);
         }
-        else if(e.type == SDL_MOUSEMOTION)
+        else if(e.type == SDL_MOUSEMOTION) //if moved mouse
         {
             int32 x = e.motion.x;
             int32 y = GetHeight() - e.motion.y - 1;
@@ -118,7 +120,7 @@ void Sdl2Window::PollEvents()
 
             if (mEnv) mEnv->OnMouseMove(x,y,xRel,yRel,mMouse->GetButtonFlags());
         }
-        else if(e.type == SDL_MOUSEWHEEL)
+        else if(e.type == SDL_MOUSEWHEEL) //if scrolled wheel
         {
         	int32 amount = e.wheel.y;
 

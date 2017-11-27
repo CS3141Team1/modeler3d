@@ -37,6 +37,12 @@ public:
 
     float32 GetZoom() const { return mZoom; }
 
+    Math::Vector3f GetColor() const { return mColor; }
+    void SetColor(Math::Vector3f color);
+
+    Math::Vector3f GetScale() const { return mScale; }
+    void SetScale(Math::Vector3f scale);
+
     Camera* GetCamera() { return mCamera; }
 
 private:
@@ -49,6 +55,8 @@ private:
     SdlMouse* mMouse;
     Camera* mCamera;
     float32 mZoom;
+    Math::Vector3f mColor;
+    Math::Vector3f mScale;
 };
 
 }
