@@ -97,7 +97,8 @@ static unordered_map<char, CharPosition> CharMap =
         { '(', { 8, 2 } },
         { ')', { 9, 2 } },
         { '+', { 11, 2 } },
-        { '-', { 13, 2 } }
+        { '-', { 13, 2 } },
+        { ':', { 10, 3 } }
 };
 
 static const string VertexSource = ""
