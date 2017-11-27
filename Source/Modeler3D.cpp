@@ -171,10 +171,10 @@ void Modeler3D::OnInit()
     Gui::Widget* LoadButton4 = new Gui::Button(10, 10 + 50 * 3, 80, 40, new LoadAction(this, "Assets/ferrari.obj"), "ferrari");
 
     //Create zoom buttons
-    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 58 * 0,96,48, new ZoomAction(this, mCamera, 1), "Zoom 1x");
-    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 58 * 1,96,48, new ZoomAction(this, mCamera, 50), "Zoom 50x");
-    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 58 * 2,96,48, new ZoomAction(this, mCamera, 300), "Zoom 300x");
-    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 58 * 3,96,48, new ZoomAction(this, mCamera, 1000), "Zoom 1000x");
+    Gui::Widget* ZoomButton1 = new Gui::Button(10, 10 + 50 * 0,96,40, new ZoomAction(this, mCamera, 1), "Zoom 1x");
+    Gui::Widget* ZoomButton2 = new Gui::Button(10, 10 + 50 * 1,96,40, new ZoomAction(this, mCamera, 50), "Zoom 50x");
+    Gui::Widget* ZoomButton3 = new Gui::Button(10, 10 + 50 * 2,96,40, new ZoomAction(this, mCamera, 300), "Zoom 300x");
+    Gui::Widget* ZoomButton4 = new Gui::Button(10, 10 + 50 * 3,96,40, new ZoomAction(this, mCamera, 1000), "Zoom 1000x");
 
     //Create rotation buttons
 //    Gui::Widget* RotatePitchNegButton = new Gui::Button(10 + 106 * 0, 10 + 58 * 0,96,48, new RotateAction(this, mCamera, 1, -1), "Up");
