@@ -181,7 +181,6 @@ void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, floa
     {
         char c = str[i];
         CharPosition p = CharMap[c];
-        std::cout << c << " " << p.X << " " << p.Y << std::endl;
         FillRect(posX, posY, charWidth, size, p.X * CharWidth, 1 - (p.Y + 1) * CharHeight, CharWidth - 1.0f / 256.0f, CharHeight - 1.0f / 240.0f); //p.X * CharWidth, 1 - (p.Y + 1) * CharHeight, CharWidth, CharHeight);
         posX += charWidth * scale;
     }

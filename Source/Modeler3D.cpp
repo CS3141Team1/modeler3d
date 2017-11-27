@@ -50,6 +50,8 @@ std::string FragSource = ""
         "uniform vec3 LightDirection = vec3(-1, -0.5, -1); \n"
         "uniform mat4 View; \n"
         ""
+        "uniform vec3 Color; \n"
+        ""
         "float Diffuse(vec3 normal, vec3 lightDir) \n"
         "{ \n"
         "   return clamp((dot(normal, -lightDir)), 0.0, 1.0); \n"
@@ -67,11 +69,10 @@ std::string FragSource = ""
         "   vec3 lightDir = normalize((View * vec4(LightDirection, 1.0)).xyz); \n"
         "   vec3 cameraDir = normalize(vViewPosition); \n"
         ""
-        "   vec3 color = vec3(0.8, 0.6, 0.4); \n"
         "   float diffuse = Diffuse(normal, lightDir); \n"
         "   float specular = Specular(normal, lightDir, cameraDir, 100); \n"
         ""
-        "   gl_FragColor = vec4(color * (diffuse * 0.4 + 0.4 + specular * 0.4), 1.0); \n"
+        "   gl_FragColor = vec4(Color * (diffuse * 0.4 + 0.4 + specular * 0.4), 1.0); \n"
         "} \n";
 
 Video::IShader* Shader = nullptr;
@@ -102,7 +103,7 @@ Modeler3D::Modeler3D(IBackend* backend)
 	  mMouse(backend->GetWindow()->GetMouse()),
 	  mCamera(new Camera(backend->GetWindow()->GetWidth(),backend->GetWindow()->GetHeight(), Math::Vector3f(0,0,1), Math::Quaternionf())),
 	  mZoom(2),
-	  mColor(Vector3f(0)),
+	  mColor(Vector3f(0.8, 0.6, 0.4)),
 	  mScale(Vector3f(1)) {}
 
 Modeler3D::~Modeler3D() {}
@@ -310,6 +311,7 @@ void Modeler3D::OnRender()
         mShader->SetMatrix4f("View", view);
         mShader->SetMatrix4f("Model", model);
         mShader->SetMatrix3f("NormalMat", normalMat);
+        mShader->SetVector3f("Color", mColor);
 
         Graphics->SetShader(mShader);
         Graphics->SetGeometry(mGeometry);
