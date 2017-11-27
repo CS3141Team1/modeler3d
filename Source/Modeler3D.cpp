@@ -104,7 +104,6 @@ Modeler3D::Modeler3D(IBackend* backend)
 	  mZoom(2),
 	  mColor(Vector3f(0)),
 	  mScale(Vector3f(1)) {}
-	  mZoom(2)
 
 Modeler3D::~Modeler3D() {}
 
