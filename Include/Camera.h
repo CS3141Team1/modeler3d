@@ -58,12 +58,9 @@ public:
 	{
 		mIsViewDirty = true;
 
-
 		mRotation = Math::Quaternionf::AxisAngle(Math::Vector3f::Up, yaw);
 		mRotation *= Math::Quaternionf::AxisAngle(Math::Vector3f::Right, pitch);
 		mRotation = Normalize(mRotation);
-
-//		std::cout << "Yaw: " << yaw << ", Pitch: " << pitch << ", Quat: " << mRotation << std::endl;
 	}
 
 	void SetRotation()
@@ -102,7 +99,7 @@ public:
 	Math::Matrix4f GetProjection(float32 n, float32 f, float32 r, float32 l, float32 t, float32 b)
 	{
 		Math::Matrix4f projection;
-		// TODO
+
 		projection = Math::Matrix4f::ToOrthographic(n, f, r, l, t, b);
 
 		return projection;
@@ -112,7 +109,9 @@ public:
 	Math::Vector3f GetPosition() { return mPosition; }
 	int32 GetWidth() { return mWidth; }
 	int32 GetHeight() { return mHeight; }
+
 	Projection GetProjectionType() { return mProjection; }
+
 	Projection ToggleProjectionType()
 	{
 		if(mProjection == ORTHOGRAPHIC)
@@ -126,6 +125,7 @@ public:
 
 		return mProjection;
 	}
+
 	void SetProjectionType(Projection proj) { mProjection = proj; }
 
 	void UpdateYaw(float32 yaw)
@@ -135,6 +135,7 @@ public:
 
 	void UpdatePitch(float32 pitch)
 	{
+		//update pitch, clamp at 90 degrees
 		if(mPitch + pitch > Math::ToRadians(89.999f))
 		{
 			mPitch = Math::ToRadians(89.999f);
