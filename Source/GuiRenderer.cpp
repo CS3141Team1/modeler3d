@@ -9,9 +9,9 @@ using namespace Core::Math;
 namespace Video
 {
 
-static const float32 CharRatio = 33.0f / 55.5f;
-static const float32 CharWidth = 33.0f / 532.0f;
-static const float32 CharHeight = 55.5f / 288.0f;
+static const float32 CharRatio = 15.0f / 16.0f; //33.0f / 55.5f;
+static const float32 CharWidth = 1.0f / 16.0f; //16.0f / 256.0f; //33.0f / 532.0f;
+static const float32 CharHeight = 1.0f / 16.0f; //16.0f / 240.0f; //55.5f / 288.0f;
 
 static const VertexFormat Format = VertexFormat()
         .AddElement(Attribute::Position, 2)
@@ -28,74 +28,76 @@ struct CharPosition
 
 static unordered_map<char, CharPosition> CharMap =
 {
-        { 'A', { 0, 0 } },
-        { 'B', { 1, 0 } },
-        { 'C', { 2, 0 } },
-        { 'D', { 3, 0 } },
-        { 'E', { 4, 0 } },
-        { 'F', { 5, 0 } },
-        { 'G', { 6, 0 } },
-        { 'H', { 7, 0 } },
-        { 'I', { 8, 0 } },
-        { 'J', { 9, 0 } },
-        { 'K', { 10, 0 } },
-        { 'L', { 11, 0 } },
-        { 'M', { 12, 0 } },
-        { 'N', { 13, 0 } },
-        { 'O', { 14, 0 } },
-        { 'P', { 15, 0 } },
-        { 'Q', { 0, 1 } },
-        { 'R', { 1, 1 } },
-        { 'S', { 2, 1 } },
-        { 'T', { 3, 1 } },
-        { 'U', { 4, 1 } },
-        { 'V', { 5, 1 } },
-        { 'W', { 6, 1 } },
-        { 'X', { 7, 1 } },
-        { 'Y', { 8, 1 } },
-        { 'Z', { 9, 1 } },
-        { 'a', { 0, 2 } },
-        { 'b', { 1, 2 } },
-        { 'c', { 2, 2 } },
-        { 'd', { 3, 2 } },
-        { 'e', { 4, 2 } },
-        { 'f', { 5, 2 } },
-        { 'g', { 6, 2 } },
-        { 'h', { 7, 2 } },
-        { 'i', { 8, 2 } },
-        { 'j', { 9, 2 } },
-        { 'k', { 10, 2 } },
-        { 'l', { 11, 2 } },
-        { 'm', { 12, 2 } },
-        { 'n', { 13, 2 } },
-        { 'o', { 14, 2 } },
-        { 'p', { 15, 2 } },
-        { 'q', { 0, 3 } },
-        { 'r', { 1, 3 } },
-        { 's', { 2, 3 } },
-        { 't', { 3, 3 } },
-        { 'u', { 4, 3 } },
-        { 'v', { 5, 3 } },
-        { 'w', { 6, 3 } },
-        { 'x', { 7, 3 } },
-        { 'y', { 8, 3 } },
-        { 'z', { 9, 3 } },
-        { '1', { 13, 3 } },
-        { '2', { 14, 3 } },
-        { '3', { 15, 3 } },
-        { '4', { 0, 4 } },
-        { '5', { 1, 4 } },
-        { '6', { 2, 4 } },
-        { '7', { 3, 4 } },
-        { '8', { 4, 4 } },
-        { '9', { 5, 4 } },
-        { '0', { 6, 4 } },
-        { '.', { 11, 4 } },
-        { ',', { 12, 4 } },
-        { '!', { 13, 4 } },
-        { '?', { 14, 4 } },
-        { '(', { 7, 4 } },
-        { ')', { 15, 4 } },
+        { 'A', { 1, 4 } },
+        { 'B', { 2, 4 } },
+        { 'C', { 3, 4 } },
+        { 'D', { 4, 4 } },
+        { 'E', { 5, 4 } },
+        { 'F', { 6, 4 } },
+        { 'G', { 7, 4 } },
+        { 'H', { 8, 4 } },
+        { 'I', { 9, 4 } },
+        { 'J', { 10, 4 } },
+        { 'K', { 11, 4 } },
+        { 'L', { 12, 4 } },
+        { 'M', { 13, 4 } },
+        { 'N', { 14, 4 } },
+        { 'O', { 15, 4 } },
+        { 'P', { 0, 5 } },
+        { 'Q', { 1, 5 } },
+        { 'R', { 2, 5 } },
+        { 'S', { 3, 5 } },
+        { 'T', { 4, 5 } },
+        { 'U', { 5, 5 } },
+        { 'V', { 6, 5 } },
+        { 'W', { 7, 5 } },
+        { 'X', { 8, 5 } },
+        { 'Y', { 9, 5 } },
+        { 'Z', { 10, 5 } },
+        { 'a', { 1, 6 } },
+        { 'b', { 2, 6 } },
+        { 'c', { 3, 6 } },
+        { 'd', { 4, 6 } },
+        { 'e', { 5, 6 } },
+        { 'f', { 6, 6 } },
+        { 'g', { 7, 6 } },
+        { 'h', { 8, 6 } },
+        { 'i', { 9, 6 } },
+        { 'j', { 10, 6 } },
+        { 'k', { 11, 6 } },
+        { 'l', { 12, 6 } },
+        { 'm', { 13, 6 } },
+        { 'n', { 14, 6 } },
+        { 'o', { 15, 6 } },
+        { 'p', { 0, 7 } },
+        { 'q', { 1, 7 } },
+        { 'r', { 2, 7 } },
+        { 's', { 3, 7 } },
+        { 't', { 4, 7 } },
+        { 'u', { 5, 7 } },
+        { 'v', { 6, 7 } },
+        { 'w', { 7, 7 } },
+        { 'x', { 8, 7 } },
+        { 'y', { 9, 7 } },
+        { 'z', { 10, 7 } },
+        { '1', { 1, 3 } },
+        { '2', { 2, 3 } },
+        { '3', { 3, 3 } },
+        { '4', { 4, 3 } },
+        { '5', { 5, 3 } },
+        { '6', { 6, 3 } },
+        { '7', { 7, 3 } },
+        { '8', { 8, 3 } },
+        { '9', { 9, 3 } },
+        { '0', { 0, 3 } },
+        { '.', { 14, 2 } },
+        { ',', { 12, 2 } },
+        { '!', { 1, 2 } },
+        { '?', { 15, 3 } },
+        { '(', { 8, 2 } },
+        { ')', { 9, 2 } },
+        { '+', { 11, 2 } },
+        { '-', { 13, 2 } }
 };
 
 static const string VertexSource = ""
@@ -139,7 +141,7 @@ GuiRenderer::GuiRenderer(IGraphicsDevice* gd)
     mIndices = mGraphics->CreateIndexBuffer(6, BufferHint::Static);
     mGeometry = mGraphics->CreateGeometry();
     mShader = mGraphics->CreateShader(VertexSource, FragmentSource);
-    mFontTex = mGraphics->CreateTexture2D("Assets/font.png");
+    mFontTex = mGraphics->CreateTexture2D("Assets/font_new.png");
 
     mGeometry->SetVertexBuffer(mVertices);
     mGeometry->SetIndexBuffer(mIndices);
@@ -164,7 +166,9 @@ void GuiRenderer::Release()
 
 void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, float32 y, float32 xWeight, float32 yWeight)
 {
-    float32 totalWidth = str.size() * size * CharRatio;
+    float32 scale = 10.0f / 16.0f;
+
+    float32 totalWidth = scale * str.size() * size * CharRatio;
     float32 charWidth = size * CharRatio;
 
     float32 posX = x - xWeight * totalWidth;
@@ -177,8 +181,9 @@ void GuiRenderer::DrawText(const std::string& str, float32 size, float32 x, floa
     {
         char c = str[i];
         CharPosition p = CharMap[c];
-        FillRect(posX, posY, charWidth, size, p.X * CharWidth, 1 - (p.Y + 1) * CharHeight, CharWidth, CharHeight);
-        posX += charWidth;
+        std::cout << c << " " << p.X << " " << p.Y << std::endl;
+        FillRect(posX, posY, charWidth, size, p.X * CharWidth, 1 - (p.Y + 1) * CharHeight, CharWidth - 1.0f / 256.0f, CharHeight - 1.0f / 240.0f); //p.X * CharWidth, 1 - (p.Y + 1) * CharHeight, CharWidth, CharHeight);
+        posX += charWidth * scale;
     }
 
     SetTexture(tmp);
